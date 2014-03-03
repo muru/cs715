@@ -22,12 +22,15 @@
 #include "params.h"
 #include "ggc.h"
 #include "vec.h"
+#include <map>
+#include <set>
 
 /*-----------------------------------------------------------------------------
  *  Each plugin MUST define this global int to assert compatibility with GPL; 
  *  else the compiler throws a fatal error 
  *-----------------------------------------------------------------------------*/
 int plugin_is_GPL_compatible;
+std::map<const char*, int> stmts;
 static unsigned int inter_gimple_manipulation (void);
 static int process_function(void);
 /*-----------------------------------------------------------------------------
@@ -66,7 +69,7 @@ struct register_pass_info pass_info = {
   0,                              /* Insert the pass at the specified instance
                                      number of the reference pass. Do it for
                                      every instance if it is 0. */
-  PASS_POS_INSERT_BEFORE           /* how to insert the new pass: before,
+  PASS_POS_INSERT_AFTER           /* how to insert the new pass: before,
                                      after, or replace. Here we are inserting
                                      a pass names 'plug' after the pass named
                                      'pta' */
@@ -98,53 +101,87 @@ int plugin_init(struct plugin_name_args *plugin_info,struct plugin_gcc_version *
 
 static unsigned int inter_gimple_manipulation (void)
 {
+	int count;
+	const char * func_pointer;
 	struct cgraph_node *node;
+
 	for (node = cgraph_nodes; node; node = node->next)
 	{
-		if (!gimple_has_body_p (node->decl) || node->clone_of)
-			continue;
+		//if (!gimple_has_body_p (node->decl) || node->clone_of)
+		//	continue;
 		push_cfun (DECL_STRUCT_FUNCTION (node->decl));
 		process_function();
 		pop_cfun();
+	}
+	for (std::map<const char*, int>::const_iterator itr = stmts.begin(); itr != stmts.end(); itr++)
+	{
+		func_pointer = itr->first;
+		count        = itr->second;
+		fprintf(dump_file, "%s\t%d\n", func_pointer, count);
 	}
 		
 	return 0;
 }		
 
-int process_function (void)
+static int process_function (void)
 {
-	cfun
-	int i = 0;
+	int count = 0;
 	basic_block bb;
 	gimple_stmt_iterator si;
+	const char * func_pointer = IDENTIFIER_POINTER(DECL_NAME(cfun->decl));
+	static std::set<const char*> call_stack;
+	
+	/* We check to see if the call_stack contains this function.
+	 * If so, then there is (direct or indirect) recursion happening.
+	 * In which case, we return -1 (~ infinity) immediately.
+	 * Secondly, we can check if the function has already been processed.
+	 * If so, we can immediately return the count.
+	 */
+	if (!call_stack.insert(func_pointer).second)
+		return fprintf(stderr, "Recursive call to %s detected.\n", func_pointer), -1;
+	if (stmts.count(func_pointer) != 0)
+		return stmts[func_pointer];
+
 	FOR_ALL_BB (bb) 
 	{
 		for (si = gsi_start_bb (bb); !gsi_end_p (si); gsi_next(&si))
 		{
+			count++;
 			gimple stmt = gsi_stmt (si);
-			if (CALL_EXPR == gimple_expr_code(stmt))
+			if ( (void_type_node != gimple_expr_type(stmt)) 
+					&& ( CALL_EXPR == gimple_expr_code(stmt) ))
 			{
-				fprintf(dump_file, "%d\t", i);
 				tree fn (gimple_call_fndecl(stmt));
 				if (!fn)
 					fprintf(stderr, "NULL.\n");
 				else if (gimple_has_body_p (fn))
 				{
+					int sub_count;
 					push_cfun(DECL_STRUCT_FUNCTION (fn));
-					i += process_function();
+					sub_count = process_function();
+					pop_cfun();
+					if (sub_count == -1)
+					{
+						count = -1;
+						break;
+					}
+					else 
+						count += sub_count - 1;		// i has already been incremented.
 				}
-				else
-					i++;
 			}
-			else
+/*			else
 			{
-				i++;
-				fprintf(dump_file, "%d\t", i);
+				fprintf(dump_file, "%d\t%s\t", i, func_pointer);
 				print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);		
 			}
-		}
+*/		}
+		if (count == -1)
+			break;
 	}
-	return i;
+
+	call_stack.erase(func_pointer);
+	stmts.insert(std::make_pair(func_pointer, count));
+	return count;
 }
 /*
 	basic_block bb;

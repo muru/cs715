@@ -1,0 +1,5 @@
+let $LIBRARY_PATH='/usr/lib/x86_64-linux-gnu'
+let $C_INCLUDE_PATH='/usr/include/x86_64-linux-gnu'
+let $CPLUS_INCLUDE_PATH='/usr/include/x86_64-linux-gnu'
+let $LD_LIBRARY_PATH='/opt/cs715/lib'
+let $PATH .= ':/opt/cs715/bin'

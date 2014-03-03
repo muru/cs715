@@ -8,7 +8,7 @@ INCLUDE= -I$(GCCPLUGINS_DIR)/include -I$(CC)
 
 FLAGS= -fPIC -O2
 
-plugin.so: plugin.c 
+plugin.so: plugin.cpp
 	$(CC) $(INCLUDE) $(FLAGS) -shared $^ -o $@
 
 test: plugin.so

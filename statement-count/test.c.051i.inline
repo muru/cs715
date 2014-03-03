@@ -145,17 +145,17 @@ Inline summary for foo(int)/0
 Reclaiming functions:
 callgraph:
 
-main/2 @0x2b21e0e68b40 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
+main/2 @0x2ad9b22e9b40 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
   called by: 
   calls: is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
   References: 
   Refering this function: 
-is_odd(int)/1 @0x2b21e0e68a20 (asm: _Z6is_oddi) availability:available analyzed needed reachable body externally_visible finalized
+is_odd(int)/1 @0x2ad9b22e9a20 (asm: _Z6is_oddi) availability:available analyzed needed reachable body externally_visible finalized
   called by: main/2 (1.00 per call) 
   calls: 
   References: 
   Refering this function: 
-foo(int)/0 @0x2b21e0e68900 (asm: _Z3fooi) availability:available analyzed needed reachable body externally_visible finalized
+foo(int)/0 @0x2ad9b22e9900 (asm: _Z3fooi) availability:available analyzed needed reachable body externally_visible finalized
   called by: main/2 (1.00 per call) 
   calls: 
   References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
