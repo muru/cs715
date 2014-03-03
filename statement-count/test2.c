@@ -4,7 +4,7 @@ int foo(int a)
 {
 	static int i = 0;
 	i++;
-	return (a) + i;
+	return is_odd(a) + i;
 }
 
 int is_odd (int b)

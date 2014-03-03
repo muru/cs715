@@ -123,7 +123,7 @@ static unsigned int inter_gimple_manipulation (void)
 		func_pointer = itr->first;
 		count        = itr->second;
 		total = count < 0 || total < 0 ? -1 : total + count;
-		fprintf(dump_file, "%s\t\t%u\n", func_pointer, count);
+		fprintf(dump_file, "%s\t\t%d\n", func_pointer, count);
 	}
 	fprintf(dump_file, "Total:\t\t%d\n\n\n", total);
 	/** TODO: Stop GCC from printing every **** GIMPLE statement after our output.
@@ -165,7 +165,12 @@ static int process_function (void)
 			
 			/*fprintf(dump_file, "%d\t", count);
 			print_gimple_stmt(dump_file, stmt, 0, TDF_SLIM);*/
-			
+			/**
+			 * Check for gimple call statements, see if the FUNCTION_DECL
+			 * of the called function is available (it may not be for certain
+			 * types of functions) and recursively call process_function()
+			 * for available functions.
+			 */
 			if ( (void_type_node != gimple_expr_type(stmt)) 
 					&& (CALL_EXPR == gimple_expr_code(stmt)) )
 			{

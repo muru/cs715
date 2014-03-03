@@ -11,7 +11,7 @@ CFLAGS = -fdump-ipa-all -O0 -fdump-tree-all
 plugin.so: plugin.cpp
 	$(CXX) $(INCLUDE) $(FLAGS) -shared $^ -o $@
 
-test: plugin.so
+test: plugin.so test.c test2.c test.h
 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test.c   $(CFLAGS)
 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test2.c  $(CFLAGS)
 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -o test test.o  test2.o $(CFLAGS)
