@@ -109,9 +109,13 @@ static unsigned int inter_gimple_manipulation (void)
 	{
 		//if (!gimple_has_body_p (node->decl) || node->clone_of)
 		//	continue;
-		push_cfun (DECL_STRUCT_FUNCTION (node->decl));
-		process_function();
-		pop_cfun();
+		//fprintf(stderr, "%s\n", IDENTIFIER_POINTER(DECL_NAME(node->decl)));
+		if (gimple_has_body_p(node->decl))
+		{
+			push_cfun (DECL_STRUCT_FUNCTION (node->decl));
+			process_function();
+			pop_cfun();
+		}
 	}
 	for (std::map<const char*, int>::const_iterator itr = stmts.begin(); itr != stmts.end(); itr++)
 	{

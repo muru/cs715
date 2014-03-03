@@ -25,6 +25,7 @@ int main()
 		else
 			a = foo(j % 3);
 	}
+	printf("%d\n", a);
 	return a;
 }
 	

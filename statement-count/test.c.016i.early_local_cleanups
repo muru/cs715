@@ -46,6 +46,7 @@ main ()
     goto <bb 8>;
 
 <bb 8>:
+  printf ("%d\n", a);
   D.2726 = a;
 
 <L6>:

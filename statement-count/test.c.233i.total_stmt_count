@@ -1,4 +1,4 @@
-main	37
+main	38
 foo	7
 is_odd	10
 main ()
@@ -51,6 +51,7 @@ main ()
     goto <bb 8>;
 
 <bb 8>:
+  printf ("%d\n", a_3);
   D.2726_17 = a_3;
 
 <L6>:

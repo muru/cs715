@@ -11,17 +11,22 @@ Marking externally visible variables:
 Reclaiming functions:
 callgraph:
 
-main/2 @0x2afa1f714b40 (asm: main) availability:available analyzed reachable body externally_visible finalized
-  called by: 
-  calls: foo(int)/0 (1.00 per call) is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
+printf/3 @0x2b0b0322bc60 availability:not_available reachable
+  called by: main/2 (1.00 per call) (can throw external) 
+  calls: 
   References: 
   Refering this function: 
-is_odd(int)/1 @0x2afa1f714a20 (asm: _Z6is_oddi) availability:available analyzed reachable body externally_visible finalized
+main/2 @0x2b0b0322bb40 (asm: main) availability:available analyzed reachable body externally_visible finalized
+  called by: 
+  calls: printf/3 (1.00 per call) (can throw external) foo(int)/0 (1.00 per call) is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
+  References: 
+  Refering this function: 
+is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) availability:available analyzed reachable body externally_visible finalized
   called by: main/2 (1.00 per call) 
   calls: foo(int)/0 (1.00 per call) 
   References: 
   Refering this function: 
-foo(int)/0 @0x2afa1f714900 (asm: _Z3fooi) availability:available analyzed reachable body externally_visible finalized
+foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) availability:available analyzed reachable body externally_visible finalized
   called by: is_odd(int)/1 (1.00 per call) main/2 (1.00 per call) main/2 (1.00 per call) 
   calls: 
   References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
@@ -72,6 +77,7 @@ main ()
     goto <bb 8>;
 
 <bb 8>:
+  printf ("%d\n", a);
   D.2726 = a;
 
 <L6>:
