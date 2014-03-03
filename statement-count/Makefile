@@ -1,18 +1,20 @@
 
-CC = g++-4.7.2
-
-OBJS = plugin.o
+CXX = g++-4.7.2
+CC = gcc-4.7.2
 
 GCCPLUGINS_DIR:= $(shell $(CC) -print-file-name=plugin)
-INCLUDE= -I$(GCCPLUGINS_DIR)/include -I$(CC)
+INCLUDE= -I$(GCCPLUGINS_DIR)/include
 
 FLAGS= -fPIC -O2
+CFLAGS = -fdump-ipa-all -O0 -fdump-tree-all
 
 plugin.so: plugin.cpp
-	$(CC) $(INCLUDE) $(FLAGS) -shared $^ -o $@
+	$(CXX) $(INCLUDE) $(FLAGS) -shared $^ -o $@
 
 test: plugin.so
-	$(CC) -fplugin=./plugin.so -flto -flto-partition=none -c test.c -fdump-ipa-all -O0
+	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test.c   $(CFLAGS)
+	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test2.c  $(CFLAGS)
+	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -o test test.o  test2.o $(CFLAGS)
 
 clean:
 	rm -f plugin.so test *.c.* *~ *.o a.out

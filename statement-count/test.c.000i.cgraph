@@ -3,150 +3,135 @@ Unit entry points:
 
 Initial callgraph:
 
-int printf(const char*, ...)/3 @0x2b0b0322bc60
-  called by: int main()/2 (1.00 per call) (can throw external) 
+int printf(const char*, ...)/3 @0x2af53ea02c60
+  called by: int main()/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-int main()/2 @0x2b0b0322bb40 (asm: main) analyzed reachable body finalized
+int is_odd(int)/2 @0x2af53ea02b40
+  called by: int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int foo(int)/1 @0x2af53ea02a20
+  called by: int main()/0 (1.00 per call) (can throw external) int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int main()/0 @0x2af53ea02900 (asm: main) analyzed reachable body finalized
   called by: 
-  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/0 (1.00 per call) int is_odd(int)/1 (1.00 per call) int foo(int)/0 (1.00 per call) 
+  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) int is_odd(int)/2 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-int is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) analyzed reachable body finalized
-  called by: int main()/2 (1.00 per call) 
-  calls: int foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-int foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) analyzed reachable body finalized
-  called by: int is_odd(int)/1 (1.00 per call) int main()/2 (1.00 per call) int main()/2 (1.00 per call) 
-  calls: 
-  References:  var:int i (read) var:int i (write) var:int i (read)
   Refering this function: 
 variable pool:
 
-int i: availability:not-ready initialized needed analyzed finalized
-  References: 
-  Refering this var:  fn:int foo(int)/0 (read) fn:int foo(int)/0 (write) fn:int foo(int)/0 (read)
 
 Reclaiming functions:
 
 Reclaimed callgraph:
 
-int printf(const char*, ...)/3 @0x2b0b0322bc60
-  called by: int main()/2 (1.00 per call) (can throw external) 
+int printf(const char*, ...)/3 @0x2af53ea02c60
+  called by: int main()/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-int main()/2 @0x2b0b0322bb40 (asm: main) analyzed reachable body finalized
+int is_odd(int)/2 @0x2af53ea02b40
+  called by: int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int foo(int)/1 @0x2af53ea02a20
+  called by: int main()/0 (1.00 per call) (can throw external) int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int main()/0 @0x2af53ea02900 (asm: main) analyzed reachable body finalized
   called by: 
-  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/0 (1.00 per call) int is_odd(int)/1 (1.00 per call) int foo(int)/0 (1.00 per call) 
+  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) int is_odd(int)/2 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-int is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) analyzed reachable body finalized
-  called by: int main()/2 (1.00 per call) 
-  calls: int foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-int foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) analyzed reachable body finalized
-  called by: int is_odd(int)/1 (1.00 per call) int main()/2 (1.00 per call) int main()/2 (1.00 per call) 
-  calls: 
-  References:  var:int i (read) var:int i (write) var:int i (read)
   Refering this function: 
 variable pool:
 
-int i: availability:not-ready initialized needed analyzed finalized
-  References: 
-  Refering this var:  fn:int foo(int)/0 (read) fn:int foo(int)/0 (write) fn:int foo(int)/0 (read)
 Initial entry points:
 Unit entry points:
 
 Initial callgraph:
 
-int printf(const char*, ...)/3 @0x2b0b0322bc60
-  called by: int main()/2 (1.00 per call) (can throw external) 
+int printf(const char*, ...)/3 @0x2af53ea02c60
+  called by: int main()/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-int main()/2 @0x2b0b0322bb40 (asm: main) analyzed reachable body finalized
+int is_odd(int)/2 @0x2af53ea02b40
+  called by: int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int foo(int)/1 @0x2af53ea02a20
+  called by: int main()/0 (1.00 per call) (can throw external) int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int main()/0 @0x2af53ea02900 (asm: main) analyzed reachable body finalized
   called by: 
-  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/0 (1.00 per call) int is_odd(int)/1 (1.00 per call) int foo(int)/0 (1.00 per call) 
+  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) int is_odd(int)/2 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-int is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) analyzed reachable body finalized
-  called by: int main()/2 (1.00 per call) 
-  calls: int foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-int foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) analyzed reachable body finalized
-  called by: int is_odd(int)/1 (1.00 per call) int main()/2 (1.00 per call) int main()/2 (1.00 per call) 
-  calls: 
-  References:  var:int i (read) var:int i (write) var:int i (read)
   Refering this function: 
 variable pool:
 
-int i: availability:not-ready initialized needed analyzed finalized
-  References: 
-  Refering this var:  fn:int foo(int)/0 (read) fn:int foo(int)/0 (write) fn:int foo(int)/0 (read)
 
 Reclaiming functions:
 
 Reclaimed callgraph:
 
-int printf(const char*, ...)/3 @0x2b0b0322bc60
-  called by: int main()/2 (1.00 per call) (can throw external) 
+int printf(const char*, ...)/3 @0x2af53ea02c60
+  called by: int main()/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-int main()/2 @0x2b0b0322bb40 (asm: main) analyzed reachable body finalized
+int is_odd(int)/2 @0x2af53ea02b40
+  called by: int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int foo(int)/1 @0x2af53ea02a20
+  called by: int main()/0 (1.00 per call) (can throw external) int main()/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+int main()/0 @0x2af53ea02900 (asm: main) analyzed reachable body finalized
   called by: 
-  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/0 (1.00 per call) int is_odd(int)/1 (1.00 per call) int foo(int)/0 (1.00 per call) 
+  calls: int printf(const char*, ...)/3 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) int is_odd(int)/2 (1.00 per call) (can throw external) int foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-int is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) analyzed reachable body finalized
-  called by: int main()/2 (1.00 per call) 
-  calls: int foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-int foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) analyzed reachable body finalized
-  called by: int is_odd(int)/1 (1.00 per call) int main()/2 (1.00 per call) int main()/2 (1.00 per call) 
-  calls: 
-  References:  var:int i (read) var:int i (write) var:int i (read)
   Refering this function: 
 variable pool:
 
-int i: availability:not-ready initialized needed analyzed finalized
-  References: 
-  Refering this var:  fn:int foo(int)/0 (read) fn:int foo(int)/0 (write) fn:int foo(int)/0 (read)
 
 Reclaiming functions:
 Optimized callgraph:
 
-printf/3 @0x2b0b0322bc60 availability:not_available
-  called by: main/2 (1.00 per call) (can throw external) 
+printf/3 @0x2af53ea02c60 availability:not_available
+  called by: main/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-main/2 @0x2b0b0322bb40 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
+is_odd(int)/2 @0x2af53ea02b40 (asm: _Z6is_oddi) availability:not_available
+  called by: main/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+foo(int)/1 @0x2af53ea02a20 (asm: _Z3fooi) availability:not_available
+  called by: main/0 (1.00 per call) (can throw external) main/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+main/0 @0x2af53ea02900 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
   called by: 
-  calls: printf/3 (1.00 per call) (can throw external) foo(int)/0 (1.00 per call) is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
+  calls: printf/3 (1.00 per call) (can throw external) foo(int)/1 (1.00 per call) (can throw external) is_odd(int)/2 (1.00 per call) (can throw external) foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) availability:available analyzed needed reachable body externally_visible finalized
-  called by: main/2 (1.00 per call) 
-  calls: foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) availability:available analyzed needed reachable body externally_visible finalized
-  called by: main/2 (1.00 per call) main/2 (1.00 per call) is_odd(int)/1 (1.00 per call) 
-  calls: 
-  References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
   Refering this function: 
 variable pool:
 
-foo(int)::i: availability:available (asm: _ZZ3fooiE1i) initialized needed analyzed finalized prevailing_def_ironly
-  References: 
-  Refering this var:  fn:foo(int)/0 (read) fn:foo(int)/0 (write) fn:foo(int)/0 (read)
 Materializing clones
 Materialization Call site updates done.
 
@@ -154,28 +139,25 @@ Reclaiming functions:
 
 Final callgraph:
 
-printf/3 @0x2b0b0322bc60 (asm: printf) availability:not_available reachable
+printf/3 @0x2af53ea02c60 (asm: printf) availability:not_available reachable
   called by: 
   calls: 
   References: 
   Refering this function: 
-main/2 @0x2b0b0322bb40 (asm: main) availability:available analyzed needed reachable externally_visible finalized asm_written
+is_odd(int)/2 @0x2af53ea02b40 (asm: _Z6is_oddi) availability:not_available reachable
   called by: 
   calls: 
   References: 
   Refering this function: 
-is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) availability:available analyzed needed reachable externally_visible finalized asm_written
+foo(int)/1 @0x2af53ea02a20 (asm: _Z3fooi) availability:not_available reachable
   called by: 
   calls: 
   References: 
   Refering this function: 
-foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) availability:available analyzed needed reachable externally_visible finalized asm_written
+main/0 @0x2af53ea02900 (asm: main) availability:available analyzed needed reachable externally_visible finalized asm_written
   called by: 
   calls: 
-  References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
+  References: 
   Refering this function: 
 variable pool:
 
-foo(int)::i: availability:available (asm: _ZZ3fooiE1i) initialized (asm written) needed analyzed finalized prevailing_def_ironly
-  References: 
-  Refering this var:  fn:foo(int)/0 (read) fn:foo(int)/0 (write) fn:foo(int)/0 (read)

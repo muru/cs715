@@ -101,7 +101,7 @@ int plugin_init(struct plugin_name_args *plugin_info,struct plugin_gcc_version *
 
 static unsigned int inter_gimple_manipulation (void)
 {
-	int count;
+	int count, total = 0;
 	const char * func_pointer;
 	struct cgraph_node *node;
 
@@ -117,12 +117,15 @@ static unsigned int inter_gimple_manipulation (void)
 			pop_cfun();
 		}
 	}
+	fprintf(dump_file, "Function\t Statement Count (-1 ~ inf)\n");
 	for (std::map<const char*, int>::const_iterator itr = stmts.begin(); itr != stmts.end(); itr++)
 	{
 		func_pointer = itr->first;
 		count        = itr->second;
-		fprintf(dump_file, "%s\t%d\n", func_pointer, count);
+		total = count < 0 || total < 0 ? -1 : total + count;
+		fprintf(dump_file, "%s\t\t%u\n", func_pointer, count);
 	}
+	fprintf(dump_file, "Total:\t\t%d\n\n\n", total);
 	/** TODO: Stop GCC from printing every **** GIMPLE statement after our output.
 	 */
 	return 0;
@@ -140,7 +143,8 @@ static int process_function (void)
 	 * Firstly, we can check if the function has already been processed.
 	 * If so, we can skip the calculation. Note that, for an entry to
 	 * exist in stmts, the calculation must have terminated once, which
-	 * implies this function doesn't have recursion.
+	 * implies this function doesn't have recursion, or, if it did recurse,
+	 * has a count of -1.
 	 *
 	 * Then, we check to see if the call_stack contains this function.
 	 * If so, then there is (direct or indirect) recursion happening.
@@ -158,6 +162,10 @@ static int process_function (void)
 		{
 			count++;
 			gimple stmt = gsi_stmt (si);
+			
+			/*fprintf(dump_file, "%d\t", count);
+			print_gimple_stmt(dump_file, stmt, 0, TDF_SLIM);*/
+			
 			if ( (void_type_node != gimple_expr_type(stmt)) 
 					&& (CALL_EXPR == gimple_expr_code(stmt)) )
 			{

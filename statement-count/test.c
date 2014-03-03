@@ -1,18 +1,4 @@
-#include<stdio.h>
-int foo(int);
-int is_odd(int);
-
-int foo(int a)
-{
-	static int i = 0;
-	i++;
-	return (a) + i;
-}
-
-int is_odd (int b)
-{
-	return foo(b) % 2;
-}
+#include "test.h"
 
 int main()
 {

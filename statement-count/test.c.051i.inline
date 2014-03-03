@@ -1,9 +1,9 @@
 
-Analyzing function: main/2
+Analyzing function: main/0
 
 Analyzing function body size: main
 
-Inline summary for main/2
+Inline summary for main/0
   self time:       58
   global time:     0
   self size:       23
@@ -15,50 +15,16 @@ Inline summary for main/2
   calls:
     printf/3 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-    foo(int)/0 function not considered for inlining
+    foo(int)/1 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-    is_odd(int)/1 function not considered for inlining
+    is_odd(int)/2 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-    foo(int)/0 function not considered for inlining
+    foo(int)/1 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-
-
-Analyzing function: is_odd(int)/1
-
-Analyzing function body size: is_odd(int)
-
-Inline summary for is_odd(int)/1
-  self time:       15
-  global time:     0
-  self size:       7
-  global size:     0
-  self stack:      0
-  global stack:    0
-    size:2.000000, time:3.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
-    foo(int)/0 function not considered for inlining
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-
-
-Analyzing function: foo(int)/0
-
-Analyzing function body size: foo(int)
-
-Inline summary for foo(int)/0
-  self time:       7
-  global time:     0
-  self size:       8
-  global size:     0
-  self stack:      0
-  global stack:    0
-    size:6.000000, time:7.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
 
 
 Reclaiming functions:
-Inline summary for main/2
+Inline summary for main/0
   self time:       58
   global time:     58
   self size:       23
@@ -70,55 +36,25 @@ Inline summary for main/2
   calls:
     printf/3 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-    foo(int)/0 function not considered for inlining
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-    is_odd(int)/1 function not considered for inlining
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 3 stack: 0
-    foo(int)/0 function not considered for inlining
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-
-Inline summary for is_odd(int)/1
-  self time:       15
-  global time:     15
-  self size:       7
-  global size:     7
-  self stack:      0
-  global stack:    0
-    size:2.000000, time:3.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
-    foo(int)/0 function not considered for inlining
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-
-Inline summary for foo(int)/0
-  self time:       7
-  global time:     7
-  self size:       8
-  global size:     8
-  self stack:      0
-  global stack:    0
-    size:6.000000, time:7.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
+    foo(int)/1 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
+    is_odd(int)/2 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
+    foo(int)/1 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
 
 
 Flattening functions:
 
 Deciding on inlining of small functions.  Starting with size 0.
-Enqueueing calls of main/2.
-Enqueueing calls of is_odd(int)/1.
-  not inlinable: main/2 -> is_odd(int)/1, function not inlinable
-Enqueueing calls of foo(int)/0.
-  not inlinable: main/2 -> foo(int)/0, function not inlinable
-  not inlinable: main/2 -> foo(int)/0, function not inlinable
-  not inlinable: is_odd(int)/1 -> foo(int)/0, function not inlinable
-Unit growth for small function inlining: 38->38 (0%)
+Enqueueing calls of main/0.
+Unit growth for small function inlining: 23->23 (0%)
 
 Reclaiming functions:
 
 Inlined 0 calls, eliminated 0 functions
 
-Inline summary for main/2
+Inline summary for main/0
   self time:       58
   global time:     58
   self size:       23
@@ -130,72 +66,51 @@ Inline summary for main/2
   calls:
     printf/3 function body not available
       loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
-    foo(int)/0 function not inlinable
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-    is_odd(int)/1 function not inlinable
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 3 stack: 0
-    foo(int)/0 function not inlinable
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-
-Inline summary for is_odd(int)/1
-  self time:       15
-  global time:     15
-  self size:       7
-  global size:     7
-  self stack:      0
-  global stack:    0
-    size:2.000000, time:3.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
-    foo(int)/0 function not inlinable
-      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 4 stack: 0
-
-Inline summary for foo(int)/0
-  self time:       7
-  global time:     7
-  self size:       8
-  global size:     8
-  self stack:      0
-  global stack:    0
-    size:6.000000, time:7.000000, predicate:(true)
-    size:2.000000, time:0.000000, predicate:(not inlined)
-  calls:
+    foo(int)/1 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
+    is_odd(int)/2 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
+    foo(int)/1 function body not available
+      loop depth: 0 freq:1000 size: 3 time: 12 callee size: 0 stack: 0
 
 
 Reclaiming functions:
 callgraph:
 
-printf/3 @0x2b0b0322bc60 availability:not_available reachable
-  called by: main/2 (1.00 per call) (can throw external) 
+printf/3 @0x2af53ea02c60 availability:not_available reachable
+  called by: main/0 (1.00 per call) (can throw external) 
   calls: 
   References: 
   Refering this function: 
-main/2 @0x2b0b0322bb40 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
+is_odd(int)/2 @0x2af53ea02b40 (asm: _Z6is_oddi) availability:not_available reachable
+  called by: main/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+foo(int)/1 @0x2af53ea02a20 (asm: _Z3fooi) availability:not_available reachable
+  called by: main/0 (1.00 per call) (can throw external) main/0 (1.00 per call) (can throw external) 
+  calls: 
+  References: 
+  Refering this function: 
+main/0 @0x2af53ea02900 (asm: main) availability:available analyzed needed reachable body externally_visible finalized
   called by: 
-  calls: printf/3 (1.00 per call) (can throw external) foo(int)/0 (1.00 per call) is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
+  calls: printf/3 (1.00 per call) (can throw external) foo(int)/1 (1.00 per call) (can throw external) is_odd(int)/2 (1.00 per call) (can throw external) foo(int)/1 (1.00 per call) (can throw external) 
   References: 
-  Refering this function: 
-is_odd(int)/1 @0x2b0b0322ba20 (asm: _Z6is_oddi) availability:available analyzed needed reachable body externally_visible finalized
-  called by: main/2 (1.00 per call) 
-  calls: foo(int)/0 (1.00 per call) 
-  References: 
-  Refering this function: 
-foo(int)/0 @0x2b0b0322b900 (asm: _Z3fooi) availability:available analyzed needed reachable body externally_visible finalized
-  called by: main/2 (1.00 per call) main/2 (1.00 per call) is_odd(int)/1 (1.00 per call) 
-  calls: 
-  References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
   Refering this function: 
 main ()
 {
+  int D.2723;
+  int D.2722;
+  int D.2721;
   int i;
   int a;
   int j;
   int n;
-  int D.2726;
-  int D.2725;
-  int D.2721;
+  int D.2719;
+  int D.2718;
+  int D.2714;
   bool retval.0;
-  bool D.2718;
+  bool D.2711;
 
 <bb 2>:
   n_5 = 10;
@@ -204,96 +119,66 @@ main ()
   goto <bb 7>;
 
 <bb 3>:
-  j_10 = foo (j_1);
-  D.2721_11 = is_odd (j_10);
-  retval.0_12 = D.2721_11 != 0;
-  if (retval.0_12 != 0)
+  D.2721_10 = foo (j_1);
+  j_11 = D.2721_10;
+  D.2722_12 = is_odd (j_11);
+  D.2714_13 = D.2722_12;
+  retval.0_14 = D.2714_13 != 0;
+  if (retval.0_14 != 0)
     goto <bb 4>;
   else
     goto <bb 5>;
 
 <bb 4>:
-  a_13 = j_10;
+  a_15 = j_11;
   goto <bb 6>;
 
 <bb 5>:
-  D.2725_14 = j_10 % 3;
-  a_15 = foo (D.2725_14);
+  D.2718_16 = j_11 % 3;
+  D.2723_17 = foo (D.2718_16);
+  a_18 = D.2723_17;
 
 <bb 6>:
-  # a_2 = PHI <a_13(4), a_15(5)>
-  i_16 = i_4 + 1;
+  # a_2 = PHI <a_15(4), a_18(5)>
+  i_19 = i_4 + 1;
 
 <bb 7>:
-  # j_1 = PHI <j_6(2), j_10(6)>
+  # j_1 = PHI <j_6(2), j_11(6)>
   # a_3 = PHI <a_8(D)(2), a_2(6)>
-  # i_4 = PHI <i_7(2), i_16(6)>
-  D.2718_9 = i_4 < n_5;
-  if (D.2718_9 != 0)
+  # i_4 = PHI <i_7(2), i_19(6)>
+  D.2711_9 = i_4 < n_5;
+  if (D.2711_9 != 0)
     goto <bb 3>;
   else
     goto <bb 8>;
 
 <bb 8>:
   printf ("%d\n", a_3);
-  D.2726_17 = a_3;
+  D.2719_20 = a_3;
 
 <L6>:
-  return D.2726_17;
-
-}
-
-
-is_odd(int) (int b)
-{
-  int D.2729;
-  int D.2728;
-
-<bb 2>:
-  D.2729_2 = foo (b_1(D));
-  D.2728_3 = D.2729_2 % 2;
-
-<L0>:
-  return D.2728_3;
-
-}
-
-
-foo(int) (int a)
-{
-  static int i = 0;
-  int i.3;
-  int D.2733;
-  int i.2;
-  int i.1;
-
-<bb 2>:
-  i.1_1 = i;
-  i.2_2 = i.1_1 + 1;
-  i = i.2_2;
-  i.3_3 = i;
-  D.2733_5 = a_4(D) + i.3_3;
-
-<L0>:
-  return D.2733_5;
+  return D.2719_20;
 
 }
 
 
 
-;; Function main (main, funcdef_no=2, decl_uid=2708, cgraph_uid=2)
+;; Function main (main, funcdef_no=0, decl_uid=2701, cgraph_uid=0)
 
 main ()
 {
+  int D.2723;
+  int D.2722;
+  int D.2721;
   int i;
   int a;
   int j;
   int n;
-  int D.2726;
-  int D.2725;
-  int D.2721;
+  int D.2719;
+  int D.2718;
+  int D.2714;
   bool retval.0;
-  bool D.2718;
+  bool D.2711;
 
   # BLOCK 2
   # PRED: ENTRY (fallthru)
@@ -305,10 +190,12 @@ main ()
 
   # BLOCK 3
   # PRED: 7 (true)
-  j_10 = foo (j_1);
-  D.2721_11 = is_odd (j_10);
-  retval.0_12 = D.2721_11 != 0;
-  if (retval.0_12 != 0)
+  D.2721_10 = foo (j_1);
+  j_11 = D.2721_10;
+  D.2722_12 = is_odd (j_11);
+  D.2714_13 = D.2722_12;
+  retval.0_14 = D.2714_13 != 0;
+  if (retval.0_14 != 0)
     goto <bb 4>;
   else
     goto <bb 5>;
@@ -316,29 +203,30 @@ main ()
 
   # BLOCK 4
   # PRED: 3 (true)
-  a_13 = j_10;
+  a_15 = j_11;
   goto <bb 6>;
   # SUCC: 6 (fallthru)
 
   # BLOCK 5
   # PRED: 3 (false)
-  D.2725_14 = j_10 % 3;
-  a_15 = foo (D.2725_14);
+  D.2718_16 = j_11 % 3;
+  D.2723_17 = foo (D.2718_16);
+  a_18 = D.2723_17;
   # SUCC: 6 (fallthru)
 
   # BLOCK 6
   # PRED: 4 (fallthru) 5 (fallthru)
-  # a_2 = PHI <a_13(4), a_15(5)>
-  i_16 = i_4 + 1;
+  # a_2 = PHI <a_15(4), a_18(5)>
+  i_19 = i_4 + 1;
   # SUCC: 7 (fallthru)
 
   # BLOCK 7
   # PRED: 2 (fallthru) 6 (fallthru)
-  # j_1 = PHI <j_6(2), j_10(6)>
+  # j_1 = PHI <j_6(2), j_11(6)>
   # a_3 = PHI <a_8(D)(2), a_2(6)>
-  # i_4 = PHI <i_7(2), i_16(6)>
-  D.2718_9 = i_4 < n_5;
-  if (D.2718_9 != 0)
+  # i_4 = PHI <i_7(2), i_19(6)>
+  D.2711_9 = i_4 < n_5;
+  if (D.2711_9 != 0)
     goto <bb 3>;
   else
     goto <bb 8>;
@@ -347,13 +235,13 @@ main ()
   # BLOCK 8
   # PRED: 7 (false)
   printf ("%d\n", a_3);
-  D.2726_17 = a_3;
+  D.2719_20 = a_3;
   # SUCC: 9 (fallthru)
 
   # BLOCK 9
   # PRED: 8 (fallthru)
 <L6>:
-  return D.2726_17;
+  return D.2719_20;
   # SUCC: EXIT
 
 }
@@ -361,15 +249,18 @@ main ()
 
 main ()
 {
+  int D.2723;
+  int D.2722;
+  int D.2721;
   int i;
   int a;
   int j;
   int n;
-  int D.2726;
-  int D.2725;
-  int D.2721;
+  int D.2719;
+  int D.2718;
+  int D.2714;
   bool retval.0;
-  bool D.2718;
+  bool D.2711;
 
 <bb 2>:
   n_5 = 10;
@@ -378,130 +269,45 @@ main ()
   goto <bb 7>;
 
 <bb 3>:
-  j_10 = foo (j_1);
-  D.2721_11 = is_odd (j_10);
-  retval.0_12 = D.2721_11 != 0;
-  if (retval.0_12 != 0)
+  D.2721_10 = foo (j_1);
+  j_11 = D.2721_10;
+  D.2722_12 = is_odd (j_11);
+  D.2714_13 = D.2722_12;
+  retval.0_14 = D.2714_13 != 0;
+  if (retval.0_14 != 0)
     goto <bb 4>;
   else
     goto <bb 5>;
 
 <bb 4>:
-  a_13 = j_10;
+  a_15 = j_11;
   goto <bb 6>;
 
 <bb 5>:
-  D.2725_14 = j_10 % 3;
-  a_15 = foo (D.2725_14);
+  D.2718_16 = j_11 % 3;
+  D.2723_17 = foo (D.2718_16);
+  a_18 = D.2723_17;
 
 <bb 6>:
-  # a_2 = PHI <a_13(4), a_15(5)>
-  i_16 = i_4 + 1;
+  # a_2 = PHI <a_15(4), a_18(5)>
+  i_19 = i_4 + 1;
 
 <bb 7>:
-  # j_1 = PHI <j_6(2), j_10(6)>
+  # j_1 = PHI <j_6(2), j_11(6)>
   # a_3 = PHI <a_8(D)(2), a_2(6)>
-  # i_4 = PHI <i_7(2), i_16(6)>
-  D.2718_9 = i_4 < n_5;
-  if (D.2718_9 != 0)
+  # i_4 = PHI <i_7(2), i_19(6)>
+  D.2711_9 = i_4 < n_5;
+  if (D.2711_9 != 0)
     goto <bb 3>;
   else
     goto <bb 8>;
 
 <bb 8>:
   printf ("%d\n", a_3);
-  D.2726_17 = a_3;
+  D.2719_20 = a_3;
 
 <L6>:
-  return D.2726_17;
-
-}
-
-
-
-;; Function is_odd(int) (_Z6is_oddi, funcdef_no=1, decl_uid=2700, cgraph_uid=1)
-
-is_odd(int) (int b)
-{
-  int D.2729;
-  int D.2728;
-
-  # BLOCK 2
-  # PRED: ENTRY (fallthru)
-  D.2729_2 = foo (b_1(D));
-  D.2728_3 = D.2729_2 % 2;
-  # SUCC: 3 (fallthru)
-
-  # BLOCK 3
-  # PRED: 2 (fallthru)
-<L0>:
-  return D.2728_3;
-  # SUCC: EXIT
-
-}
-
-
-is_odd(int) (int b)
-{
-  int D.2729;
-  int D.2728;
-
-<bb 2>:
-  D.2729_2 = foo (b_1(D));
-  D.2728_3 = D.2729_2 % 2;
-
-<L0>:
-  return D.2728_3;
-
-}
-
-
-
-;; Function foo(int) (_Z3fooi, funcdef_no=0, decl_uid=2698, cgraph_uid=0)
-
-foo(int) (int a)
-{
-  static int i = 0;
-  int i.3;
-  int D.2733;
-  int i.2;
-  int i.1;
-
-  # BLOCK 2
-  # PRED: ENTRY (fallthru)
-  i.1_1 = i;
-  i.2_2 = i.1_1 + 1;
-  i = i.2_2;
-  i.3_3 = i;
-  D.2733_5 = a_4(D) + i.3_3;
-  # SUCC: 3 (fallthru)
-
-  # BLOCK 3
-  # PRED: 2 (fallthru)
-<L0>:
-  return D.2733_5;
-  # SUCC: EXIT
-
-}
-
-
-foo(int) (int a)
-{
-  static int i = 0;
-  int i.3;
-  int D.2733;
-  int i.2;
-  int i.1;
-
-<bb 2>:
-  i.1_1 = i;
-  i.2_2 = i.1_1 + 1;
-  i = i.2_2;
-  i.3_3 = i;
-  D.2733_5 = a_4(D) + i.3_3;
-
-<L0>:
-  return D.2733_5;
+  return D.2719_20;
 
 }
 
