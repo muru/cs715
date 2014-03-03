@@ -11,18 +11,18 @@ Marking externally visible variables:
 Reclaiming functions:
 callgraph:
 
-main/2 @0x2ad9b22e9b40 (asm: main) availability:available analyzed reachable body externally_visible finalized
+main/2 @0x2afa1f714b40 (asm: main) availability:available analyzed reachable body externally_visible finalized
   called by: 
-  calls: is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
+  calls: foo(int)/0 (1.00 per call) is_odd(int)/1 (1.00 per call) foo(int)/0 (1.00 per call) 
   References: 
   Refering this function: 
-is_odd(int)/1 @0x2ad9b22e9a20 (asm: _Z6is_oddi) availability:available analyzed reachable body externally_visible finalized
+is_odd(int)/1 @0x2afa1f714a20 (asm: _Z6is_oddi) availability:available analyzed reachable body externally_visible finalized
   called by: main/2 (1.00 per call) 
-  calls: 
+  calls: foo(int)/0 (1.00 per call) 
   References: 
   Refering this function: 
-foo(int)/0 @0x2ad9b22e9900 (asm: _Z3fooi) availability:available analyzed reachable body externally_visible finalized
-  called by: main/2 (1.00 per call) 
+foo(int)/0 @0x2afa1f714900 (asm: _Z3fooi) availability:available analyzed reachable body externally_visible finalized
+  called by: is_odd(int)/1 (1.00 per call) main/2 (1.00 per call) main/2 (1.00 per call) 
   calls: 
   References:  var:foo(int)::i (read) var:foo(int)::i (write) var:foo(int)::i (read)
   Refering this function: 
@@ -32,10 +32,11 @@ main ()
   int a;
   int j;
   int n;
+  int D.2726;
+  int D.2725;
   int D.2721;
-  int D.2717;
   bool retval.0;
-  bool D.2714;
+  bool D.2718;
 
 <bb 2>:
   n = 10;
@@ -45,8 +46,8 @@ main ()
 
 <bb 3>:
   j = foo (j);
-  D.2717 = is_odd (j);
-  retval.0 = D.2717 != 0;
+  D.2721 = is_odd (j);
+  retval.0 = D.2721 != 0;
   if (retval.0 != 0)
     goto <bb 4>;
   else
@@ -57,36 +58,39 @@ main ()
   goto <bb 6>;
 
 <bb 5>:
-  a = j % 3;
+  D.2725 = j % 3;
+  a = foo (D.2725);
 
 <bb 6>:
   i = i + 1;
 
 <bb 7>:
-  D.2714 = i < n;
-  if (D.2714 != 0)
+  D.2718 = i < n;
+  if (D.2718 != 0)
     goto <bb 3>;
   else
     goto <bb 8>;
 
 <bb 8>:
-  D.2721 = a;
+  D.2726 = a;
 
 <L6>:
-  return D.2721;
+  return D.2726;
 
 }
 
 
 is_odd(int) (int b)
 {
-  int D.2723;
+  int D.2729;
+  int D.2728;
 
 <bb 2>:
-  D.2723 = b % 2;
+  D.2729 = foo (b);
+  D.2728 = D.2729 % 2;
 
 <L0>:
-  return D.2723;
+  return D.2728;
 
 }
 
@@ -95,7 +99,7 @@ foo(int) (int a)
 {
   static int i = 0;
   int i.3;
-  int D.2727;
+  int D.2733;
   int i.2;
   int i.1;
 
@@ -104,10 +108,10 @@ foo(int) (int a)
   i.2 = i.1 + 1;
   i = i.2;
   i.3 = i;
-  D.2727 = a + i.3;
+  D.2733 = a + i.3;
 
 <L0>:
-  return D.2727;
+  return D.2733;
 
 }
 

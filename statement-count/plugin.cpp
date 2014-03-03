@@ -119,7 +119,8 @@ static unsigned int inter_gimple_manipulation (void)
 		count        = itr->second;
 		fprintf(dump_file, "%s\t%d\n", func_pointer, count);
 	}
-		
+	/** TODO: Stop GCC from printing every **** GIMPLE statement after our output.
+	 */
 	return 0;
 }		
 
@@ -131,16 +132,21 @@ static int process_function (void)
 	const char * func_pointer = IDENTIFIER_POINTER(DECL_NAME(cfun->decl));
 	static std::set<const char*> call_stack;
 	
-	/* We check to see if the call_stack contains this function.
+	/** 
+	 * Firstly, we can check if the function has already been processed.
+	 * If so, we can skip the calculation. Note that, for an entry to
+	 * exist in stmts, the calculation must have terminated once, which
+	 * implies this function doesn't have recursion.
+	 *
+	 * Then, we check to see if the call_stack contains this function.
 	 * If so, then there is (direct or indirect) recursion happening.
 	 * In which case, we return -1 (~ infinity) immediately.
-	 * Secondly, we can check if the function has already been processed.
-	 * If so, we can immediately return the count.
 	 */
+	if (stmts.count(func_pointer) != 0)
+		return count = stmts[func_pointer];
+
 	if (!call_stack.insert(func_pointer).second)
 		return fprintf(stderr, "Recursive call to %s detected.\n", func_pointer), -1;
-	if (stmts.count(func_pointer) != 0)
-		return stmts[func_pointer];
 
 	FOR_ALL_BB (bb) 
 	{
@@ -149,7 +155,7 @@ static int process_function (void)
 			count++;
 			gimple stmt = gsi_stmt (si);
 			if ( (void_type_node != gimple_expr_type(stmt)) 
-					&& ( CALL_EXPR == gimple_expr_code(stmt) ))
+					&& (CALL_EXPR == gimple_expr_code(stmt)) )
 			{
 				tree fn (gimple_call_fndecl(stmt));
 				if (!fn)
@@ -157,24 +163,21 @@ static int process_function (void)
 				else if (gimple_has_body_p (fn))
 				{
 					int sub_count;
+
 					push_cfun(DECL_STRUCT_FUNCTION (fn));
 					sub_count = process_function();
 					pop_cfun();
-					if (sub_count == -1)
-					{
+
+					if (sub_count == -1)			// Recursion?
+					{								// Recursion!
 						count = -1;
 						break;
 					}
 					else 
-						count += sub_count - 1;		// i has already been incremented.
+						count += sub_count - 1;		// count has already been incremented.
 				}
 			}
-/*			else
-			{
-				fprintf(dump_file, "%d\t%s\t", i, func_pointer);
-				print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);		
-			}
-*/		}
+		}
 		if (count == -1)
 			break;
 	}
@@ -183,26 +186,3 @@ static int process_function (void)
 	stmts.insert(std::make_pair(func_pointer, count));
 	return count;
 }
-/*
-	basic_block bb;
-	FOR_ALL_BB(bb)
-	{
-		gimple_stmt_iterator si;
-		for (si = gsi_start_bb (bb); !gsi_end_p (si); gsi_next (&si))
-		{
-			gimple stmt = gsi_stmt (si);
-			if (CALL_EXPR == gimple_expr_code(stmt))
-			{
-				i++;
-				tree fn = gimple_call_fn(stmt);
-				if (fn == NULL)
-					fprintf(stderr, "NULL.\n");
-			}
-			else
-			{
-				fprintf(dump_file, "%d\t", i++);
-				print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);		
-			}
-		}
-	}
-*/	
