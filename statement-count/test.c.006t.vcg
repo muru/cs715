@@ -1,0 +1,59 @@
+graph: { title: "int main()"
+node: { title: "ENTRY" label: "ENTRY" }
+node: { title: "EXIT" label: "EXIT" }
+edge: { sourcename: "ENTRY" targetname: "2" linestyle: solid priority: 100 }
+
+node: { title: "2" label: "#2\ngimple_assign (17)\ngimple_assign (18)"}
+edge: { sourcename: "2" targetname: "7" priority: 100 linestyle: solid }
+
+node: { title: "3" label: "#3\ngimple_call (20)\ngimple_cond (21)"}
+edge: { sourcename: "3" targetname: "4" priority: 100 linestyle: solid }
+edge: { sourcename: "3" targetname: "5" priority: 100 linestyle: solid }
+
+node: { title: "4" label: "#4\ngimple_assign (22)\ngimple_assign (22)"}
+edge: { sourcename: "4" targetname: "6" priority: 100 linestyle: solid }
+
+node: { title: "5" label: "#5\ngimple_assign (24)\ngimple_assign (24)"}
+edge: { sourcename: "5" targetname: "6" priority: 100 linestyle: solid }
+
+node: { title: "6" label: "#6\ngimple_assign (18)\ngimple_assign (18)"}
+edge: { sourcename: "6" targetname: "7" priority: 100 linestyle: solid }
+
+node: { title: "7" label: "#7\ngimple_assign (18)\ngimple_cond (18)"}
+edge: { sourcename: "7" targetname: "3" priority: 100 linestyle: solid }
+edge: { sourcename: "7" targetname: "8" priority: 100 linestyle: solid }
+
+node: { title: "8" label: "#8\ngimple_assign (26)\ngimple_assign (26)"}
+edge: { sourcename: "8" targetname: "10" priority: 100 linestyle: solid }
+
+node: { title: "9" label: "#9\ngimple_assign (27)\ngimple_assign (27)"}
+edge: { sourcename: "9" targetname: "10" priority: 100 linestyle: solid }
+
+node: { title: "10" label: "#10\ngimple_label (-1)\ngimple_return (-1)"}
+edge: { sourcename: "10" targetname: "EXIT" priority: 100 linestyle: solid }
+}
+
+graph: { title: "int is_odd(int)"
+node: { title: "ENTRY" label: "ENTRY" }
+node: { title: "EXIT" label: "EXIT" }
+edge: { sourcename: "ENTRY" targetname: "2" linestyle: solid priority: 100 }
+
+node: { title: "2" label: "#2\ngimple_assign (12)\ngimple_assign (12)"}
+edge: { sourcename: "2" targetname: "3" priority: 100 linestyle: solid }
+
+node: { title: "3" label: "#3\ngimple_label (-1)\ngimple_return (12)"}
+edge: { sourcename: "3" targetname: "EXIT" priority: 100 linestyle: solid }
+}
+
+graph: { title: "int foo(int)"
+node: { title: "ENTRY" label: "ENTRY" }
+node: { title: "EXIT" label: "EXIT" }
+edge: { sourcename: "ENTRY" targetname: "2" linestyle: solid priority: 100 }
+
+node: { title: "2" label: "#2\ngimple_assign (6)\ngimple_assign (7)"}
+edge: { sourcename: "2" targetname: "3" priority: 100 linestyle: solid }
+
+node: { title: "3" label: "#3\ngimple_label (-1)\ngimple_return (7)"}
+edge: { sourcename: "3" targetname: "EXIT" priority: 100 linestyle: solid }
+}
+

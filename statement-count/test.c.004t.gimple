@@ -1,0 +1,70 @@
+int main() ()
+{
+  bool D.2714;
+  bool retval.0;
+  int D.2717;
+  int D.2721;
+
+  {
+    int n;
+    int j;
+    int a;
+
+    n = 10;
+    j = 3;
+    {
+      int i;
+
+      i = 0;
+      goto <D.2715>;
+      <D.2713>:
+      j = foo (j);
+      D.2717 = is_odd (j);
+      retval.0 = D.2717 != 0;
+      if (retval.0 != 0) goto <D.2718>; else goto <D.2719>;
+      <D.2718>:
+      a = j;
+      goto <D.2720>;
+      <D.2719>:
+      a = j % 3;
+      <D.2720>:
+      i = i + 1;
+      <D.2715>:
+      D.2714 = i < n;
+      if (D.2714 != 0) goto <D.2713>; else goto <D.2711>;
+      <D.2711>:
+    }
+    D.2721 = a;
+    return D.2721;
+  }
+  D.2721 = 0;
+  return D.2721;
+}
+
+
+int is_odd(int) (int b)
+{
+  int D.2723;
+
+  D.2723 = b % 2;
+  return D.2723;
+}
+
+
+int foo(int) (int a)
+{
+  int i.1;
+  int i.2;
+  int D.2727;
+  int i.3;
+  static int i = 0;
+
+  i.1 = i;
+  i.2 = i.1 + 1;
+  i = i.2;
+  i.3 = i;
+  D.2727 = a + i.3;
+  return D.2727;
+}
+
+

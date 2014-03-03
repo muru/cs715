@@ -1,0 +1,61 @@
+
+;; Function int foo(int) (null)
+;; enabled by -tree-original
+
+
+{
+  static int i = 0;
+
+  <<cleanup_point   static int i = 0;>>;
+  <<cleanup_point <<< Unknown tree: expr_stmt
+  (void) i++  >>>>>;
+  return <retval> = a + i;
+}
+
+
+
+;; Function int is_odd(int) (null)
+;; enabled by -tree-original
+
+return <retval> = b % 2;
+
+
+
+;; Function int main() (null)
+;; enabled by -tree-original
+
+{
+  int n = 10;
+  int j = 3;
+  int a;
+
+  <<cleanup_point   int n = 10;>>;
+  <<cleanup_point   int j = 3;>>;
+    int a;
+  {
+    int i = 0;
+
+    <<cleanup_point     int i = 0;>>;
+    <<< Unknown tree: for_stmt
+  
+  i < n
+  <<cleanup_point (void) i++ >>
+  <<cleanup_point <<< Unknown tree: expr_stmt
+  (void) (j = foo (j)) >>>>>;
+  if (<<cleanup_point is_odd (j) != 0>>)
+    {
+      <<cleanup_point <<< Unknown tree: expr_stmt
+  (void) (a = j) >>>>>;
+    }
+  else
+    {
+      <<cleanup_point <<< Unknown tree: expr_stmt
+  (void) (a = j % 3) >>>>>;
+    }
+   >>>;
+  }
+  return <retval> = a;
+}
+return <retval> = 0;
+
+
