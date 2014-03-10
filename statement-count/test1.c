@@ -1,50 +1,17 @@
-#include <stdio.h>
+#include "test.h"
 
-int *p, *q;
-void callme (int);
-void calle(int);
-void callwe (int);
-void callthe (int a);
-int main ()
+int main()
 {
-        int a, b, *c;
-        p = &b;
-        callme (a);
-        return 0;
+	int n = 10, j =3, a;
+	for (int i = 0; i < n; i++)
+	{
+		j = foo(j);
+		if (is_odd(j))
+			a = j;
+		else
+			a = foo(j % 3);
+	}
+	printf("%d\n", a);
+	return a;
 }
-
-void callme (int a)
-{
-        int *d,i=0;
-        a = *(p + 3);
-        q = &a;
-        d = q;
-	callwe(a);
-}
-
-void calle(int a)
-{
-int b;
-a=b;
-return;
-}
-
-
-void callwe (int a)
-{
-        int *d,i=0;
-        a = *(p + 3);
-        q = &a;
-        d = q;
-	callthe(a);
-}
-
-void callthe (int a)
-{
-        int *d,i=0;
-        a = *(p + 3);
-        q = &a;
-        d = q;
-callme(a);
-}
-
+	

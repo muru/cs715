@@ -9,5 +9,5 @@ int foo(int a)
 
 int is_odd (int b)
 {
-	return foo(b) % 2;
+	return (b) % 2;
 }

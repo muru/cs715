@@ -126,7 +126,7 @@ static unsigned int inter_gimple_manipulation (void)
 		fprintf(dump_file, "%s\t\t%d\n", func_pointer, count);
 	}
 	fprintf(dump_file, "Total:\t\t%d\n\n\n", total);
-	/** TODO: Stop GCC from printing every **** GIMPLE statement after our output.
+	/** TODO: Stop GCC from printing every GIMPLE statement after our output.
 	 */
 	return 0;
 }		
