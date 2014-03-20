@@ -1,0 +1,491 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADDRESSOF	pointsto-callstrings.h	/^typedef enum {SCALAR, DEREF, ADDRESSOF} constraint_expr_type;$/;"	e	enum:__anon1
+BASE_DIR	Makefile	/^BASE_DIR = \/home\/nikhil\/gcc_build$/;"	m
+CC	Makefile	/^CC = $(INSTALL)\/bin\/g++$/;"	m
+DEREF	pointsto-callstrings.h	/^typedef enum {SCALAR, DEREF, ADDRESSOF} constraint_expr_type;$/;"	e	enum:__anon1
+FLAGS	Makefile	/^FLAGS= -fPIC -O2 -flto -flto-partition=none$/;"	m
+GCCPLUGINS_DIR	Makefile	/^GCCPLUGINS_DIR:= $(shell $(CC) -print-file-name=plugin)$/;"	m
+IN	pointsto-callstrings.h	/^enum bb_in_out {IN, OUT};$/;"	e	enum:bb_in_out
+INCLUDE	Makefile	/^INCLUDE= -I$(GCCPLUGINS_DIR)\/include -I$(NEW_PATH)$/;"	m
+INSTALL	Makefile	/^INSTALL = $(BASE_DIR)\/install$/;"	m
+NEW_PATH	Makefile	/^NEW_PATH = $(BASE_DIR)\/gcc-4.7.2\/gcc$/;"	m
+OBJS	Makefile	/^OBJS = test.o$/;"	m
+OUT	pointsto-callstrings.h	/^enum bb_in_out {IN, OUT};$/;"	e	enum:bb_in_out
+SCALAR	pointsto-callstrings.h	/^typedef enum {SCALAR, DEREF, ADDRESSOF} constraint_expr_type;$/;"	e	enum:__anon1
+SSAVAR	pointsto-callstrings.h	316;"	d
+UNKNOWN_OFFSET	pointsto-callstrings.h	255;"	d
+VEC	pointsto-callstrings.c	/^cs_do_deref (VEC (ce_s, heap) **constraints)$/;"	f	file:
+VEC	pointsto-callstrings.c	/^cs_process_all_all_constraints (VEC (ce_s, heap) *lhsc, VEC (ce_s, heap) *rhsc)$/;"	f	file:
+a	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v
+add_pointee	pointsto-callstrings.h	/^add_pointee(int index,vec_list list,unsigned lhs,unsigned int rhs)$/;"	f
+add_pointee_set	pointsto-callstrings.h	/^add_pointee_set(int index, vec_list list, unsigned int var, bitmap pointee_set)$/;"	f
+add_pointee_set_bb	pointsto-callstrings.h	/^add_pointee_set_bb (basic_block bb, unsigned int lhs, bitmap pointee_set, in_out io)$/;"	f
+add_pointee_set_bb_cs	pointsto-callstrings.h	/^add_pointee_set_bb_cs (basic_block bb, int callstring, unsigned int lhs, bitmap pointee_set, in_out io)$/;"	f
+add_to_df_list	pointsto-callstrings.c	/^add_to_df_list (unsigned int val, int *list)$/;"	f	file:
+add_to_fn_worklist	pointsto-callstrings.c	/^add_to_fn_worklist (struct cgraph_node *called_fn)$/;"	f	file:
+add_to_fn_worklist_1	pointsto-callstrings.c	/^add_to_fn_worklist_1 (struct cgraph_node *called_fn)$/;"	f	file:
+add_to_lcsmap_and_out	pointsto-callstrings.c	/^add_to_lcsmap_and_out (struct cgraph_node *node, csdfa_info a, int rep_index)$/;"	f	file:
+add_var_to_liveset	pointsto-callstrings.h	/^add_var_to_liveset (int lin, unsigned int var)$/;"	f
+add_var_to_liveset_bb	pointsto-callstrings.h	/^add_var_to_liveset_bb (basic_block bb, unsigned int var, in_out io)$/;"	f
+add_var_to_liveset_bb_cs	pointsto-callstrings.h	/^add_var_to_liveset_bb_cs (basic_block bb , int cs_index , unsigned int var,  in_out io)$/;"	f
+alias_get_name	pointsto-callstrings.h	/^alias_get_name (tree decl)$/;"	f
+all_contexts_together	pointsto-callstrings.h	/^bool all_contexts_together = true;$/;"	v
+alloc_mem	pointsto-callstrings.h	317;"	d
+append_bb_to_callstring	pointsto-callstrings.c	/^append_bb_to_callstring (basic_block bb, int cs, basic_block succ_bb, bool in_ipdfa)$/;"	f	file:
+append_bb_to_callstring_1	pointsto-callstrings.c	/^append_bb_to_callstring_1 (struct cgraph_node *node, basic_block bb, csdfa_info *ai, $/;"	f	file:
+append_constraint_to_varinfo	pointsto-callstrings.c	/^append_constraint_to_varinfo (csvarinfo_t t, int alias_no)$/;"	f	file:
+append_to_bb_constraints	pointsto-callstrings.c	/^append_to_bb_constraints (df_list constraint, bool is_alias)$/;"	f	file:
+append_to_fptr_constraints	pointsto-callstrings.c	/^append_to_fptr_constraints (df_list constraint)$/;"	f	file:
+associate_varinfo_to_alias	pointsto-callstrings.c	/^associate_varinfo_to_alias (struct cgraph_node *node, void *data)$/;"	f	file:
+b	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v
+bb	pointsto-callstrings.h	/^   basic_block bb;$/;"	m	struct:bb_worklist_def
+bb	pointsto-callstrings.h	/^   basic_block bb;$/;"	m	struct:callstring_def
+bb_call_stmt	pointsto-callstrings.c	/^bb_call_stmt (basic_block bb)$/;"	f	file:
+bb_csipdfa_info	pointsto-callstrings.h	/^typedef struct bb_csipdfa_info_def *bb_csipdfa_info;$/;"	t	typeref:struct:bb_csipdfa_info_def
+bb_csipdfa_info_def	pointsto-callstrings.h	/^struct bb_csipdfa_info_def$/;"	s
+bb_has_deref_stmts	pointsto-callstrings.h	/^    bool bb_has_deref_stmts;$/;"	m	struct:bb_csipdfa_info_def
+bb_in_out	pointsto-callstrings.h	/^enum bb_in_out {IN, OUT};$/;"	g
+bb_list	pointsto-callstrings.h	/^   bb_worklist bb_list;$/;"	m	struct:cgraph_info_def
+bb_worklist	pointsto-callstrings.h	/^typedef struct bb_worklist_def *bb_worklist;$/;"	t	typeref:struct:bb_worklist_def
+bb_worklist_def	pointsto-callstrings.h	/^struct bb_worklist_def$/;"	s
+bitpos_of_field	pointsto-callstrings.h	/^bitpos_of_field (const tree fdecl)$/;"	f
+build_fake_var_decl	pointsto-callstrings.c	/^build_fake_var_decl (tree type)$/;"	f	file:
+c	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v
+calculate_actual_out	pointsto-callstrings.c	/^calculate_actual_out (csdfa_info ai, csdfa_info bi)$/;"	f	file:
+calculate_actual_out_1	pointsto-callstrings.c	/^calculate_actual_out_1 (csdfa_info ai, csdfa_info bi)$/;"	f	file:
+call_block	pointsto-callstrings.c	/^call_block (basic_block bb)$/;"	f	file:
+call_block	pointsto-callstrings.h	/^    bool call_block, return_block;$/;"	m	struct:bb_csipdfa_info_def
+called_fn	pointsto-callstrings.h	/^   struct cgraph_node *called_fn;$/;"	m	struct:worklist_queue	typeref:struct:worklist_queue::cgraph_node
+callstring	pointsto-callstrings.h	/^DEF_VEC_P(callstring);$/;"	v
+callstring	pointsto-callstrings.h	/^typedef struct callstring_def *callstring;$/;"	t	typeref:struct:callstring_def
+callstring_def	pointsto-callstrings.h	/^struct callstring_def$/;"	s
+callstring_is_substring	pointsto-callstrings.c	/^callstring_is_substring (callstring *cs, int index)$/;"	f	file:
+callstring_length	pointsto-callstrings.c	/^callstring_length (callstring ai)$/;"	f	file:
+callstrings_equal	pointsto-callstrings.c	/^callstrings_equal (callstring a, callstring b)$/;"	f	file:
+cbb	pointsto-callstrings.h	/^basic_block cbb = NULL, main_firstbb = NULL;$/;"	v
+ce_s	pointsto-callstrings.h	/^DEF_VEC_O(ce_s);$/;"	v
+ce_s	pointsto-callstrings.h	/^typedef struct constraint_expr ce_s;$/;"	t	typeref:struct:constraint_expr
+cgraph_info	pointsto-callstrings.h	/^typedef struct cgraph_info_def *cgraph_info;$/;"	t	typeref:struct:cgraph_info_def
+cgraph_info_def	pointsto-callstrings.h	/^struct cgraph_info_def$/;"	s
+check_alias_inclusion	pointsto-callstrings.c	/^check_alias_inclusion (constraint_t t, csvarinfo_t vi, unsigned int *loc)$/;"	f	file:
+check_callstring_existance	pointsto-callstrings.c	/^check_callstring_existance (callstring cs, basic_block bb, bool in_ipdfa)$/;"	f	file:
+check_deref	pointsto-callstrings.h	/^bool check_deref = false;$/;"	v
+cnode	pointsto-callstrings.h	/^    struct cgraph_node *cnode;$/;"	m	struct:bb_csipdfa_info_def	typeref:struct:bb_csipdfa_info_def::cgraph_node
+cnode	pointsto-callstrings.h	/^struct cgraph_node *cnode = NULL;$/;"	v	typeref:struct:cgraph_node
+cnode_of_bb	pointsto-callstrings.c	/^cnode_of_bb (basic_block bb)$/;"	f	file:
+compute_alias_and_pinfo	pointsto-callstrings.h	/^bool compute_alias_and_pinfo = false;$/;"	v
+compute_call_stmt_in	pointsto-callstrings.c	/^compute_call_stmt_in (csdfa_info li)$/;"	f	file:
+compute_call_stmt_liveness	pointsto-callstrings.c	/^compute_call_stmt_liveness (void)$/;"	f	file:
+compute_df_list_union	pointsto-callstrings.c	/^compute_df_list_union (int lin, int gen_i)$/;"	f	file:
+compute_geninfo	pointsto-callstrings.c	/^compute_geninfo (int index, unsigned int lhs, unsigned int rhs)$/;"	f	file:
+compute_in_confluence	pointsto-callstrings.c	/^compute_in_confluence (int in_index, int update_index)$/;"	f	file:
+compute_in_confluence_1	pointsto-callstrings.c	/^compute_in_confluence_1 (int *in_index, int *update_index)$/;"	f	file:
+compute_index_in_maypool	pointsto-callstrings.h	/^compute_index_in_maypool(pointsto_val out)$/;"	f
+compute_index_in_tmppool	pointsto-callstrings.h	/^compute_index_in_tmppool(pointsto_val out)$/;"	f
+compute_live_in	pointsto-callstrings.c	/^compute_live_in (int lin, int gen_i, int kill_i)$/;"	f	file:
+compute_live_parms	pointsto-callstrings.c	/^compute_live_parms (int index)$/;"	f	file:
+compute_liveness	pointsto-callstrings.c	/^compute_liveness (bool recompute)$/;"	f	file:
+compute_liveness_from_constraint	pointsto-callstrings.c	/^compute_liveness_from_constraint (csdfa_info *ci, constraint_list bi,$/;"	f	file:
+compute_liveness_index	pointsto-callstrings.h	/^compute_liveness_index (df_list in)$/;"	f
+compute_liveness_sub	pointsto-callstrings.c	/^compute_liveness_sub (int lin, int kill_index)$/;"	f	file:
+compute_livevar_at_out	pointsto-callstrings.c	/^compute_livevar_at_out (int outlive, int inlive)$/;"	f	file:
+compute_lout_union	pointsto-callstrings.c	/^compute_lout_union (int lin, int lupdate)$/;"	f	file:
+compute_mapped_in_at_endblock	pointsto-callstrings.c	/^compute_mapped_in_at_endblock (void)$/;"	f	file:
+compute_mapped_out_at_startblock	pointsto-callstrings.c	/^compute_mapped_out_at_startblock (void)$/;"	f	file:
+compute_only_pinfo	pointsto-callstrings.h	/^bool compute_only_pinfo = false;$/;"	v
+compute_out_confluence	pointsto-callstrings.c	/^compute_out_confluence (int out_index, int in_index)$/;"	f	file:
+compute_out_index	pointsto-callstrings.c	/^compute_out_index (int in, int gen, bool kill)$/;"	f	file:
+compute_out_index_1	pointsto-callstrings.c	/^compute_out_index_1 (int in_index, int gen_index, bool kill)$/;"	f	file:
+compute_phi_gen	pointsto-callstrings.c	/^compute_phi_gen (int *in, constraint_t t, $/;"	f	file:
+compute_pointsto	pointsto-callstrings.c	/^compute_pointsto (void)$/;"	f	file:
+compute_pointsto_index_from_templist	pointsto-callstrings.c	/^compute_pointsto_index_from_templist (int index)$/;"	f	file:
+compute_pointsto_out	pointsto-callstrings.c	/^compute_pointsto_out (int index, int gen_1, bool kill)$/;"	f	file:
+compute_pointsto_out_1	pointsto-callstrings.c	/^compute_pointsto_out_1 (int index, int gen_1, bool kill)$/;"	f	file:
+compute_stmt_out	pointsto-callstrings.c	/^compute_stmt_out (int index, constraint_t t)$/;"	f	file:
+compute_stmt_out_1	pointsto-callstrings.c	/^compute_stmt_out_1 (csdfa_info dfainfo, constraint_t t)$/;"	f	file:
+compute_stmt_out_2	pointsto-callstrings.c	/^compute_stmt_out_2 (csdfa_info dfainfo, constraint_t t)$/;"	f	file:
+constraint	pointsto-callstrings.h	/^struct constraint$/;"	s
+constraint_end	pointsto-callstrings.h	/^    constraint_list constraint_start, constraint_end;$/;"	m	struct:bb_csipdfa_info_def
+constraint_equal	pointsto-callstrings.h	/^constraint_equal (struct constraint a, struct constraint b)$/;"	f
+constraint_expr	pointsto-callstrings.h	/^struct constraint_expr$/;"	s
+constraint_expr_equal	pointsto-callstrings.h	/^constraint_expr_equal (struct constraint_expr a, struct constraint_expr b)$/;"	f
+constraint_expr_type	pointsto-callstrings.h	/^typedef enum {SCALAR, DEREF, ADDRESSOF} constraint_expr_type;$/;"	t	typeref:enum:__anon1
+constraint_list	pointsto-callstrings.h	/^typedef struct constraint_list_def *constraint_list;$/;"	t	typeref:struct:constraint_list_def
+constraint_list_def	pointsto-callstrings.h	/^struct constraint_list_def$/;"	s
+constraint_pool	pointsto-callstrings.h	/^alloc_pool constraint_pool;$/;"	v
+constraint_start	pointsto-callstrings.h	/^    constraint_list constraint_start, constraint_end;$/;"	m	struct:bb_csipdfa_info_def
+constraint_t	pointsto-callstrings.h	/^DEF_VEC_P(constraint_t);$/;"	v
+constraint_t	pointsto-callstrings.h	/^typedef struct constraint *constraint_t;$/;"	t	typeref:struct:constraint
+constraints_with_vi_as_lhs	pointsto-callstrings.h	/^  df_list constraints_with_vi_as_lhs;$/;"	m	struct:csvariable_info
+copy_csdfa_info	pointsto-callstrings.c	/^copy_csdfa_info (csdfa_info ci)$/;"	f	file:
+copy_df_list	pointsto-callstrings.h	/^copy_df_list (df_list a)$/;"	f
+copy_in_at_returnblock	pointsto-callstrings.c	/^copy_in_at_returnblock (gimple stmt)$/;"	f	file:
+copy_in_to_out	pointsto-callstrings.c	/^copy_in_to_out (void)$/;"	f	file:
+copy_in_to_out_1	pointsto-callstrings.c	/^copy_in_to_out_1 (void)$/;"	f	file:
+copy_out_to_in	pointsto-callstrings.c	/^copy_out_to_in (void)$/;"	f	file:
+copy_out_to_in_1	pointsto-callstrings.c	/^copy_out_to_in_1 (void)$/;"	f	file:
+copy_pointsto_rhs	pointsto-callstrings.c	/^copy_pointsto_rhs(bitmap from)$/;"	f	file:
+copy_pointsto_rhs_1	pointsto-callstrings.c	/^copy_pointsto_rhs_1 (bitmap from)$/;"	f	file:
+copy_pointsto_set_to_temp	pointsto-callstrings.c	/^copy_pointsto_set_to_temp(int index)$/;"	f	file:
+copy_pointsto_val	pointsto-callstrings.h	/^copy_pointsto_val (pointsto_val a)$/;"	f
+copy_pointsto_val_1	pointsto-callstrings.c	/^copy_pointsto_val_1 (int index,vec_list list)$/;"	f	file:
+copy_pointsto_val_2	pointsto-callstrings.c	/^copy_pointsto_val_2 (int index, vec_list list)$/;"	f	file:
+count_num_arguments	pointsto-callstrings.h	/^count_num_arguments (tree decl, bool *is_varargs)$/;"	f
+cpinfo	pointsto-callstrings.h	/^csdfa_info cpinfo = NULL;$/;"	v
+create_csmap_rhs	pointsto-callstrings.c	/^create_csmap_rhs (csdfa_info ai, bool present_in_out)$/;"	f	file:
+create_df_constraint	pointsto-callstrings.c	/^create_df_constraint (int val)$/;"	f	file:
+create_new_csmap_cell	pointsto-callstrings.c	/^create_new_csmap_cell (csdfa_info ai, bool present_in_out)$/;"	f	file:
+create_pointsto_val_rhs	pointsto-callstrings.c	/^create_pointsto_val_rhs (unsigned int val)$/;"	f	file:
+cs_create_func_info_for	pointsto-callstrings.c	/^cs_create_func_info_for (tree decl, const char *name)$/;"	f	file:
+cs_create_variable_info_for	pointsto-callstrings.c	/^cs_create_variable_info_for (tree decl, const char *name)$/;"	f	file:
+cs_create_variable_info_for_1	pointsto-callstrings.c	/^cs_create_variable_info_for_1 (tree decl, const char *name)$/;"	f	file:
+cs_dfa	pointsto-callstrings.h	/^struct cs_dfa$/;"	s
+cs_do_structure_copy	pointsto-callstrings.c	/^cs_do_structure_copy (tree lhsop, tree rhsop)$/;"	f	file:
+cs_first_or_preceding_vi_for_offset	pointsto-callstrings.c	/^cs_first_or_preceding_vi_for_offset (csvarinfo_t start,$/;"	f	file:
+cs_first_vi_for_offset	pointsto-callstrings.c	/^cs_first_vi_for_offset (csvarinfo_t start, unsigned HOST_WIDE_INT offset)$/;"	f	file:
+cs_get_constraint_for	pointsto-callstrings.c	/^cs_get_constraint_for (tree t, VEC (ce_s, heap) **results)$/;"	f	file:
+cs_get_constraint_for_1	pointsto-callstrings.c	/^cs_get_constraint_for_1 (tree t, VEC (ce_s, heap) **results, bool address_p,$/;"	f	file:
+cs_get_constraint_for_address_of	pointsto-callstrings.c	/^cs_get_constraint_for_address_of (tree t, VEC (ce_s, heap) **results)$/;"	f	file:
+cs_get_constraint_for_component_ref	pointsto-callstrings.c	/^cs_get_constraint_for_component_ref (tree t, VEC(ce_s, heap) **results,$/;"	f	file:
+cs_get_constraint_for_ptr_offset	pointsto-callstrings.c	/^cs_get_constraint_for_ptr_offset (tree ptr, tree offset,$/;"	f	file:
+cs_get_constraint_for_rhs	pointsto-callstrings.c	/^cs_get_constraint_for_rhs (tree t, VEC (ce_s, heap) **results)$/;"	f	file:
+cs_get_constraint_for_ssa_var	pointsto-callstrings.c	/^cs_get_constraint_for_ssa_var (tree t, VEC(ce_s, heap) **results, bool address_p)$/;"	f	file:
+cs_get_var	pointsto-callstrings.c	/^cs_get_var (tree t)$/;"	f	file:
+cs_get_varinfo	pointsto-callstrings.c	/^cs_get_varinfo (unsigned int n)$/;"	f	file:
+cs_get_vi_for_tree	pointsto-callstrings.c	/^cs_get_vi_for_tree (tree stmt)$/;"	f	file:
+cs_index	pointsto-callstrings.h	/^   int cs_index;$/;"	m	struct:cs_dfa
+cs_init_alias_vars	pointsto-callstrings.c	/^cs_init_alias_vars (void)$/;"	f	file:
+cs_init_base_vars	pointsto-callstrings.c	/^cs_init_base_vars (void)$/;"	f	file:
+cs_insert_vi_for_tree	pointsto-callstrings.c	/^cs_insert_vi_for_tree (tree t, csvarinfo_t vi)$/;"	f	file:
+cs_lookup_vi_for_tree	pointsto-callstrings.c	/^cs_lookup_vi_for_tree (tree t)$/;"	f	file:
+cs_make_constraint_from	pointsto-callstrings.c	/^cs_make_constraint_from (csvarinfo_t vi, int from)$/;"	f	file:
+cs_make_constraint_from_heapvar	pointsto-callstrings.c	/^cs_make_constraint_from_heapvar (csvarinfo_t lhs, const char *name)$/;"	f	file:
+cs_make_heapvar_for	pointsto-callstrings.c	/^cs_make_heapvar_for (csvarinfo_t lhs, const char *name)$/;"	f	file:
+cs_map	pointsto-callstrings.h	/^typedef struct cs_map_def *cs_map;$/;"	t	typeref:struct:cs_map_def
+cs_map_def	pointsto-callstrings.h	/^struct cs_map_def$/;"	s
+cs_new_scalar_tmp_constraint_exp	pointsto-callstrings.c	/^cs_new_scalar_tmp_constraint_exp (const char *name)$/;"	f	file:
+cs_new_var_info	pointsto-callstrings.c	/^cs_new_var_info (tree t, const char *name)$/;"	f	file:
+cs_process_constraint	pointsto-callstrings.c	/^cs_process_constraint (constraint_t t)$/;"	f	file:
+csdfa_info	pointsto-callstrings.h	/^typedef struct cs_dfa *csdfa_info;$/;"	t	typeref:struct:cs_dfa
+csmap_rhs	pointsto-callstrings.h	/^typedef struct csmap_rhs_def *csmap_rhs;$/;"	t	typeref:struct:csmap_rhs_def
+csmap_rhs_def	pointsto-callstrings.h	/^struct csmap_rhs_def$/;"	s
+csvariable_info	pointsto-callstrings.h	/^struct csvariable_info$/;"	s
+csvarinfo_pool	pointsto-callstrings.h	/^static alloc_pool csvarinfo_pool;$/;"	v
+csvarinfo_t	pointsto-callstrings.h	/^DEF_VEC_P(csvarinfo_t);$/;"	v
+csvarinfo_t	pointsto-callstrings.h	/^typedef struct csvariable_info *csvarinfo_t;$/;"	t	typeref:struct:csvariable_info
+decl	pointsto-callstrings.h	/^  tree decl;$/;"	m	struct:csvariable_info
+delete_ipacs_info	pointsto-callstrings.c	/^delete_ipacs_info (void)$/;"	f	file:
+deref_stmt	pointsto-callstrings.h	/^bool deref_stmt = false;$/;"	v
+df_container	pointsto-callstrings.h	/^struct df_container$/;"	s
+df_list	pointsto-callstrings.h	/^DEF_VEC_P(df_list);$/;"	v
+df_list	pointsto-callstrings.h	/^typedef struct df_container *df_list;$/;"	t	typeref:struct:df_container
+df_list_equal	pointsto-callstrings.h	/^df_list_equal (df_list a, df_list b)$/;"	f
+dump_bitmap_to_string	pointsto-callstrings.c	/^dump_bitmap_to_string (char *str, tree var, pointsto_val pval)$/;"	f	file:
+dump_lipta_info_for_stmt	pointsto-callstrings.c	/^dump_lipta_info_for_stmt (gimple stmt, pointsto_val in_pval, pointsto_val out_pval)$/;"	f	file:
+dump_lipta_info_for_var	pointsto-callstrings.c	/^dump_lipta_info_for_var (tree var, pointsto_val in_pval, pointsto_val out_pval)$/;"	f	file:
+dump_lipta_info_for_var_1	pointsto-callstrings.c	/^dump_lipta_info_for_var_1 (tree var, pointsto_val pval, bool is_ssa_name_var = false)$/;"	f	file:
+dump_ssa_name_ptr_info_for_stmt	pointsto-callstrings.c	/^dump_ssa_name_ptr_info_for_stmt (gimple stmt)$/;"	f	file:
+dump_stmt_info	pointsto-callstrings.c	/^dump_stmt_info (gimple stmt)$/;"	f	file:
+element_equal	pointsto-callstrings.c	/^element_equal (unsigned int lhs_var, unsigned int rhs_var)$/;"	f	file:
+empty_temp_set	pointsto-callstrings.h	/^static void empty_temp_set(void)$/;"	f
+end_bb_of_fn	pointsto-callstrings.c	/^end_bb_of_fn (struct cgraph_node *node)$/;"	f	file:
+end_block	pointsto-callstrings.c	/^end_block (basic_block bb)$/;"	f	file:
+end_block	pointsto-callstrings.h	/^    bool start_block, end_block;$/;"	m	struct:bb_csipdfa_info_def
+exchange_csmap_entries	pointsto-callstrings.c	/^exchange_csmap_entries (cs_map *ai, csmap_rhs *bi)$/;"	f	file:
+execute_ipacs	pointsto-callstrings.c	/^execute_ipacs (void)$/;"	f	file:
+extend_stmt_constraint_chain	pointsto-callstrings.c	/^extend_stmt_constraint_chain (constraint_list lst, df_list constraint)$/;"	f	file:
+fake_var_decl_obstack	pointsto-callstrings.c	/^struct obstack fake_var_decl_obstack;$/;"	v	typeref:struct:obstack
+field_must_have_pointers	pointsto-callstrings.h	/^field_must_have_pointers (tree t)$/;"	f
+fieldoff	pointsto-callstrings.h	/^struct fieldoff$/;"	s
+fieldoff_compare	pointsto-callstrings.h	/^fieldoff_compare (const void *pa, const void *pb)$/;"	f
+fieldoff_s	pointsto-callstrings.h	/^DEF_VEC_O(fieldoff_s);$/;"	v
+fieldoff_s	pointsto-callstrings.h	/^typedef struct fieldoff fieldoff_s;$/;"	t	typeref:struct:fieldoff
+find_live_vars	pointsto-callstrings.c	/^find_live_vars (bool recompute)$/;"	f	file:
+find_pointsto_pair	pointsto-callstrings.c	/^find_pointsto_pair (void)$/;"	f	file:
+find_rep_in_lcsmap	pointsto-callstrings.c	/^find_rep_in_lcsmap (struct cgraph_node *node, int cs_index)$/;"	f	file:
+first_node_from_lv_worklist	pointsto-callstrings.c	/^first_node_from_lv_worklist (void)$/;"	f	file:
+first_node_from_pta_worklist	pointsto-callstrings.c	/^first_node_from_pta_worklist (void)$/;"	f	file:
+fp_dump	pointsto-callstrings.c	/^FILE *fp_dump;$/;"	v
+fptr_constraint_list	pointsto-callstrings.h	/^constraint_list last_constraint=NULL, fptr_constraint_list=NULL;$/;"	v
+fullsize	pointsto-callstrings.h	/^  unsigned HOST_WIDE_INT fullsize;$/;"	m	struct:csvariable_info
+generate_liveness_constraint	pointsto-callstrings.c	/^generate_liveness_constraint (unsigned int id)$/;"	f	file:
+generate_retval_liveness	pointsto-callstrings.c	/^generate_retval_liveness (gimple stmt)$/;"	f	file:
+get_bb_for_lv_processing	pointsto-callstrings.c	/^get_bb_for_lv_processing (bb_worklist list, bool *new_cnode)$/;"	f	file:
+get_bb_for_pta_processing	pointsto-callstrings.c	/^get_bb_for_pta_processing (bb_worklist list, bool *new_cnode)$/;"	f	file:
+get_bb_from_callstring	pointsto-callstrings.c	/^get_bb_from_callstring (int cs)$/;"	f	file:
+get_bitmap_for_lhs	pointsto-callstrings.h	/^get_bitmap_for_lhs(int index , vec_list list)$/;"	f
+get_called_fn_decl	pointsto-callstrings.c	/^get_called_fn_decl (gimple stmt)$/;"	f	file:
+get_caller_bb	pointsto-callstrings.c	/^get_caller_bb (basic_block *bb, int cs_index)$/;"	f	file:
+get_constraint_end	pointsto-callstrings.c	/^get_constraint_end (basic_block bb)$/;"	f	file:
+get_constraint_start	pointsto-callstrings.c	/^get_constraint_start (basic_block bb)$/;"	f	file:
+get_csdfa_info_bb	pointsto-callstrings.h	/^get_csdfa_info_bb(basic_block bb, int cs_index , in_out io)$/;"	f
+get_gen_pointsto_set	pointsto-callstrings.c	/^get_gen_pointsto_set(int gen)$/;"	f	file:
+get_indirect_pointee_set	pointsto-callstrings.h	/^get_indirect_pointee_set(int in_index,vec_list list, unsigned int varid)$/;"	f
+get_kill_pointsto_set	pointsto-callstrings.c	/^get_kill_pointsto_set(int gen_1)$/;"	f	file:
+get_live_set	pointsto-callstrings.h	/^get_live_set(int index)$/;"	f
+get_live_set_size	pointsto-callstrings.h	/^get_live_set_size(int index)$/;"	f
+get_must_pointee	pointsto-callstrings.h	/^get_must_pointee(int in_index, vec_list list, unsigned int varid)$/;"	f
+get_pointee_set	pointsto-callstrings.h	/^get_pointee_set(int in_index,vec_list list, unsigned int varid)$/;"	f
+get_pointee_set_bb	pointsto-callstrings.h	/^get_pointee_set_bb (basic_block bb, unsigned int lhs, in_out io)$/;"	f
+get_pointee_set_bb_cs	pointsto-callstrings.h	/^get_pointee_set_bb_cs (basic_block bb, int callstring, unsigned int lhs, in_out io)$/;"	f
+get_representative_csdfa	pointsto-callstrings.c	/^get_representative_csdfa (basic_block bb, callstring *cs)$/;"	f	file:
+get_representative_linfo	pointsto-callstrings.c	/^get_representative_linfo (basic_block bb, int repcs)$/;"	f	file:
+get_rp_index	pointsto-callstrings.c	/^get_rp_index (basic_block bb)$/;"	f	file:
+get_var_at_index_in_liveset	pointsto-callstrings.h	/^get_var_at_index_in_liveset(int lin, int index){$/;"	f
+global_var	pointsto-callstrings.c	/^global_var (unsigned int varid)$/;"	f	file:
+has_deref_stmt	pointsto-callstrings.c	/^has_deref_stmt (basic_block bb)$/;"	f	file:
+has_must_pointee	pointsto-callstrings.h	/^has_must_pointee(int in_index, vec_list list, unsigned int varid)$/;"	f
+has_must_pointee_bb	pointsto-callstrings.h	/^has_must_pointee_bb (basic_block bb,unsigned int lhs, in_out io)$/;"	f
+has_must_pointee_bb_cs	pointsto-callstrings.h	/^has_must_pointee_bb_cs(basic_block bb,int callstring, unsigned int lhs, in_out io)$/;"	f
+has_only_undef_pointee	pointsto-callstrings.h	/^has_only_undef_pointee(int index, vec_list list , unsigned int lhs)$/;"	f
+has_undef_pointee	pointsto-callstrings.h	/^has_undef_pointee(int index, vec_list list , unsigned int lhs)$/;"	f
+has_undef_pointee_bb_cs	pointsto-callstrings.h	/^has_undef_pointee_bb_cs (basic_block bb, int callstring, unsigned int lhs, in_out io)$/;"	f
+has_unknown_size	pointsto-callstrings.h	/^  unsigned has_unknown_size : 1;$/;"	m	struct:fieldoff
+id	pointsto-callstrings.h	/^  unsigned int id;$/;"	m	struct:csvariable_info
+in_ipdfa	pointsto-callstrings.h	/^    csdfa_info in_ipdfa, out_ipdfa;$/;"	m	struct:bb_csipdfa_info_def
+in_of_bb	pointsto-callstrings.c	/^in_of_bb (basic_block bb)$/;"	f	file:
+in_out	pointsto-callstrings.h	/^typedef enum bb_in_out in_out;$/;"	t	typeref:enum:bb_in_out
+inc_linfo	pointsto-callstrings.h	/^   int inc_linfo;$/;"	m	struct:cs_dfa
+index_in_livepool	pointsto-callstrings.h	/^index_in_livepool (df_list a)$/;"	f
+index_in_maypool	pointsto-callstrings.h	/^index_in_maypool (pointsto_val a)$/;"	f
+index_in_tmppool	pointsto-callstrings.h	/^index_in_tmppool (pointsto_val a)$/;"	f
+init_info	pointsto-callstrings.c	/^init_info (void)$/;"	f	file:
+init_ipacs	pointsto-callstrings.c	/^init_ipacs (void)$/;"	f	file:
+init_live_set	pointsto-callstrings.h	/^init_live_set (int val)$/;"	f
+init_live_set_1	pointsto-callstrings.h	/^init_live_set_1 (int val)$/;"	f
+initialize_bbaux_info	pointsto-callstrings.c	/^initialize_bbaux_info (struct cgraph_node *node, basic_block bb)$/;"	f	file:
+initialize_cgraphaux_info	pointsto-callstrings.c	/^initialize_cgraphaux_info (struct cgraph_node *node, basic_block endblock, $/;"	f	file:
+initialize_fn_worklist	pointsto-callstrings.c	/^initialize_fn_worklist (void)$/;"	f	file:
+initialize_out	pointsto-callstrings.c	/^initialize_out (void)$/;"	f	file:
+inject_pointsto_info	pointsto-callstrings.c	/^inject_pointsto_info (void)$/;"	f	file:
+insert_alias_in_pool	pointsto-callstrings.c	/^insert_alias_in_pool (constraint_t t, csvarinfo_t vi)$/;"	f	file:
+insert_lipta_info_into_gcc	pointsto-callstrings.c	/^insert_lipta_info_into_gcc (gimple stmt, pointsto_val out_pval)$/;"	f	file:
+integer_id	pointsto-callstrings.h	/^enum {undef_id = 0, nothing_id = 1, integer_id = 2};$/;"	e	enum:__anon2
+is_alias	pointsto-callstrings.h	/^   bool is_alias;$/;"	m	struct:constraint_list_def
+is_full_var	pointsto-callstrings.h	/^  unsigned int is_full_var : 1;$/;"	m	struct:csvariable_info
+is_gimple_endblock	pointsto-callstrings.c	/^is_gimple_endblock (gimple t)$/;"	f	file:
+is_global_var	pointsto-callstrings.h	/^  unsigned int is_global_var : 1;$/;"	m	struct:csvariable_info
+is_heap_var	pointsto-callstrings.h	/^  unsigned int is_heap_var : 1;$/;"	m	struct:csvariable_info
+is_lv_bypass_block	pointsto-callstrings.c	/^is_lv_bypass_block (basic_block bb, bool single_succ)$/;"	f	file:
+is_pointee_list_empty	pointsto-callstrings.h	/^is_pointee_list_empty(int index)$/;"	f
+is_pointer_type	pointsto-callstrings.c	/^is_pointer_type (tree type)$/;"	f	file:
+is_pointer_var	pointsto-callstrings.c	/^is_pointer_var (tree var)$/;"	f	file:
+is_proper_var	pointsto-callstrings.c	/^is_proper_var (unsigned int varid)$/;"	f	file:
+is_pta_bypass_block	pointsto-callstrings.c	/^is_pta_bypass_block (basic_block bb)$/;"	f	file:
+is_relevant_stmt	pointsto-callstrings.c	/^is_relevant_stmt (gimple stmt)$/;"	f	file:
+is_unknown_size_var	pointsto-callstrings.h	/^  unsigned int is_unknown_size_var : 1;$/;"	m	struct:csvariable_info
+is_var_live	pointsto-callstrings.h	/^is_var_live(int lin, unsigned int var)$/;"	f
+is_var_live_bb	pointsto-callstrings.h	/^is_var_live_bb(basic_block bb, unsigned int var, in_out io)$/;"	f
+is_var_live_bb_cs	pointsto-callstrings.h	/^is_var_live_bb_cs(basic_block bb, int callstring, unsigned int var, in_out io)$/;"	f
+is_x_in_pointsto_set	pointsto-callstrings.h	/^is_x_in_pointsto_set (int in_index,vec_list list, unsigned int x)$/;"	f
+last_constraint	pointsto-callstrings.h	/^constraint_list last_constraint=NULL, fptr_constraint_list=NULL;$/;"	v
+lcsmap	pointsto-callstrings.h	/^   cs_map pcsmap, lcsmap;$/;"	m	struct:cgraph_info_def
+lcsmap_of_cnode	pointsto-callstrings.c	/^lcsmap_of_cnode (struct cgraph_node *node)$/;"	f	file:
+lcsmap_required	pointsto-callstrings.c	/^lcsmap_required (struct cgraph_node *node)$/;"	f	file:
+lcsmap_required	pointsto-callstrings.h	/^   bool lcsmap_required;$/;"	m	struct:cgraph_info_def
+lhs	pointsto-callstrings.h	/^   csdfa_info lhs;$/;"	m	struct:cs_map_def
+lhs	pointsto-callstrings.h	/^   unsigned int lhs; $/;"	m	struct:pointsto_val_def
+lhs	pointsto-callstrings.h	/^  struct constraint_expr lhs;$/;"	m	struct:constraint	typeref:struct:constraint::constraint_expr
+linfo	pointsto-callstrings.h	/^   int linfo;$/;"	m	struct:cs_dfa
+lv_bypass_block	pointsto-callstrings.c	/^lv_bypass_block (basic_block bb)$/;"	f	file:
+lv_bypass_block	pointsto-callstrings.h	/^    bool lv_bypass_block, pta_bypass_block;$/;"	m	struct:bb_csipdfa_info_def
+lv_callee_nodes_processed	pointsto-callstrings.c	/^lv_callee_nodes_processed (void)$/;"	f	file:
+lv_node	pointsto-callstrings.h	/^worklist start, lv_node, pta_node;$/;"	v
+main	test.c	/^int main()$/;"	f
+main	test10.c	/^int main() {$/;"	f
+main	test11.c	/^int main()$/;"	f
+main	test2.c	/^int main()$/;"	f
+main	test9.c	/^int main() {$/;"	f
+main_firstbb	pointsto-callstrings.h	/^basic_block cbb = NULL, main_firstbb = NULL;$/;"	v
+map_arguments_at_call	pointsto-callstrings.c	/^map_arguments_at_call (gimple stmt, tree decl, bool generate_liveness)$/;"	f	file:
+map_return_value	pointsto-callstrings.c	/^map_return_value (basic_block callerbb)$/;"	f	file:
+mark_live_at_endblock	pointsto-callstrings.c	/^mark_live_at_endblock (basic_block bb, unsigned int lhs)$/;"	f	file:
+may_have_pointers	pointsto-callstrings.h	/^  unsigned int may_have_pointers : 1;$/;"	m	struct:csvariable_info
+may_have_pointers	pointsto-callstrings.h	/^  unsigned may_have_pointers : 1;$/;"	m	struct:fieldoff
+maylist	pointsto-callstrings.h	/^{maylist,tmplist};$/;"	e	enum:vec_l
+merge_liveness_info	pointsto-callstrings.h	/^merge_liveness_info(int in1, int in2)$/;"	f
+merge_pointsto_info	pointsto-callstrings.h	/^merge_pointsto_info(int in1, int in2, vec_list list)$/;"	f
+modify_lcsmap_1	pointsto-callstrings.c	/^modify_lcsmap_1 (struct cgraph_node *node, cs_map bi, csdfa_info ai, cs_map prev_lhs)$/;"	f	file:
+modify_lcsmap_2	pointsto-callstrings.c	/^modify_lcsmap_2 (struct cgraph_node *node, cs_map bi, csdfa_info ai, cs_map prev_lhs)$/;"	f	file:
+modify_lcsmap_at_endblock	pointsto-callstrings.c	/^modify_lcsmap_at_endblock (struct cgraph_node *node, csdfa_info ai, bool is_new)$/;"	f	file:
+modify_pcsmap_1	pointsto-callstrings.c	/^modify_pcsmap_1 (struct cgraph_node *node, cs_map bi, csdfa_info ai, cs_map prev_lhs)$/;"	f	file:
+modify_pcsmap_2	pointsto-callstrings.c	/^modify_pcsmap_2 (struct cgraph_node *node, cs_map bi, csdfa_info ai, cs_map prev_lhs)$/;"	f	file:
+modify_pcsmap_at_startblock	pointsto-callstrings.c	/^modify_pcsmap_at_startblock (struct cgraph_node *node, csdfa_info ai, bool is_new)$/;"	f	file:
+multi_rhs	pointsto-callstrings.h	/^bool multi_rhs = false;$/;"	v
+must_have_pointers	pointsto-callstrings.h	/^  unsigned must_have_pointers : 1;$/;"	m	struct:fieldoff
+name	pointsto-callstrings.h	/^  const char *name;$/;"	m	struct:csvariable_info
+new_constraint	pointsto-callstrings.h	/^new_constraint (const struct constraint_expr lhs,$/;"	f
+new_constraint_list	pointsto-callstrings.c	/^new_constraint_list (df_list constraint, constraint_list *lst, bool is_alias)$/;"	f	file:
+new_constraint_list_1	pointsto-callstrings.c	/^new_constraint_list_1 (df_list constraint)$/;"	f	file:
+new_lvdf	pointsto-callstrings.h	/^   bool new_lvdf;$/;"	m	struct:cs_dfa
+new_ptadf	pointsto-callstrings.h	/^   bool new_ptadf;$/;"	m	struct:cs_dfa
+new_worklist_node	pointsto-callstrings.c	/^new_worklist_node (struct cgraph_node *node)$/;"	f	file:
+next	pointsto-callstrings.h	/^    struct pointsto_val_def *next;$/;"	m	struct:pointsto_val_def	typeref:struct:pointsto_val_def::pointsto_val_def
+next	pointsto-callstrings.h	/^   struct callstring_def *next;$/;"	m	struct:callstring_def	typeref:struct:callstring_def::callstring_def
+next	pointsto-callstrings.h	/^   struct constraint_list_def *next;$/;"	m	struct:constraint_list_def	typeref:struct:constraint_list_def::constraint_list_def
+next	pointsto-callstrings.h	/^   struct cs_dfa *next;$/;"	m	struct:cs_dfa	typeref:struct:cs_dfa::cs_dfa
+next	pointsto-callstrings.h	/^   struct cs_map_def *next;$/;"	m	struct:cs_map_def	typeref:struct:cs_map_def::cs_map_def
+next	pointsto-callstrings.h	/^   struct csmap_rhs_def *next;$/;"	m	struct:csmap_rhs_def	typeref:struct:csmap_rhs_def::csmap_rhs_def
+next	pointsto-callstrings.h	/^   struct df_container *next;$/;"	m	struct:df_container	typeref:struct:df_container::df_container
+next	pointsto-callstrings.h	/^   struct worklist_queue *next;$/;"	m	struct:worklist_queue	typeref:struct:worklist_queue::worklist_queue
+next	pointsto-callstrings.h	/^  struct csvariable_info *next;$/;"	m	struct:csvariable_info	typeref:struct:csvariable_info::csvariable_info
+next_node_from_lv_worklist	pointsto-callstrings.c	/^next_node_from_lv_worklist (worklist node)$/;"	f	file:
+next_node_from_pta_worklist	pointsto-callstrings.c	/^next_node_from_pta_worklist (worklist node)$/;"	f	file:
+normalize_rhs_val	pointsto-callstrings.c	/^normalize_rhs_val (bitmap in)$/;"	f	file:
+nothing_id	pointsto-callstrings.h	/^enum {undef_id = 0, nothing_id = 1, integer_id = 2};$/;"	e	enum:__anon2
+offset	pointsto-callstrings.h	/^  HOST_WIDE_INT offset;$/;"	m	struct:constraint_expr
+offset	pointsto-callstrings.h	/^  HOST_WIDE_INT offset;$/;"	m	struct:fieldoff
+offset	pointsto-callstrings.h	/^  unsigned HOST_WIDE_INT offset;$/;"	m	struct:csvariable_info
+only_restrict_pointers	pointsto-callstrings.h	/^  unsigned only_restrict_pointers : 1;$/;"	m	struct:fieldoff
+out_ipdfa	pointsto-callstrings.h	/^    csdfa_info in_ipdfa, out_ipdfa;$/;"	m	struct:bb_csipdfa_info_def
+out_of_bb	pointsto-callstrings.c	/^out_of_bb (basic_block bb)$/;"	f	file:
+p	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v
+p	test2.c	/^int **p;$/;"	v
+parm_decl	pointsto-callstrings.c	/^parm_decl (unsigned int varid)$/;"	f	file:
+pass_info	pointsto-callstrings.c	/^struct register_pass_info pass_info = $/;"	v	typeref:struct:register_pass_info
+pass_ipacs	pointsto-callstrings.c	/^struct simple_ipa_opt_pass pass_ipacs =$/;"	v	typeref:struct:simple_ipa_opt_pass
+pcsmap	pointsto-callstrings.h	/^   cs_map pcsmap, lcsmap;$/;"	m	struct:cgraph_info_def
+pcsmap_of_cnode	pointsto-callstrings.c	/^pcsmap_of_cnode (struct cgraph_node *node)$/;"	f	file:
+pcsmap_required	pointsto-callstrings.c	/^pcsmap_required (struct cgraph_node *node)$/;"	f	file:
+pcsmap_required	pointsto-callstrings.h	/^   bool pcsmap_required;$/;"	m	struct:cgraph_info_def
+perform_csipdfa_on_callblock	pointsto-callstrings.c	/^perform_csipdfa_on_callblock (void)$/;"	f	file:
+perform_csipdfa_on_endblock	pointsto-callstrings.c	/^perform_csipdfa_on_endblock (void)$/;"	f	file:
+perform_csipdfa_on_intrablock	pointsto-callstrings.c	/^perform_csipdfa_on_intrablock (void)$/;"	f	file:
+perform_csipdfa_on_returnblock	pointsto-callstrings.c	/^perform_csipdfa_on_returnblock (void)$/;"	f	file:
+perform_lvipdfa_on_callblock	pointsto-callstrings.c	/^perform_lvipdfa_on_callblock (bool recompute)$/;"	f	file:
+perform_lvipdfa_on_intrablock	pointsto-callstrings.c	/^perform_lvipdfa_on_intrablock (bool recompute)$/;"	f	file:
+perform_lvipdfa_on_returnblock	pointsto-callstrings.c	/^perform_lvipdfa_on_returnblock (bool recompute)$/;"	f	file:
+perform_lvipdfa_on_startblock	pointsto-callstrings.c	/^perform_lvipdfa_on_startblock (bool recompute)$/;"	f	file:
+perform_regeneration_at_endblock	pointsto-callstrings.c	/^perform_regeneration_at_endblock (basic_block sp_bb)$/;"	f	file:
+perform_regeneration_at_startblock	pointsto-callstrings.c	/^perform_regeneration_at_startblock (basic_block end_bb)$/;"	f	file:
+pinfo	pointsto-callstrings.h	/^   int pinfo;$/;"	m	struct:cs_dfa
+plugin_init	pointsto-callstrings.c	/^int plugin_init(struct plugin_name_args *plugin_info, struct plugin_gcc_version *version)$/;"	f
+plugin_is_GPL_compatible	pointsto-callstrings.c	/^int plugin_is_GPL_compatible;  $/;"	v
+pointer_with_non_empty_pointee_set	pointsto-callstrings.h	/^pointer_with_non_empty_pointee_set(int in_index,vec_list list, unsigned int varid)$/;"	f
+pointsto_val	pointsto-callstrings.h	/^DEF_VEC_P(pointsto_val);$/;"	v
+pointsto_val	pointsto-callstrings.h	/^typedef struct pointsto_val_def *pointsto_val;$/;"	t	typeref:struct:pointsto_val_def
+pointsto_val_def	pointsto-callstrings.h	/^struct pointsto_val_def$/;"	s
+pointsto_val_equal	pointsto-callstrings.h	/^pointsto_val_equal (pointsto_val a, pointsto_val b)$/;"	f
+pointsto_val_rhs	pointsto-callstrings.h	/^typedef struct pointsto_val_rhs_def *pointsto_val_rhs;$/;"	t	typeref:struct:pointsto_val_rhs_def
+possibly_deref	pointsto-callstrings.c	/^possibly_deref (gimple stmt)$/;"	f	file:
+prepend_undef_to_rhs	pointsto-callstrings.h	/^prepend_undef_to_rhs (bitmap a)$/;"	f
+preprocess_cfg	pointsto-callstrings.c	/^preprocess_cfg (void)$/;"	f	file:
+present_in_lcsmap_lhs	pointsto-callstrings.c	/^present_in_lcsmap_lhs (struct cgraph_node *node, int cs_index)$/;"	f	file:
+present_in_out	pointsto-callstrings.h	/^   bool present_in_out; $/;"	m	struct:cs_map_def
+present_in_out	pointsto-callstrings.h	/^   bool present_in_out;$/;"	m	struct:csmap_rhs_def
+prev	pointsto-callstrings.h	/^   struct constraint_list_def *prev;$/;"	m	struct:constraint_list_def	typeref:struct:constraint_list_def::constraint_list_def
+prev_node_from_lv_worklist	pointsto-callstrings.c	/^prev_node_from_lv_worklist (void)$/;"	f	file:
+prev_node_from_pta_worklist	pointsto-callstrings.c	/^prev_node_from_pta_worklist (void)$/;"	f	file:
+print_bb_linfo	pointsto-callstrings.c	/^print_bb_linfo (basic_block bb)$/;"	f	file:
+print_bb_pinfo	pointsto-callstrings.c	/^print_bb_pinfo (basic_block bb)$/;"	f	file:
+print_callstring_sequence	pointsto-callstrings.c	/^print_callstring_sequence (int cs)$/;"	f	file:
+print_df_list	pointsto-callstrings.c	/^print_df_list (int info)$/;"	f	file:
+print_final_info	pointsto-callstrings.c	/^print_final_info(void)$/;"	f	file:
+print_lcsmap_at_endblock	pointsto-callstrings.c	/^print_lcsmap_at_endblock (basic_block bb)$/;"	f	file:
+print_lcsmap_at_startblock	pointsto-callstrings.c	/^print_lcsmap_at_startblock (basic_block bb)$/;"	f	file:
+print_liveness_info	pointsto-callstrings.c	/^print_liveness_info (basic_block bb)$/;"	f	file:
+print_lv_worklist	pointsto-callstrings.c	/^print_lv_worklist (void)$/;"	f	file:
+print_pcsmap_at_endblock	pointsto-callstrings.c	/^print_pcsmap_at_endblock (basic_block bb)$/;"	f	file:
+print_pcsmap_at_startblock	pointsto-callstrings.c	/^print_pcsmap_at_startblock (basic_block bb)$/;"	f	file:
+print_pointsto_info	pointsto-callstrings.c	/^print_pointsto_info (basic_block bb)$/;"	f	file:
+print_pointsto_list	pointsto-callstrings.c	/^print_pointsto_list (int index)$/;"	f	file:
+print_pta_worklist	pointsto-callstrings.c	/^print_pta_worklist (void)$/;"	f	file:
+process_call_stmt	pointsto-callstrings.c	/^process_call_stmt (gimple stmt)$/;"	f	file:
+process_fptr_call_liveness	pointsto-callstrings.c	/^process_fptr_call_liveness (basic_block caller_bb, tree func_decl, bool recompute)$/;"	f	file:
+process_fptr_call_pointsto	pointsto-callstrings.c	/^process_fptr_call_pointsto (gimple stmt, tree func_decl)$/;"	f	file:
+process_gimple_assign_stmt	pointsto-callstrings.c	/^process_gimple_assign_stmt (gimple stmt)$/;"	f	file:
+process_gimple_cond_stmt	pointsto-callstrings.c	/^process_gimple_cond_stmt (gimple stmt)$/;"	f	file:
+process_gimple_phi_stmt	pointsto-callstrings.c	/^process_gimple_phi_stmt (gimple stmt)$/;"	f	file:
+process_library_call	pointsto-callstrings.c	/^process_library_call (gimple stmt)$/;"	f	file:
+process_lv	pointsto-callstrings.h	/^   bool process_lv;$/;"	m	struct:bb_worklist_def
+process_lv	pointsto-callstrings.h	/^   bool process_lv;$/;"	m	struct:worklist_queue
+process_phi_pointers	pointsto-callstrings.c	/^process_phi_pointers (void)$/;"	f	file:
+process_pta	pointsto-callstrings.h	/^   bool process_pta;$/;"	m	struct:bb_worklist_def
+process_pta	pointsto-callstrings.h	/^   bool process_pta;$/;"	m	struct:worklist_queue
+propagate_liveness_to_all_preds	pointsto-callstrings.c	/^propagate_liveness_to_all_preds (basic_block bb, bool recompute)$/;"	f	file:
+propagate_liveness_to_callblock	pointsto-callstrings.c	/^propagate_liveness_to_callblock (bool recompute)$/;"	f	file:
+propagate_liveness_to_endblock	pointsto-callstrings.c	/^propagate_liveness_to_endblock (struct cgraph_node *called_node,$/;"	f	file:
+propagate_pointsto_to_all_succs	pointsto-callstrings.c	/^propagate_pointsto_to_all_succs (basic_block bb)$/;"	f	file:
+propagate_pointsto_to_calledblock	pointsto-callstrings.c	/^propagate_pointsto_to_calledblock (struct cgraph_node *node, basic_block bb)$/;"	f	file:
+propagate_pointsto_to_returnblock	pointsto-callstrings.c	/^propagate_pointsto_to_returnblock (void)$/;"	f	file:
+propagate_pointsto_to_returnblock_in	pointsto-callstrings.c	/^propagate_pointsto_to_returnblock_in (basic_block retbb)$/;"	f	file:
+propagate_pointsto_to_returnblock_out	pointsto-callstrings.c	/^propagate_pointsto_to_returnblock_out (basic_block retbb)$/;"	f	file:
+pta_bypass_block	pointsto-callstrings.c	/^pta_bypass_block (basic_block bb)$/;"	f	file:
+pta_bypass_block	pointsto-callstrings.h	/^    bool lv_bypass_block, pta_bypass_block;$/;"	m	struct:bb_csipdfa_info_def
+pta_callee_nodes_processed	pointsto-callstrings.c	/^pta_callee_nodes_processed (void)$/;"	f	file:
+pta_lhs_deref_rhs_addr	pointsto-callstrings.c	/^pta_lhs_deref_rhs_addr (int index, int *gen, $/;"	f	file:
+pta_lhs_deref_rhs_deref	pointsto-callstrings.c	/^pta_lhs_deref_rhs_deref (int index, int *gen, $/;"	f	file:
+pta_lhs_deref_rhs_scalar	pointsto-callstrings.c	/^pta_lhs_deref_rhs_scalar (int index, int *gen,  $/;"	f	file:
+pta_lhs_scalar_rhs_addr	pointsto-callstrings.c	/^pta_lhs_scalar_rhs_addr (int *gen, unsigned int lhsvar, $/;"	f	file:
+pta_lhs_scalar_rhs_deref	pointsto-callstrings.c	/^pta_lhs_scalar_rhs_deref (int index, int *gen,$/;"	f	file:
+pta_lhs_scalar_rhs_scalar	pointsto-callstrings.c	/^pta_lhs_scalar_rhs_scalar (int index, int *gen, $/;"	f	file:
+pta_node	pointsto-callstrings.h	/^worklist start, lv_node, pta_node;$/;"	v
+push_fields_onto_fieldstack	pointsto-callstrings.h	/^push_fields_onto_fieldstack (tree type, VEC(fieldoff_s,heap) **fieldstack,$/;"	f
+q	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v
+recompute_liveness	pointsto-callstrings.h	/^bool recompute_liveness = false;$/;"	v
+regenerate_linfo_for_pcsmap_lhs	pointsto-callstrings.c	/^regenerate_linfo_for_pcsmap_lhs (struct cgraph_node *node)$/;"	f	file:
+regenerate_lv_at_in	pointsto-callstrings.c	/^regenerate_lv_at_in (basic_block bb, int rep_cs, csdfa_info ai)$/;"	f	file:
+regenerate_lv_at_out	pointsto-callstrings.c	/^regenerate_lv_at_out (basic_block bb, int rep_cs, csdfa_info ai)$/;"	f	file:
+regenerate_pinfo_for_lcsmap_lhs	pointsto-callstrings.c	/^regenerate_pinfo_for_lcsmap_lhs (struct cgraph_node *node)$/;"	f	file:
+regenerate_pta_at_in	pointsto-callstrings.c	/^regenerate_pta_at_in (basic_block bb, int rep_cs, csdfa_info ai)$/;"	f	file:
+regenerate_pta_at_out	pointsto-callstrings.c	/^regenerate_pta_at_out (basic_block bb, int rep_cs, csdfa_info ai)$/;"	f	file:
+remove_from_df_list	pointsto-callstrings.c	/^remove_from_df_list (unsigned int val, int *list)$/;"	f	file:
+remove_local_vars	pointsto-callstrings.c	/^remove_local_vars (int index)$/;"	f	file:
+remove_non_local_vars	pointsto-callstrings.c	/^remove_non_local_vars (int index)$/;"	f	file:
+remove_pointee	pointsto-callstrings.h	/^remove_pointee(int index,vec_list list,unsigned lhs,bitmap tmp_set)$/;"	f
+remove_pointee_set	pointsto-callstrings.h	/^remove_pointee_set(int in_index, vec_list list , unsigned int var)$/;"	f
+remove_pointee_set_bb	pointsto-callstrings.h	/^remove_pointee_set_bb (basic_block bb, unsigned int lhs, in_out io)$/;"	f
+remove_pointee_set_bb_cs	pointsto-callstrings.h	/^remove_pointee_set_bb_cs (basic_block bb, int callstring, unsigned int lhs, in_out io)$/;"	f
+remove_var_from_live_set	pointsto-callstrings.h	/^remove_var_from_live_set(int index, unsigned int var)$/;"	f
+restore_cfg	pointsto-callstrings.c	/^restore_cfg (void)$/;"	f	file:
+return_block	pointsto-callstrings.c	/^return_block (basic_block bb)$/;"	f	file:
+return_block	pointsto-callstrings.h	/^    bool call_block, return_block;$/;"	m	struct:bb_csipdfa_info_def
+rhs	pointsto-callstrings.h	/^   bitmap rhs;$/;"	m	struct:pointsto_val_def
+rhs	pointsto-callstrings.h	/^   csmap_rhs rhs;$/;"	m	struct:cs_map_def
+rhs	pointsto-callstrings.h	/^  struct constraint_expr rhs;$/;"	m	struct:constraint	typeref:struct:constraint::constraint_expr
+rhsel	pointsto-callstrings.h	/^   csdfa_info rhsel;$/;"	m	struct:csmap_rhs_def
+rp_index	pointsto-callstrings.h	/^    int rp_index;$/;"	m	struct:bb_csipdfa_info_def
+scoping_fn	pointsto-callstrings.c	/^scoping_fn (unsigned int varid)$/;"	f	file:
+scoping_function	pointsto-callstrings.h	/^  struct cgraph_node *scoping_function;$/;"	m	struct:csvariable_info	typeref:struct:csvariable_info::cgraph_node
+set_bb_to_process_lv	pointsto-callstrings.c	/^set_bb_to_process_lv (struct cgraph_node *node, basic_block bb)$/;"	f	file:
+set_bb_to_process_pta	pointsto-callstrings.c	/^set_bb_to_process_pta (struct cgraph_node *node, basic_block bb)$/;"	f	file:
+set_bitmap_for_var	pointsto-callstrings.c	/^set_bitmap_for_var (tree var, pointsto_val pval, bitmap vars, bool *pointsto_global, bool *pointsto_null, bool *pointsto_undef)$/;"	f	file:
+set_bitmap_for_var_ref	pointsto-callstrings.c	/^set_bitmap_for_var_ref (tree var, pointsto_val pval, bitmap vars, bool is_ref, bool *pointsto_global, bool *pointsto_null, bool *pointsto_undef)$/;"	f	file:
+set_in_lv_worklist	pointsto-callstrings.c	/^set_in_lv_worklist (struct cgraph_node *called_fn)$/;"	f	file:
+set_in_pta_worklist	pointsto-callstrings.c	/^set_in_pta_worklist (struct cgraph_node *called_fn)$/;"	f	file:
+set_must_pointee	pointsto-callstrings.h	/^set_must_pointee(int in_index, vec_list list, unsigned int varid, unsigned int pointee)$/;"	f
+set_rp_index	pointsto-callstrings.c	/^set_rp_index (basic_block bb, int i)$/;"	f	file:
+size	pointsto-callstrings.h	/^  unsigned HOST_WIDE_INT size;$/;"	m	struct:csvariable_info
+size	pointsto-callstrings.h	/^  unsigned HOST_WIDE_INT size;$/;"	m	struct:fieldoff
+split_bb_at_stmt	pointsto-callstrings.c	/^split_bb_at_stmt (gimple stmt)$/;"	f	file:
+start	pointsto-callstrings.h	/^worklist start, lv_node, pta_node;$/;"	v
+start_bb_of_fn	pointsto-callstrings.c	/^start_bb_of_fn (struct cgraph_node *node)$/;"	f	file:
+start_block	pointsto-callstrings.c	/^start_block (basic_block bb)$/;"	f	file:
+start_block	pointsto-callstrings.h	/^    bool start_block, end_block;$/;"	m	struct:bb_csipdfa_info_def
+stmt_constraint_chain	pointsto-callstrings.h	/^   df_list stmt_constraint_chain;$/;"	m	struct:constraint_list_def
+strip_bb_from_callstring	pointsto-callstrings.c	/^strip_bb_from_callstring (int cs, basic_block bb, bool in_ipdfa)$/;"	f	file:
+tend	pointsto-callstrings.h	/^struct timeval tstart, tend, tresult;$/;"	v	typeref:struct:
+tmplist	pointsto-callstrings.h	/^{maylist,tmplist};$/;"	e	enum:vec_l
+total_bbs	pointsto-callstrings.h	318;"	d
+tresult	pointsto-callstrings.h	/^struct timeval tstart, tend, tresult;$/;"	v	typeref:struct:
+tstart	pointsto-callstrings.h	/^struct timeval tstart, tend, tresult;$/;"	v	typeref:struct:timeval
+type	pointsto-callstrings.h	/^  constraint_expr_type type;$/;"	m	struct:constraint_expr
+type_must_have_pointers	pointsto-callstrings.h	/^type_must_have_pointers (tree type)$/;"	f
+undef_id	pointsto-callstrings.h	/^enum {undef_id = 0, nothing_id = 1, integer_id = 2};$/;"	e	enum:__anon2
+unexpandable_var	pointsto-callstrings.c	/^unexpandable_var (unsigned int var, HOST_WIDE_INT offset)$/;"	f	file:
+val	pointsto-callstrings.h	/^   unsigned int val;$/;"	m	struct:df_container
+var	pointsto-callstrings.h	/^  unsigned int var;$/;"	m	struct:constraint_expr
+var_can_have_subvars	pointsto-callstrings.h	/^var_can_have_subvars (const_tree v)$/;"	f
+var_defined_in_cfun	pointsto-callstrings.c	/^var_defined_in_cfun (unsigned int varid)$/;"	f	file:
+vec_l	pointsto-callstrings.h	/^enum vec_l$/;"	g
+vec_list	pointsto-callstrings.h	/^typedef enum vec_l vec_list;$/;"	t	typeref:enum:vec_l
+vi_for_tree	pointsto-callstrings.h	/^struct pointer_map_t *vi_for_tree;$/;"	v	typeref:struct:pointer_map_t
+worklist	pointsto-callstrings.h	/^typedef struct worklist_queue *worklist;$/;"	t	typeref:struct:worklist_queue
+worklist_of_cnode	pointsto-callstrings.c	/^worklist_of_cnode (struct cgraph_node *node)$/;"	f	file:
+worklist_queue	pointsto-callstrings.h	/^struct worklist_queue$/;"	s
+x	test10.c	/^int a, b, c, *p, *q, **x;$/;"	v

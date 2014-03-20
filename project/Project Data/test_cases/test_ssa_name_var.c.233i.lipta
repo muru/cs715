@@ -1,0 +1,198 @@
+main ()
+{
+  int d;
+  int c;
+  int b;
+  int a;
+  int * p3;
+  int * p2;
+  int * p1;
+  int D.1374;
+  int a.1;
+  int c.0;
+
+  # BLOCK 2 freq:10000
+  # PRED: ENTRY [100.0%]  (fallthru,exec)
+  c.0_3 = c;
+  if (c.0_3 != 0)
+    goto <bb 4>;
+  else
+    goto <bb 3>;
+  # SUCC: 4 [50.0%]  (true,exec) 3 [50.0%]  (false,exec)
+
+  # BLOCK 3 freq:5000
+  # PRED: 2 [50.0%]  (false,exec)
+  # SUCC: 4 [100.0%]  (fallthru,exec)
+
+  # BLOCK 4 freq:10000
+  # PRED: 2 [50.0%]  (true,exec) 3 [100.0%]  (fallthru,exec)
+  # p2_1 = PHI <&a(2), &b(3)>
+  a.1_6 = a;
+  if (a.1_6 != 0)
+    goto <bb 6>;
+  else
+    goto <bb 5>;
+  # SUCC: 6 [39.0%]  (true,exec) 5 [61.0%]  (false,exec)
+
+  # BLOCK 5 freq:6100
+  # PRED: 4 [61.0%]  (false,exec)
+  # SUCC: 6 [100.0%]  (fallthru,exec)
+
+  # BLOCK 6 freq:10000
+  # PRED: 4 [39.0%]  (true,exec) 5 [100.0%]  (fallthru,exec)
+  # p3_2 = PHI <&c(4), &d(5)>
+  p1_9 = p2_1 + 4;
+  # SUCC: 7 [100.0%]  (fallthru)
+
+  # BLOCK 7 freq:10000
+  # PRED: 6 [100.0%]  (fallthru)
+  D.1374_10 = MEM[(int *)p2_1 + 4B];
+  printf ("%d %u", D.1374_10, p1_9);
+  p1_11 = p3_2 + 4;
+  # SUCC: 8 [100.0%]  (fallthru)
+
+  # BLOCK 8 freq:10000
+  # PRED: 7 [100.0%]  (fallthru)
+  D.1374_12 = MEM[(int *)p3_2 + 4B];
+  printf ("%d %u", D.1374_12, p1_11);
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  d ={v} {CLOBBER};
+  # SUCC: 9 [100.0%]  (fallthru)
+
+  # BLOCK 9 freq:10000
+  # PRED: 8 [100.0%]  (fallthru)
+  return 0;
+  # SUCC: EXIT [100.0%] 
+
+}
+
+
+
+				liveness information for main function, basic block no 9:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				liveness information for main function, basic block no 8:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein :   p3,  p1
+
+				liveness information for main function, basic block no 7:
+
+CALLSTRING SEQUENCE : null
+liveout :   p3,  p1
+livein :   p2,  p3,  p1
+
+				liveness information for main function, basic block no 6:
+
+CALLSTRING SEQUENCE : null
+liveout :   p2,  p3,  p1
+livein :   p2
+
+				liveness information for main function, basic block no 4:
+
+CALLSTRING SEQUENCE : null
+liveout :   p2
+livein : NULL
+
+				liveness information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				pointer information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 4:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :   p2->{a,b}
+
+				pointer information for main function, basic block no 6:
+
+CALLSTRING SEQUENCE : null
+mayin :   p2->{a,b}
+mayout :   p2->{a,b}  p3->{c,d}  p1->{a,b}
+
+				pointer information for main function, basic block no 7:
+
+CALLSTRING SEQUENCE : null
+mayin :   p2->{a,b}  p3->{c,d}  p1->{a,b}
+mayout :   p2->{a,b}  p3->{c,d}  p1->{c,d}
+
+				pointer information for main function, basic block no 8:
+
+CALLSTRING SEQUENCE : null
+mayin :   p3->{c,d}  p1->{c,d}
+mayout :   p3->{c,d}  p1->{c,d}
+
+				pointer information for main function, basic block no 9:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+Merging blocks 6 and 7
+Merging blocks 8 and 9
+Merging blocks 6 and 8
+Time taken = 0 seconds,    407 microseconds
+main ()
+{
+  int d;
+  int c;
+  int b;
+  int a;
+  int * p3;
+  int * p2;
+  int * p1;
+  int D.1374;
+  int a.1;
+  int c.0;
+
+<bb 2>:
+  c.0_3 = c;
+  if (c.0_3 != 0)
+    goto <bb 4>;
+  else
+    goto <bb 3>;
+
+<bb 3>:
+
+<bb 4>:
+  # p2_1 = PHI <&a(2), &b(3)>
+  a.1_6 = a;
+  if (a.1_6 != 0)
+    goto <bb 6>;
+  else
+    goto <bb 5>;
+
+<bb 5>:
+
+<bb 6>:
+  # p3_2 = PHI <&c(4), &d(5)>
+  p1_9 = p2_1 + 4;
+----
+  D.1374_10 = MEM[(int *)p2_1 + 4B];
+  printf ("%d %u", D.1374_10, p1_9);
+  p1_11 = p3_2 + 4;
+----
+  D.1374_12 = MEM[(int *)p3_2 + 4B];
+  printf ("%d %u", D.1374_12, p1_11);
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  d ={v} {CLOBBER};
+  return 0;
+
+}
+
+

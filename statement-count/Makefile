@@ -14,7 +14,7 @@ plugin.so: plugin.cpp
 test: plugin.so test1.c test2.c test.h
 # Specifiy plugin for each file if output for each file is needed.
 # 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test.c   $(CFLAGS)
-# 	(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test2.c  $(CFLAGS)
+# 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test2.c  $(CFLAGS)
 	$(CXX) -flto -c test1.c $(CFLAGS)
 	$(CXX) -flto -c test2.c $(CFLAGS)
 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -o test test1.o  test2.o $(CFLAGS)

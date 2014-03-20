@@ -1,0 +1,20 @@
+int *fn();
+
+int main()
+{
+	int *p, a, b, c, d;
+
+	if (c)
+		p = &a;
+//	p = fn();
+
+	printf("%u %u",p, &p);
+
+//	if (d)
+//		p = &b;
+	p = fn();
+
+	printf("%u %u",p, &p);
+
+	return 0;
+}
