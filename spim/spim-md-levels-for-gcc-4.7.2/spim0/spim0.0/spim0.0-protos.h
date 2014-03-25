@@ -1,0 +1,18 @@
+void spim_asm_internal_label PARAMS((FILE *stream, const char *prefix, unsigned long labelno));
+void spim_asm_globalize_label PARAMS((FILE *stream, const char *name));
+rtx spim_struct_value_rtx PARAMS((tree fndecl, int incoming));
+int hard_regno_mode_ok  PARAMS((int REGN, enum machine_mode MODE));
+int  modes_tieable_p PARAMS((enum machine_mode MODE1, enum machine_mode MODE2));
+enum reg_class regno_reg_class PARAMS((int REGN));
+rtx function_value  PARAMS((void));
+int constant_address_p  PARAMS((rtx X));
+int legitimate_address1 PARAMS((enum machine_mode MODE,rtx X));
+int legitimate_address2 PARAMS((enum machine_mode MODE,rtx X));
+int  reg_ok_for_base_p1 PARAMS((rtx x));
+int reg_ok_for_base_p2 PARAMS((rtx x));
+int  reg_ok_for_index_p1 PARAMS((rtx x));
+int reg_ok_for_index_p2 PARAMS((rtx x));
+rtx  legitimize_address PARAMS((rtx X,rtx OLDX, enum machine_mode MODE));
+int legitimate_constant_p  PARAMS((rtx X));
+rtx gen_jump  PARAMS((rtx operand0 ATTRIBUTE_UNUSED));
+rtx gen_indirect_jump  PARAMS((rtx operand0 ATTRIBUTE_UNUSED));
