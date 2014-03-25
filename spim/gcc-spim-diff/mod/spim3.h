@@ -1,3 +1,5 @@
+#ifndef _SPIM_H_INCLUDED
+#define _SPIM_H_INCLUDED
 /* 	     Some of these macros are deprecated. They are marked by D 		 */
 /* ------------------------------------------------------------------------------*
  * 			Data Sizes, Layout and Memory                            *
@@ -239,7 +241,7 @@ HARD_FRAME_POINTER_REGNUM
 #define FRAME_POINTER_REGNUM \
 1
 
-#define FRAME_POINTER_REQUIRED \
+//#define FRAME_POINTER_REQUIRED \
 0
 
 /* This macro was defined in level 0.0. But now that we have hard frame pointer, due
@@ -257,7 +259,7 @@ DEPTH=initial_frame_pointer_offset (DEPTH)*/
 }
 
 /* This just defines predicate on the information in above macro.*/
-#define CAN_ELIMINATE(FROM, TO) \
+//#define CAN_ELIMINATE(FROM, TO) \
 ((FROM == FRAME_POINTER_REGNUM && (TO == STACK_POINTER_REGNUM || TO == HARD_FRAME_POINTER_REGNUM)) \
 || (FROM == ARG_POINTER_REGNUM && TO == STACK_POINTER_REGNUM) \
 || (FROM == HARD_FRAME_POINTER_REGNUM && TO == STACK_POINTER_REGNUM))
@@ -271,7 +273,7 @@ DEPTH=initial_frame_pointer_offset (DEPTH)*/
 
 /* Function pops none of its arguments, so it is caller's responsibility 
  * to pop off the parameters. */
-#define RETURN_POPS_ARGS(FUN, TYPE, SIZE) \
+//#define RETURN_POPS_ARGS(FUN, TYPE, SIZE) \
 0
 
 
@@ -348,7 +350,7 @@ reg_ok_for_index_p2(x)
 	
 /* This macro rewrites  instructions to ensure that  the addressing mode
  * is valid. This may require inserting move instructions. */
-#define LEGITIMIZE_ADDRESS(x,oldx,mode,win) \
+//#define LEGITIMIZE_ADDRESS(x,oldx,mode,win) \
 {\
 rtx IITB_rtx_op;\
 IITB_rtx_op=legitimize_address(x,oldx,mode);\
@@ -359,7 +361,7 @@ if(memory_address_p(mode,IITB_rtx_op))\
 }\
 }
 
-#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
+//#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
 
 /* ------------------------------------------------------------------------------*
  * 			Assembly Output Format                                   *
@@ -397,7 +399,7 @@ function_profiler(file,lab)
 #define ASM_APP_OFF                                                       \
 	"#NO_APP"
 
-extern int target_flags;
+//extern int target_flag_x = target_flags;
 
 /* Required for for producing assembly output. */
 #define REGISTER_NAMES \
@@ -459,7 +461,7 @@ do                                            \
   }                                           \
   while (0)
 
-#define INITIALIZE_TRAMPOLINE(a,b,c)\
+//#define INITIALIZE_TRAMPOLINE(a,b,c)\
 initialize_trampoline()
 
 /* This macro has been defined to eliminate call to __main function from `main'. */
@@ -467,5 +469,6 @@ initialize_trampoline()
 
 #define TRAMPOLINE_SIZE 32 
 
+void print_operand_address(FILE *,rtx );
 
-
+#endif

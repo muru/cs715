@@ -4,7 +4,7 @@
 #include "tm.h" 
 #include "rtl.h"
 #include "tree.h"
-#include "tm_p.h"
+//#include "tm_p.h"
 #include "regs.h"
 #include "hard-reg-set.h"
 #include "real.h"
@@ -26,13 +26,21 @@
 #include "target-def.h"
 #include "langhooks.h"
 #include "cgraph.h"
+#include "dbxout.h"
+#include "df.h"
 
 #define IITB_YES 1
 #define IITB_NO 0
 #define return_addr_rtx gen_rtx_REG(SImode,31)
 
-extern rtx compare_op0;
-extern rtx compare_op1;
+rtx compare_op0;
+rtx compare_op1;
+
+int is_caller_saved_reg(int REGN);
+int is_callee_saved_reg(int REGN);
+int is_arg_reg(int REGN);
+int is_return_val_reg(int REGN);
+
 
 int
 is_index_reg(int REGN)
@@ -132,19 +140,21 @@ spim_asm_internal_label
 #undef TARGET_FUNCTION_ARG_ADVANCE
 #define TARGET_FUNCTION_ARG_ADVANCE spim_function_arg_advance
 
-static void spim_function_arg_advance(cumulative_args_t *cum_v, enum machine_mode mode,
+static void spim_function_arg_advance(cumulative_args_t cum_v, enum machine_mode mode,
 	const_tree type, bool named){
-	cum_v++;
+//  CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
+//	cum += 1;
+	//cum_v.p++;
 }
 
-static int spim_function_arg(cumulative_args_t cum_v, enum machine_mode mode,
+rtx_def* spim_function_arg(cumulative_args_t cum_v, enum machine_mode mode,
 	const_tree type, bool named){
 	return NULL;
 }
 
 
 void
-spim_asm_internal_label(FILE *stream, const char *prefix, unsigned int labelno)
+spim_asm_internal_label(FILE *stream, const char *prefix, long unsigned int labelno)
 {
 	fprintf(stream,"%s%d:",prefix,labelno);
 	return;
@@ -584,12 +594,12 @@ print_operand_address(FILE *STREAM,rtx X)
 }
 
 void
-asm_generate_internal_label(char *STRING,char *PREFIX,int NUM)
+asm_generate_internal_label(char *STRING,const char *PREFIX,int NUM)
 {
         sprintf(STRING,"%s%d", PREFIX,NUM);
 }
 void
-asm_output_local(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
+asm_output_local(FILE *STREAM,const char *NAME,int SIZE,int ROUNDED)
 {
         fprintf(STREAM,"\t.reserve ");
         assemble_name (STREAM, NAME);
@@ -597,7 +607,7 @@ asm_output_local(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
 }
 
 void
-asm_output_common(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
+asm_output_common(FILE *STREAM,const char *NAME,int SIZE,int ROUNDED)
 {
 	int i;
 	fprintf(STREAM, "\t.data\n_");
@@ -668,19 +678,19 @@ spim_prologue(void)
         
 
 	
-	emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-4)),return_addr_rtx);
-        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-8)),hard_frame_pointer_rtx);
-        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-12)),stack_pointer_rtx);
-	emit_move_insn(hard_frame_pointer_rtx, plus_constant(stack_pointer_rtx,0));
+	emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-4)),return_addr_rtx);
+        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-8)),hard_frame_pointer_rtx);
+        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-12)),stack_pointer_rtx);
+	emit_move_insn(hard_frame_pointer_rtx, plus_constant(SImode, stack_pointer_rtx,0));
         for(i=0,j=3;i<FIRST_PSEUDO_REGISTER;i++)
         {
                 if(df_regs_ever_live_p(i) && !call_used_regs[i] && !fixed_regs[i])
                 {
-                        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(hard_frame_pointer_rtx,-4*j)), gen_rtx_REG(SImode,i));
+                        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, hard_frame_pointer_rtx,-4*j)), gen_rtx_REG(SImode,i));
                         j++;
                 }
         }
-        emit_move_insn(stack_pointer_rtx, plus_constant(hard_frame_pointer_rtx,-((3+j)*4+get_frame_size())));
+        emit_move_insn(stack_pointer_rtx, plus_constant(SImode, hard_frame_pointer_rtx,-((3+j)*4+get_frame_size())));
 }
 
 void
@@ -692,16 +702,16 @@ spim_epilogue(void)
         {
                 if(df_regs_ever_live_p(i) && !call_used_regs[i] && !fixed_regs[i])
                 {
-                        emit_move_insn(gen_rtx_REG(SImode,i), gen_rtx_MEM(SImode,plus_constant(hard_frame_pointer_rtx,-4*j)));
+                        emit_move_insn(gen_rtx_REG(SImode,i), gen_rtx_MEM(SImode,plus_constant(SImode, hard_frame_pointer_rtx,-4*j)));
                         j++;
                 }
         }
 	/*Restore stack pointer*/
-	emit_move_insn(stack_pointer_rtx, plus_constant(hard_frame_pointer_rtx,0));
+	emit_move_insn(stack_pointer_rtx, plus_constant(SImode, hard_frame_pointer_rtx,0));
 	/*Restore frame pointer*/
-	emit_move_insn(hard_frame_pointer_rtx, gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-8)));
+	emit_move_insn(hard_frame_pointer_rtx, gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-8)));
 	/*Restore return address*/
-	emit_move_insn(return_addr_rtx, gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,0)));
+	emit_move_insn(return_addr_rtx, gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,0)));
 	/*Jump instruction*/
 	emit_jump_insn(gen_IITB_return());
 }
@@ -771,4 +781,6 @@ conditional_insn(enum rtx_code code,rtx operands[], int isRev)
 
 struct gcc_target targetm = TARGET_INITIALIZER;
 
-
+/*rtx gen_nop ()
+{
+}*/

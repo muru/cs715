@@ -1,3 +1,5 @@
+#include "target.h"
+#include "ipa-inline.h"
 int is_index_reg PARAMS((int REGN));
 int  is_base_reg PARAMS((int REGN));
 int is_arg_reg PARAMS((int REGN));
@@ -7,7 +9,7 @@ int non_strict_base_reg PARAMS((int regn));
 int is_caller_saved_reg PARAMS((int REGN));
 int is_callee_saved_reg PARAMS((int REGN));
 int is_general_reg PARAMS((int REGN));
-void spim_asm_internal_label PARAMS((FILE *stream, const char *prefix, unsigned int labelno));
+void spim_asm_internal_label PARAMS((FILE *stream, const char *prefix, long unsigned int labelno));
 void spim_asm_globalize_label PARAMS((FILE *stream, const char *name));
 rtx spim_struct_value_rtx PARAMS((tree fndecl, int incoming));
 int hard_regno_mode_ok  PARAMS((int REGN, enum machine_mode MODE));
@@ -35,9 +37,9 @@ void asm_output_align PARAMS((FILE *STREAM, int POWER));
 void asm_output_skip PARAMS((FILE  *STREAM,int NBYTES));
 void print_operand PARAMS((FILE *STREAM,rtx X,char CODE));
 void print_operand_address PARAMS((FILE *STREAM,rtx X));
-void asm_generate_internal_label PARAMS((char *STRING,char *PREFIX,int NUM));
-void asm_output_local PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
-void asm_output_common PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
+void asm_generate_internal_label PARAMS((char *STRING,const char *PREFIX,int NUM));
+void asm_output_local PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
+void asm_output_common PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
 int asm_output_symbol_ref PARAMS((FILE *stream, rtx sym));
 void function_profiler PARAMS((FILE*asm_file,int labelno));
 void initialize_trampoline PARAMS((void));
@@ -47,3 +49,5 @@ int zero_register_operand  PARAMS((rtx op, enum machine_mode mode));
 void spim_prologue PARAMS((void));
 void spim_epilogue PARAMS((void));
 char* emit_asm_call PARAMS((rtx operands[],int type));
+
+rtx gen_nop();

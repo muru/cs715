@@ -349,3 +349,9 @@
 		return emit_asm_call(operands,1);
         "
 )
+
+(define_insn "nop"
+	[(const_int 0)]
+	""
+	"nop"
+)

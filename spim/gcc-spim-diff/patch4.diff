@@ -1,0 +1,221 @@
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
+--- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-25 11:32:26.811438602 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-25 12:25:11.093745324 +0530
+@@ -4,7 +4,7 @@
+ #include "tm.h" 
+ #include "rtl.h"
+ #include "tree.h"
+-#include "tm_p.h"
++//#include "tm_p.h"
+ #include "regs.h"
+ #include "hard-reg-set.h"
+ #include "real.h"
+@@ -26,13 +26,21 @@
+ #include "target-def.h"
+ #include "langhooks.h"
+ #include "cgraph.h"
++#include "dbxout.h"
++#include "df.h"
+ 
+ #define IITB_YES 1
+ #define IITB_NO 0
+ #define return_addr_rtx gen_rtx_REG(SImode,31)
+ 
+-extern rtx compare_op0;
+-extern rtx compare_op1;
++rtx compare_op0;
++rtx compare_op1;
++
++int is_caller_saved_reg(int REGN);
++int is_callee_saved_reg(int REGN);
++int is_arg_reg(int REGN);
++int is_return_val_reg(int REGN);
++
+ 
+ int
+ is_index_reg(int REGN)
+@@ -132,19 +140,21 @@
+ #undef TARGET_FUNCTION_ARG_ADVANCE
+ #define TARGET_FUNCTION_ARG_ADVANCE spim_function_arg_advance
+ 
+-static void spim_function_arg_advance(cumulative_args_t *cum_v, enum machine_mode mode,
++static void spim_function_arg_advance(cumulative_args_t cum_v, enum machine_mode mode,
+ 	const_tree type, bool named){
+-	cum_v++;
++//  CUMULATIVE_ARGS *cum = get_cumulative_args (cum_v);
++//	cum += 1;
++	//cum_v.p++;
+ }
+ 
+-static int spim_function_arg(cumulative_args_t cum_v, enum machine_mode mode,
++rtx_def* spim_function_arg(cumulative_args_t cum_v, enum machine_mode mode,
+ 	const_tree type, bool named){
+ 	return NULL;
+ }
+ 
+ 
+ void
+-spim_asm_internal_label(FILE *stream, const char *prefix, unsigned int labelno)
++spim_asm_internal_label(FILE *stream, const char *prefix, long unsigned int labelno)
+ {
+ 	fprintf(stream,"%s%d:",prefix,labelno);
+ 	return;
+@@ -584,12 +594,12 @@
+ }
+ 
+ void
+-asm_generate_internal_label(char *STRING,char *PREFIX,int NUM)
++asm_generate_internal_label(char *STRING,const char *PREFIX,int NUM)
+ {
+         sprintf(STRING,"%s%d", PREFIX,NUM);
+ }
+ void
+-asm_output_local(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
++asm_output_local(FILE *STREAM,const char *NAME,int SIZE,int ROUNDED)
+ {
+         fprintf(STREAM,"\t.reserve ");
+         assemble_name (STREAM, NAME);
+@@ -597,7 +607,7 @@
+ }
+ 
+ void
+-asm_output_common(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
++asm_output_common(FILE *STREAM,const char *NAME,int SIZE,int ROUNDED)
+ {
+ 	int i;
+ 	fprintf(STREAM, "\t.data\n_");
+@@ -668,19 +678,19 @@
+         
+ 
+ 	
+-	emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-4)),return_addr_rtx);
+-        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-8)),hard_frame_pointer_rtx);
+-        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-12)),stack_pointer_rtx);
+-	emit_move_insn(hard_frame_pointer_rtx, plus_constant(stack_pointer_rtx,0));
++	emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-4)),return_addr_rtx);
++        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-8)),hard_frame_pointer_rtx);
++        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-12)),stack_pointer_rtx);
++	emit_move_insn(hard_frame_pointer_rtx, plus_constant(SImode, stack_pointer_rtx,0));
+         for(i=0,j=3;i<FIRST_PSEUDO_REGISTER;i++)
+         {
+                 if(df_regs_ever_live_p(i) && !call_used_regs[i] && !fixed_regs[i])
+                 {
+-                        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(hard_frame_pointer_rtx,-4*j)), gen_rtx_REG(SImode,i));
++                        emit_move_insn(gen_rtx_MEM(SImode,plus_constant(SImode, hard_frame_pointer_rtx,-4*j)), gen_rtx_REG(SImode,i));
+                         j++;
+                 }
+         }
+-        emit_move_insn(stack_pointer_rtx, plus_constant(hard_frame_pointer_rtx,-((3+j)*4+get_frame_size())));
++        emit_move_insn(stack_pointer_rtx, plus_constant(SImode, hard_frame_pointer_rtx,-((3+j)*4+get_frame_size())));
+ }
+ 
+ void
+@@ -692,16 +702,16 @@
+         {
+                 if(df_regs_ever_live_p(i) && !call_used_regs[i] && !fixed_regs[i])
+                 {
+-                        emit_move_insn(gen_rtx_REG(SImode,i), gen_rtx_MEM(SImode,plus_constant(hard_frame_pointer_rtx,-4*j)));
++                        emit_move_insn(gen_rtx_REG(SImode,i), gen_rtx_MEM(SImode,plus_constant(SImode, hard_frame_pointer_rtx,-4*j)));
+                         j++;
+                 }
+         }
+ 	/*Restore stack pointer*/
+-	emit_move_insn(stack_pointer_rtx, plus_constant(hard_frame_pointer_rtx,0));
++	emit_move_insn(stack_pointer_rtx, plus_constant(SImode, hard_frame_pointer_rtx,0));
+ 	/*Restore frame pointer*/
+-	emit_move_insn(hard_frame_pointer_rtx, gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,-8)));
++	emit_move_insn(hard_frame_pointer_rtx, gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,-8)));
+ 	/*Restore return address*/
+-	emit_move_insn(return_addr_rtx, gen_rtx_MEM(SImode,plus_constant(stack_pointer_rtx,0)));
++	emit_move_insn(return_addr_rtx, gen_rtx_MEM(SImode,plus_constant(SImode, stack_pointer_rtx,0)));
+ 	/*Jump instruction*/
+ 	emit_jump_insn(gen_IITB_return());
+ }
+@@ -771,4 +781,6 @@
+ 
+ struct gcc_target targetm = TARGET_INITIALIZER;
+ 
+-
++/*rtx gen_nop ()
++{
++}*/
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
+--- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-25 11:32:26.814771767 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-25 12:25:04.860730017 +0530
+@@ -1,3 +1,5 @@
++#ifndef _SPIM_H_INCLUDED
++#define _SPIM_H_INCLUDED
+ /* 	     Some of these macros are deprecated. They are marked by D 		 */
+ /* ------------------------------------------------------------------------------*
+  * 			Data Sizes, Layout and Memory                            *
+@@ -335,7 +337,7 @@
+ reg_ok_for_index_p2(x) 
+ #endif
+ 	
+-#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
++//#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
+ 
+ /* ------------------------------------------------------------------------------*
+  * 			Assembly Output Format                                   *
+@@ -433,13 +435,14 @@
+   }                                           \
+   while (0)
+ 
+-rtx compare_op0;
+-rtx compare_op1;
++extern rtx compare_op0;
++extern rtx compare_op1;
+ 
+ /* This macro has been defined to eliminate call to __main function from `main'. */
+ #define HAS_INIT_SECTION
+ 
+ #define TRAMPOLINE_SIZE 32 
+ 
++void print_operand_address(FILE *,rtx );
+ 
+-
++#endif
+diff -u -r gcc-spim-diff/gcc/config/spim/spim-protos.h gcc-4.8.2/gcc/config/spim/spim-protos.h
+--- gcc-spim-diff/gcc/config/spim/spim-protos.h	2014-03-25 11:32:26.821438094 +0530
++++ gcc-4.8.2/gcc/config/spim/spim-protos.h	2014-03-25 12:14:26.813322965 +0530
+@@ -1,3 +1,5 @@
++#include "target.h"
++#include "ipa-inline.h"
+ int is_index_reg PARAMS((int REGN));
+ int  is_base_reg PARAMS((int REGN));
+ int is_arg_reg PARAMS((int REGN));
+@@ -7,7 +9,7 @@
+ int is_caller_saved_reg PARAMS((int REGN));
+ int is_callee_saved_reg PARAMS((int REGN));
+ int is_general_reg PARAMS((int REGN));
+-void spim_asm_internal_label PARAMS((FILE *stream, const char *prefix, unsigned int labelno));
++void spim_asm_internal_label PARAMS((FILE *stream, const char *prefix, long unsigned int labelno));
+ void spim_asm_globalize_label PARAMS((FILE *stream, const char *name));
+ rtx spim_struct_value_rtx PARAMS((tree fndecl, int incoming));
+ int hard_regno_mode_ok  PARAMS((int REGN, enum machine_mode MODE));
+@@ -35,9 +37,9 @@
+ void asm_output_skip PARAMS((FILE  *STREAM,int NBYTES));
+ void print_operand PARAMS((FILE *STREAM,rtx X,char CODE));
+ void print_operand_address PARAMS((FILE *STREAM,rtx X));
+-void asm_generate_internal_label PARAMS((char *STRING,char *PREFIX,int NUM));
+-void asm_output_local PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
+-void asm_output_common PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
++void asm_generate_internal_label PARAMS((char *STRING,const char *PREFIX,int NUM));
++void asm_output_local PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
++void asm_output_common PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
+ int asm_output_symbol_ref PARAMS((FILE *stream, rtx sym));
+ void function_profiler PARAMS((FILE*asm_file,int labelno));
+ void initialize_trampoline PARAMS((void));
+@@ -47,6 +49,9 @@
+ void spim_prologue PARAMS((void));
+ void spim_epilogue PARAMS((void));
+ char* emit_asm_call PARAMS((rtx operands[],int type));
+-char* conditional_insn PARAMS((enum rtx_code code,rtx operands[], int isRev));
+ extern rtx compare_op0;
+-extern rtx compare_op1;
+\ No newline at end of file
++extern rtx compare_op1;
++
++#ifdef RTX_CODE
++char* conditional_insn(enum rtx_code code,rtx operands[], int isRev);
++#endif

@@ -1,3 +1,5 @@
+#ifndef _SPIM_H_INCLUDED
+#define _SPIM_H_INCLUDED
 /* 	     Some of these macros are deprecated. They are marked by D 		 */
 /* ------------------------------------------------------------------------------*
  * 			Data Sizes, Layout and Memory                            *
@@ -335,7 +337,7 @@ reg_ok_for_index_p1(x)
 reg_ok_for_index_p2(x) 
 #endif
 	
-#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
+//#define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
 
 /* ------------------------------------------------------------------------------*
  * 			Assembly Output Format                                   *
@@ -433,13 +435,14 @@ do                                            \
   }                                           \
   while (0)
 
-rtx compare_op0;
-rtx compare_op1;
+extern rtx compare_op0;
+extern rtx compare_op1;
 
 /* This macro has been defined to eliminate call to __main function from `main'. */
 #define HAS_INIT_SECTION
 
 #define TRAMPOLINE_SIZE 32 
 
+void print_operand_address(FILE *,rtx );
 
-
+#endif
