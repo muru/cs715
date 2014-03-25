@@ -1,0 +1,97 @@
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
+--- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-24 04:37:39.372315558 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-24 11:09:29.887040695 +0530
+@@ -22,6 +22,7 @@
+ #include "toplev.h"
+ #include "basic-block.h"//
+ #include "ggc.h"
++#include "dbxout.h"
+ #include "target.h"
+ #include "target-def.h"
+ #include "langhooks.h"
+@@ -206,19 +207,19 @@
+ }
+ 
+ void
+-asm_output_local(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
++asm_output_local(FILE *STREAM,const char *NAME,int SIZE,int ROUNDED)
+ {
+ 	return ;
+ }
+ 
+ void
+-asm_output_common(FILE *STREAM,char *NAME,int SIZE,int ROUNDED)
++asm_output_common(FILE *STREAM, const char *NAME,int SIZE,int ROUNDED)
+ {
+ 	return ;
+ }
+ 
+ void
+-asm_generate_internal_label(char *STRING,char *PREFIX,int NUM)
++asm_generate_internal_label(const char *STRING,const char *PREFIX,int NUM)
+ {
+ 	return ;
+ }
+Only in gcc-4.8.2/gcc/config/spim/: spim.c.orig
+Only in gcc-4.8.2/gcc/config/spim/: spim.c.rej
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
+--- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-24 04:37:39.380315193 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-24 04:39:21.259672226 +0530
+@@ -208,8 +208,10 @@
+ 
+ /* Currently, arguments  are passed  on stack. Irrelevant  because there
+  * are no function calls in this level. */
++#ifdef _M_USE_POISONED
+ #define FUNCTION_ARG(CUM, MODE, TYPE, NAMED) \
+ 0
++#endif
+ 
+ #define FUNCTION_ARG_REGNO_P(r) /* Irrelevant in this level */ \
+ 0
+@@ -225,8 +227,10 @@
+ CUM = 0;\
+ }
+ 
++#ifdef _M_USE_POISONED
+ #define FUNCTION_ARG_ADVANCE(cum, mode, type, named) \
+ cum++
++#endif
+ 
+ #define FUNCTION_VALUE(valtype, func)\
+ function_value()
+@@ -285,7 +289,9 @@
+ #endif
+ 
+ 
++#ifdef _M_USE_POISONED
+ #define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
++#endif
+ 
+ /* ------------------------------------------------------------------------------*
+  * 			Assembly Output Format                                   *
+@@ -384,7 +390,9 @@
+ 
+ #define TRAMPOLINE_SIZE 32 
+ 
++#ifdef _M_USE_POISONED
+ #define LEGITIMATE_CONSTANT_P(x) \
+ legitimate_constant_p(x)
++#endif
+ 
+ 
+Only in gcc-4.8.2/gcc/config/spim/: spim.h.orig
+diff -u -r gcc-spim-diff/gcc/config/spim/spim-protos.h gcc-4.8.2/gcc/config/spim/spim-protos.h
+--- gcc-spim-diff/gcc/config/spim/spim-protos.h	2014-03-24 04:37:39.392314647 +0530
++++ gcc-4.8.2/gcc/config/spim/spim-protos.h	2014-03-24 10:50:47.395302857 +0530
+@@ -19,8 +19,8 @@
+ void print_operand_address PARAMS((FILE *STREAM,rtx X));
+ void asm_output_align PARAMS((FILE *STREAM, int POWER));
+ void asm_output_skip PARAMS((FILE  *STREAM,int NBYTES));
+-void asm_output_local PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
+-void asm_output_common PARAMS((FILE *STREAM,char *NAME,int SIZE,int ROUNDED));
+-void asm_generate_internal_label PARAMS((char *STRING,char *PREFIX,int NUM));
++void asm_output_local PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
++void asm_output_common PARAMS((FILE *STREAM,const char *NAME,int SIZE,int ROUNDED));
++void asm_generate_internal_label PARAMS((const char *STRING,const char *PREFIX,int NUM));
+ void function_profiler PARAMS((FILE*asm_file,int labelno));
+ void initialize_trampoline PARAMS((void));

@@ -1,0 +1,67 @@
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
+--- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-22 03:11:04.457350294 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-23 03:50:28.628280607 +0530
+@@ -64,16 +64,14 @@
+ #include "debug.h"
+ #include "target.h"
+ #include "target-def.h"
+-//#include "integrate.h"
++#include "integrate.h"
+ #include "langhooks.h"
+-//#include "cfglayout.h"
++#include "cfglayout.h"
+ #include "sched-int.h"
+ #include "gimple.h"
+ #include "bitmap.h"
+ #include "diagnostic.h"
+ 
+-#include "dbxout.h"
+-
+ #define IITB_YES 1
+ #define IITB_NO 0
+ 
+diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
+--- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-22 02:37:58.400941780 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-23 03:50:28.628280607 +0530
+@@ -208,10 +208,8 @@
+ 
+ /* Currently, arguments  are passed  on stack. Irrelevant  because there
+  * are no function calls in this level. */
+-#ifdef _M_USE_POISONED
+ #define FUNCTION_ARG(CUM, MODE, TYPE, NAMED) \
+ 0
+-#endif
+ 
+ #define FUNCTION_ARG_REGNO_P(r) /* Irrelevant in this level */ \
+ 0
+@@ -227,10 +225,8 @@
+ CUM = 0;\
+ }
+ 
+-#ifdef _M_USE_POISONED
+ #define FUNCTION_ARG_ADVANCE(cum, mode, type, named) \
+ cum++
+-#endif
+ 
+ #define FUNCTION_VALUE(valtype, func)\
+ function_value()
+@@ -290,9 +286,7 @@
+ 	
+ 
+ 
+-#ifdef _M_USE_POISONED
+ #define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
+-#endif
+ 
+ /* ------------------------------------------------------------------------------*
+  * 			Assembly Output Format                                   *
+@@ -385,9 +379,7 @@
+ 
+ #define TRAMPOLINE_SIZE 32 
+ 
+-#ifdef _M_USE_POISONED
+ #define LEGITIMATE_CONSTANT_P(x) \
+ legitimate_constant_p(x)
+-#endif
+ 
+ 
