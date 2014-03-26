@@ -2,8 +2,9 @@
 2. default_stabs_asm_out_destructor is declared in dbxout.h
 
 
-optab_table: array of entries.
-each entry: | struct optab | ... |
+// optab_table: array of entries.
+// each entry: | struct optab | ... |
 
 spim2
-gencondmd: GCC_VERSION -> GCC_VERSIONN to disable array creation and loop of insns_condtion.
+//gencondmd: GCC_VERSION -> GCC_VERSIONN to disable array creation and loop of insns_condtion.
+Uncommment first insn in spim2.md (which exists to prevent empty arrays)

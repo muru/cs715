@@ -381,7 +381,7 @@ do                                            \
  * existence of a jump instruction  and checks for existence of indirect
  * jump.  Since this  is  irrlevant  in this  level,  we  fool GCC  into
  * believing that such an instruction exists. */
-#define CODE_FOR_indirect_jump 8
+#define CODE_FOR_indirect_jump ((insn_code)8)
 
 #define TRAMPOLINE_SIZE 32 
 

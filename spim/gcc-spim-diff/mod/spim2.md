@@ -2,11 +2,11 @@
 ;; arrays are generated in source files of the generated compiler in the
 ;; initial levels..
 
-;;(define_insn "dummy_pattern"
-;;        [(reg:SI 0)]
-;;        "1"
-;;        "This stmnt should not be emitted!"
-;;)
+(define_insn "dummy_pattern"
+        [(reg:SI 0)]
+        "1"
+        "This stmnt should not be emitted!"
+)
 
 ;; Functions in genemit.c read .md file for desired target and generates
 ;; gen_<insn-name> function  for each standard named  pattern defined in

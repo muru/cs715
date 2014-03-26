@@ -1,67 +1,72 @@
 diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
---- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-22 03:11:04.457350294 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-23 03:50:28.628280607 +0530
-@@ -64,16 +64,14 @@
+--- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-26 06:14:38.594685646 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-26 05:34:17.762463292 +0530
+@@ -64,14 +64,16 @@
  #include "debug.h"
  #include "target.h"
  #include "target-def.h"
--//#include "integrate.h"
-+#include "integrate.h"
+-#include "integrate.h"
++//#include "integrate.h"
  #include "langhooks.h"
--//#include "cfglayout.h"
-+#include "cfglayout.h"
+-#include "cfglayout.h"
++//#include "cfglayout.h"
  #include "sched-int.h"
  #include "gimple.h"
  #include "bitmap.h"
  #include "diagnostic.h"
  
--#include "dbxout.h"
--
++#include "dbxout.h"
++
  #define IITB_YES 1
  #define IITB_NO 0
  
 diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
---- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-22 02:37:58.400941780 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-23 03:50:28.628280607 +0530
-@@ -208,10 +208,8 @@
+--- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-26 06:14:42.431166290 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-26 06:05:55.470044630 +0530
+@@ -208,8 +208,10 @@
  
  /* Currently, arguments  are passed  on stack. Irrelevant  because there
   * are no function calls in this level. */
--#ifdef _M_USE_POISONED
++#ifdef _M_USE_POISONED
  #define FUNCTION_ARG(CUM, MODE, TYPE, NAMED) \
  0
--#endif
++#endif
  
  #define FUNCTION_ARG_REGNO_P(r) /* Irrelevant in this level */ \
  0
-@@ -227,10 +225,8 @@
+@@ -225,8 +227,10 @@
  CUM = 0;\
  }
  
--#ifdef _M_USE_POISONED
++#ifdef _M_USE_POISONED
  #define FUNCTION_ARG_ADVANCE(cum, mode, type, named) \
  cum++
--#endif
++#endif
  
  #define FUNCTION_VALUE(valtype, func)\
  function_value()
-@@ -290,9 +286,7 @@
+@@ -286,7 +290,9 @@
  	
  
  
--#ifdef _M_USE_POISONED
++#ifdef _M_USE_POISONED
  #define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
--#endif
++#endif
  
  /* ------------------------------------------------------------------------------*
   * 			Assembly Output Format                                   *
-@@ -385,9 +379,7 @@
+@@ -375,11 +381,13 @@
+  * existence of a jump instruction  and checks for existence of indirect
+  * jump.  Since this  is  irrlevant  in this  level,  we  fool GCC  into
+  * believing that such an instruction exists. */
+-#define CODE_FOR_indirect_jump 8
++#define CODE_FOR_indirect_jump ((insn_code)8)
  
  #define TRAMPOLINE_SIZE 32 
  
--#ifdef _M_USE_POISONED
++#ifdef _M_USE_POISONED
  #define LEGITIMATE_CONSTANT_P(x) \
  legitimate_constant_p(x)
--#endif
++#endif
  
  
