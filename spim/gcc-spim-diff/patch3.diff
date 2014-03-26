@@ -1,6 +1,6 @@
 diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
---- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-25 12:34:23.928902710 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-25 12:35:30.492180307 +0530
+--- gcc-spim-diff/gcc/config/spim/spim.c	2014-03-26 09:18:57.739481395 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.c	2014-03-26 09:15:34.978723859 +0530
 @@ -4,7 +4,7 @@
  #include "tm.h" 
  #include "rtl.h"
@@ -147,8 +147,8 @@ diff -u -r gcc-spim-diff/gcc/config/spim/spim.c gcc-4.8.2/gcc/config/spim/spim.c
 +{
 +}*/
 diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
---- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-25 12:34:23.928902710 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-25 12:35:30.492180307 +0530
+--- gcc-spim-diff/gcc/config/spim/spim.h	2014-03-26 09:18:57.739481395 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.h	2014-03-26 09:15:34.982057040 +0530
 @@ -1,3 +1,5 @@
 +#ifndef _SPIM_H_INCLUDED
 +#define _SPIM_H_INCLUDED
@@ -227,8 +227,8 @@ diff -u -r gcc-spim-diff/gcc/config/spim/spim.h gcc-4.8.2/gcc/config/spim/spim.h
 -
 +#endif
 diff -u -r gcc-spim-diff/gcc/config/spim/spim.md gcc-4.8.2/gcc/config/spim/spim.md
---- gcc-spim-diff/gcc/config/spim/spim.md	2014-03-25 12:34:23.932235874 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim.md	2014-03-25 12:35:30.492180307 +0530
+--- gcc-spim-diff/gcc/config/spim/spim.md	2014-03-26 09:18:57.726148670 +0530
++++ gcc-4.8.2/gcc/config/spim/spim.md	2014-03-26 09:15:34.982057040 +0530
 @@ -349,3 +349,9 @@
  		return emit_asm_call(operands,1);
          "
@@ -240,11 +240,11 @@ diff -u -r gcc-spim-diff/gcc/config/spim/spim.md gcc-4.8.2/gcc/config/spim/spim.
 +	"nop"
 +)
 diff -u -r gcc-spim-diff/gcc/config/spim/spim-protos.h gcc-4.8.2/gcc/config/spim/spim-protos.h
---- gcc-spim-diff/gcc/config/spim/spim-protos.h	2014-03-25 12:34:23.935569037 +0530
-+++ gcc-4.8.2/gcc/config/spim/spim-protos.h	2014-03-25 12:35:30.492180307 +0530
+--- gcc-spim-diff/gcc/config/spim/spim-protos.h	2014-03-26 09:18:57.726148670 +0530
++++ gcc-4.8.2/gcc/config/spim/spim-protos.h	2014-03-26 09:19:43.954041839 +0530
 @@ -1,3 +1,5 @@
 +#include "target.h"
-+#include "ipa-inline.h"
++//#include "ipa-inline.h"
  int is_index_reg PARAMS((int REGN));
  int  is_base_reg PARAMS((int REGN));
  int is_arg_reg PARAMS((int REGN));

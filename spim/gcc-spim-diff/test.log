@@ -1,0 +1,572 @@
+########################### Spim v0.0 ##########################
+########################### Spim v0.0 ##########################
+########################### Spim v0.0 ##########################
+########################### Spim v0.0 ##########################
+########################### Spim v0.0 ##########################
+########################### Spim v0.0 ##########################
+########################### Spim v0.1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                980 kB
+########################### Spim v0.1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                979 kB
+########################### Spim v0.1 ##########################
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_1.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_1.c:4:1: internal compiler error: Segmentation fault
+ {
+ ^
+0x77d8df crash_signal
+	/home/bro3886/devel/gcc-4.8.2/gcc/toplev.c:332
+0x5f7773 hard_function_value(tree_node const*, tree_node const*, tree_node const*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:1859
+0x64743c aggregate_value_p(tree_node const*, tree_node const*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:2042
+0x648c8f allocate_struct_function(tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:4516
+0x4cda7b store_parm_decls()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-decl.c:8307
+0x4f64c4 c_parser_declaration_or_fndef
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1753
+0x4fa8bb c_parser_external_declaration
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1361
+0x4fb32e c_parser_translation_unit
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1249
+0x4fb32e c_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:10880
+0x52fb14 c_common_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c-family/c-opts.c:1046
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.1 ##########################
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c:2:1: internal compiler error: Segmentation fault
+ {
+ ^
+0x77d8df crash_signal
+	/home/bro3886/devel/gcc-4.8.2/gcc/toplev.c:332
+0x5f7773 hard_function_value(tree_node const*, tree_node const*, tree_node const*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:1859
+0x64743c aggregate_value_p(tree_node const*, tree_node const*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:2042
+0x648c8f allocate_struct_function(tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:4516
+0x4cda7b store_parm_decls()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-decl.c:8307
+0x4f64c4 c_parser_declaration_or_fndef
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1753
+0x4fa8bb c_parser_external_declaration
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1361
+0x4fb32e c_parser_translation_unit
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1249
+0x4fb32e c_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:10880
+0x52fb14 c_common_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c-family/c-opts.c:1046
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.1 ##########################
+ add
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c: In function ‘add’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c:2:1: internal compiler error: Segmentation fault
+ {
+ ^
+0x77d8df crash_signal
+	/home/bro3886/devel/gcc-4.8.2/gcc/toplev.c:332
+0x5f7773 hard_function_value(tree_node const*, tree_node const*, tree_node const*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:1859
+0x64743c aggregate_value_p(tree_node const*, tree_node const*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:2042
+0x648c8f allocate_struct_function(tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:4516
+0x4cda7b store_parm_decls()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-decl.c:8307
+0x4f64c4 c_parser_declaration_or_fndef
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1753
+0x4fa8bb c_parser_external_declaration
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1361
+0x4fb32e c_parser_translation_unit
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1249
+0x4fb32e c_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:10880
+0x52fb14 c_common_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c-family/c-opts.c:1046
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.1 ##########################
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_4.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_4.c:4:1: internal compiler error: Segmentation fault
+ {
+ ^
+0x77d8df crash_signal
+	/home/bro3886/devel/gcc-4.8.2/gcc/toplev.c:332
+0x5f7773 hard_function_value(tree_node const*, tree_node const*, tree_node const*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:1859
+0x64743c aggregate_value_p(tree_node const*, tree_node const*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:2042
+0x648c8f allocate_struct_function(tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:4516
+0x4cda7b store_parm_decls()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-decl.c:8307
+0x4f64c4 c_parser_declaration_or_fndef
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1753
+0x4fa8bb c_parser_external_declaration
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1361
+0x4fb32e c_parser_translation_unit
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:1249
+0x4fb32e c_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-parser.c:10880
+0x52fb14 c_common_parse_file()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c-family/c-opts.c:1046
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                980 kB
+########################### Spim v0.2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                979 kB
+########################### Spim v0.2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_1.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_1.c:6:4: internal compiler error: in default_function_arg, at targhooks.c:587
+  c = a + b;
+    ^
+0x77c7c7 default_function_arg(cumulative_args_t, machine_mode, tree_node const*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/targhooks.c:587
+0x5642b6 emit_library_call_value_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:3809
+0x5670bc emit_library_call_value(rtx_def*, rtx_def*, libcall_type, machine_mode, int, ...)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:4347
+0x70939e expand_binop(machine_mode, optab_tag, rtx_def*, rtx_def*, rtx_def*, int, optab_methods)
+	/home/bro3886/devel/gcc-4.8.2/gcc/optabs.c:2144
+0x60d62d force_operand(rtx_def*, rtx_def*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:7054
+0x5f6f35 memory_address_addr_space(machine_mode, rtx_def*, unsigned char)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:481
+0x5e96c4 change_address_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/emit-rtl.c:2021
+0x607f7b expand_expr_real_1(tree_node*, rtx_def*, machine_mode, expand_modifier, rtx_def**)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:9386
+0x570abd expand_expr
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.h:444
+0x570abd expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2217
+0x570abd expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x5714cd expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x5734d6 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c:4:4: internal compiler error: in default_function_arg, at targhooks.c:587
+  c = a/b;
+    ^
+0x77c7c7 default_function_arg(cumulative_args_t, machine_mode, tree_node const*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/targhooks.c:587
+0x5642b6 emit_library_call_value_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:3809
+0x5670bc emit_library_call_value(rtx_def*, rtx_def*, libcall_type, machine_mode, int, ...)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:4347
+0x70939e expand_binop(machine_mode, optab_tag, rtx_def*, rtx_def*, rtx_def*, int, optab_methods)
+	/home/bro3886/devel/gcc-4.8.2/gcc/optabs.c:2144
+0x60d62d force_operand(rtx_def*, rtx_def*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:7054
+0x5f6f35 memory_address_addr_space(machine_mode, rtx_def*, unsigned char)
+	/home/bro3886/devel/gcc-4.8.2/gcc/explow.c:481
+0x5e96c4 change_address_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/emit-rtl.c:2021
+0x607f7b expand_expr_real_1(tree_node*, rtx_def*, machine_mode, expand_modifier, rtx_def**)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:9386
+0x570abd expand_expr
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.h:444
+0x570abd expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2217
+0x570abd expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x5714cd expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x5734d6 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.2 ##########################
+ add main
+Analyzing compilation unit
+
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c: In function ‘add’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c:1:5: internal compiler error: in default_function_arg_advance, at targhooks.c:578
+ int add(int a, int b)
+     ^
+0x77c7a7 default_function_arg_advance(cumulative_args_t, machine_mode, tree_node const*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/targhooks.c:578
+0x648748 gimplify_parameters()
+	/home/bro3886/devel/gcc-4.8.2/gcc/function.c:3606
+0x6753c4 gimplify_body(tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/gimplify.c:8222
+0x6754f7 gimplify_function_tree(tree_node*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/gimplify.c:8358
+0x58cc9f cgraph_analyze_function
+	/home/bro3886/devel/gcc-4.8.2/gcc/cgraphunit.c:658
+0x58e467 cgraph_analyze_functions
+	/home/bro3886/devel/gcc-4.8.2/gcc/cgraphunit.c:964
+0x58f305 finalize_compilation_unit()
+	/home/bro3886/devel/gcc-4.8.2/gcc/cgraphunit.c:2110
+0x4d1023 c_write_global_declarations()
+	/home/bro3886/devel/gcc-4.8.2/gcc/c/c-decl.c:10118
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v0.2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_4.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_4.c:7:6: internal compiler error: in default_function_arg, at targhooks.c:587
+   a=a+1; 
+      ^
+0x77c7c7 default_function_arg(cumulative_args_t, machine_mode, tree_node const*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/targhooks.c:587
+0x5642b6 emit_library_call_value_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:3809
+0x5670bc emit_library_call_value(rtx_def*, rtx_def*, libcall_type, machine_mode, int, ...)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:4347
+0x70939e expand_binop(machine_mode, optab_tag, rtx_def*, rtx_def*, rtx_def*, int, optab_methods)
+	/home/bro3886/devel/gcc-4.8.2/gcc/optabs.c:2144
+0x611994 expand_expr_real_2(separate_ops*, rtx_def*, machine_mode, expand_modifier)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:9151
+0x5703cb expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2244
+0x5703cb expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x5714cd expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x5734d6 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                985 kB
+########################### Spim v1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                984 kB
+########################### Spim v1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00               1004 kB
+########################### Spim v1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_2.c:4:4: internal compiler error: in default_libcall_value, at targhooks.c:757
+  c = a/b;
+    ^
+0x77db37 default_libcall_value(machine_mode, rtx_def const*)
+	/home/bro3886/devel/gcc-4.8.2/gcc/targhooks.c:757
+0x56505d emit_library_call_value_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:4161
+0x56752c emit_library_call_value(rtx_def*, rtx_def*, libcall_type, machine_mode, int, ...)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:4347
+0x709b4e expand_binop(machine_mode, optab_tag, rtx_def*, rtx_def*, rtx_def*, int, optab_methods)
+	/home/bro3886/devel/gcc-4.8.2/gcc/optabs.c:2144
+0x70b0b6 sign_expand_binop(machine_mode, optab_tag, optab_tag, rtx_def*, rtx_def*, rtx_def*, int, optab_methods)
+	/home/bro3886/devel/gcc-4.8.2/gcc/optabs.c:2273
+0x601c7c expand_divmod(int, tree_code, machine_mode, rtx_def*, rtx_def*, rtx_def*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expmed.c:4879
+0x612e10 expand_expr_real_2(separate_ops*, rtx_def*, machine_mode, expand_modifier)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:8590
+0x57083b expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2244
+0x57083b expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x57193d expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x573956 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v1 ##########################
+ add main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ add main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c:9:4: internal compiler error: in emit_call_1, at calls.c:378
+  c = add(2,3);
+    ^
+0x563a13 emit_call_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:378
+0x566ce4 expand_call(tree_node*, rtx_def*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:3159
+0x608513 expand_expr_real_1(tree_node*, rtx_def*, machine_mode, expand_modifier, rtx_def**)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:10246
+0x60f1d3 store_expr(tree_node*, rtx_def*, int, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:5239
+0x6106ca expand_assignment(tree_node*, tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:5025
+0x570dad expand_call_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2112
+0x570dad expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2152
+0x570dad expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x57193d expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x573956 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v1 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main########################### Spim v2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                981 kB
+########################### Spim v2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ phase lang. deferred    :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall       0 kB ( 0%) ggc
+ TOTAL                 :   0.00             0.00             0.01                981 kB
+########################### Spim v2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                988 kB
+########################### Spim v2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ phase opt and generate  :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      32 kB ( 3%) ggc
+ df scan insns           :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall       0 kB ( 0%) ggc
+ TOTAL                 :   0.00             0.00             0.01                990 kB
+########################### Spim v2 ##########################
+ add main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ add main
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c: In function ‘main’:
+/home/bro3886/devel/cs715/spim/spim-test-cases/spim_3.c:9:4: internal compiler error: in emit_call_1, at calls.c:378
+  c = add(2,3);
+    ^
+0x563c23 emit_call_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:378
+0x566ef4 expand_call(tree_node*, rtx_def*, int)
+	/home/bro3886/devel/gcc-4.8.2/gcc/calls.c:3159
+0x608773 expand_expr_real_1(tree_node*, rtx_def*, machine_mode, expand_modifier, rtx_def**)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:10246
+0x60f433 store_expr(tree_node*, rtx_def*, int, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:5239
+0x61092a expand_assignment(tree_node*, tree_node*, bool)
+	/home/bro3886/devel/gcc-4.8.2/gcc/expr.c:5025
+0x570fbd expand_call_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2112
+0x570fbd expand_gimple_stmt_1
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2152
+0x570fbd expand_gimple_stmt
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:2304
+0x571b4d expand_gimple_basic_block
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4138
+0x573b66 gimple_expand_cfg
+	/home/bro3886/devel/gcc-4.8.2/gcc/cfgexpand.c:4657
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+########################### Spim v2 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main########################### Spim v3 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                981 kB
+########################### Spim v3 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                981 kB
+########################### Spim v3 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ phase setup             :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall     872 kB (88%) ggc
+ TOTAL                 :   0.00             0.00             0.01                988 kB
+########################### Spim v3 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                990 kB
+########################### Spim v3 ##########################
+ add main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ add main
+Execution times (seconds)
+ phase setup             :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall     872 kB (86%) ggc
+ TOTAL                 :   0.00             0.00             0.01               1017 kB
+########################### Spim v3 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main########################### Spim v4 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ phase parsing           :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      69 kB ( 7%) ggc
+ parser (global)         :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      66 kB ( 7%) ggc
+ TOTAL                 :   0.00             0.00             0.01                981 kB
+########################### Spim v4 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                981 kB
+########################### Spim v4 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ phase opt and generate  :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      30 kB ( 3%) ggc
+ dominance computation   :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall       0 kB ( 0%) ggc
+ TOTAL                 :   0.00             0.00             0.01                988 kB
+########################### Spim v4 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                990 kB
+########################### Spim v4 ##########################
+ add main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ add main
+Execution times (seconds)
+ phase opt and generate  :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      57 kB ( 6%) ggc
+ integrated RA           :   0.00 ( 0%) usr   0.00 ( 0%) sys   0.01 (100%) wall      24 kB ( 2%) ggc
+ TOTAL                 :   0.00             0.00             0.01               1017 kB
+########################### Spim v4 ##########################
+ main
+Analyzing compilation unit
+Performing interprocedural optimizations
+ <*free_lang_data> <visibility> <early_local_cleanups> <*free_inline_summary> <emutls> <whole-program>Assembling functions:
+ main
+Execution times (seconds)
+ TOTAL                 :   0.00             0.00             0.00                992 kB

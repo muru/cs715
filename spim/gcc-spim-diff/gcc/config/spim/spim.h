@@ -29,13 +29,12 @@
 #define STRICT_ALIGNMENT \
 0
 
-#define MOVE_MAX  	/* Essentially size of the data bus */ \
+#define MOVE_MAX 	/* Essentially size of the data bus */ \
 4
 
 #define Pmode SImode
 
 #define FUNCTION_MODE SImode
-
 
 #define SLOW_BYTE_ACCESS 0
 
@@ -73,8 +72,8 @@
  1,1,1,1, \
  1,1,1,1, \
  1,1,1,1, \
- 0,0,0,0, \
- 0,0,0,0, \
+ 1,1,1,1, \
+ 1,1,1,1, \
  1,1,1,1, \
  1,1,1,1}
 
@@ -104,32 +103,30 @@ modes_tieable_p (MODE1,MODE2)
  * GCC. */
 enum reg_class \
 {\
-        NO_REGS,\
-        ZERO_REGS,\
-        CALLER_SAVED_REGS,\
-        CALLEE_SAVED_REGS,\
-        BASE_REGS,\
-        GENERAL_REGS,\
-        ALL_REGS,\
-        LIM_REG_CLASSES \
+	NO_REGS,\
+	CALLER_SAVED_REGS,\
+	CALLEE_SAVED_REGS,\
+	BASE_REGS,\
+	GENERAL_REGS,\
+	ALL_REGS,\
+	LIM_REG_CLASSES \
    };
 
 #define N_REG_CLASSES LIM_REG_CLASSES
 
 #define REG_CLASS_NAMES \
 {\
-        "NO_REGS",\
-        "ZERO_REGS",\
-        "CALLER_SAVED_REGS",\
-        "CALLEE_SAVED_REGS",\
-        "BASE_REGS",\
-        "GEN_REGS",\
-        "ALL_REGS"\
+	"NO_REGS",\
+	"CALLER_SAVED_REGS",\
+	"CALLEE_SAVED_REGS",\
+	"BASE_REGS",\
+	"GEN_REGS",\
+	"ALL_REGS"\
 }
 
 #define REG_CLASS_CONTENTS  /* We have included un-available registers also */ \
                             /* because in this level, it is irrelevant      */ \
-{0x00000000,0x00000001,0x0200ff00,0x00ff0000,0xf2fffffc,0xfffffffe,0xffffffff}
+{0x00000000,0x0200ff00,0x00ff0000,0xf2fffffc,0xffffffff,0xffffffff}
 
 
 #define REGNO_REG_CLASS(REGNO) \
@@ -147,13 +144,13 @@ NO_REGS
  * been defined for  various register classes and for  any character, we
  * return matched class to be NO_REGS. */
 #define REG_CLASS_FROM_LETTER(ch)\
-reg_class_from_letter (ch)
+NO_REGS
 
 /* Currently we assume any register can be used as base register. But in
  * later levels,  we will define  the registers acording  to appropriate
  * register class.*/
 #define REGNO_OK_FOR_BASE_P(REGNO)\
-IITB_regno_ok_for_base_p (REGNO)
+1
 
 /* Spim does not support indexed addressing mode. */
 #define REGNO_OK_FOR_INDEX_P(REGNO)\
@@ -164,7 +161,7 @@ CLASS
 
 /* This is closely  related to the macro  HARD_REGNO_NREGS. It specifies
  * the maximum number  of consecutive registers of  class CLASS required
- * for  holding  a  value of  mode  MODE.  In  fact,  the value  of  the
+ * for  holding  a  value of    mode MODE.  In  fact, the  value of  the
  * macro CLASS_MAX_NREGS  (class, mode) should  be the maximum  value of
  * HARD_REGNO_NREGS  (regno, mode)  for all  regno values  in the  class
  * CLASS. */
@@ -175,50 +172,16 @@ CLASS
  * 			Activation Record and Calling Conventions                *
  * ------------------------------------------------------------------------------*/
 
-/* Stack layout is defined from the description from SPIM document. 
-                      |                                 |
-   direction of  |    |    CALLER'S ACTIVATION RECORD   |
-     growth of   |    +---------------------------------+  <-- Previous SP
-      stack      |    |   Parameters passed on stack    |
-                 |    |  (Accessible from frame pointer.|
-                \|/   |  Direction of growth is opposite|
-                 V    |   to direction of stack growth) | <-- Current AP = HFP
-                      +---------------------------------+ 
-                      |        Return address           |          ,
-                      +---------------------------------+         /|\
-                      |      Dynamic chain address      |          |
-                      |    (Pointer to caller's AR)     |          |
-		      |       Caller's SPR, FPR	        |          |
-                      +---------------------------------+  Register storage area.
-                      |  Other caller saved registers   |          |
-                      |.................................|          |
-                      |  Callee saved registers being   |         \|/
-                      |   used in the callee function   |          V
-		      +---------------------------------+ <-- Current FP
-                      |       Local variables           | 
-                      |(Direction of growth of frame is |
-                      | same as direction of growth of  |
-                      |            stack)               |
-                      +---------------------------------+
-                      |                                 | <-- Current SP
-
-  SP points to first empty slot.
-  FP points to the location at which first local variable is stored.
-
-  Since the number  of saved registers can only be  known after register
-  allocation, the arguments frame is at a variable offset from the local
-  variables frame. GCC tries to use  a single register for both argument
-  and local variables frame. This requires defining a Hard Frame Pointer
-  and  the  Frame  Pointer  is eliminated  by  computing  offsets  after
-  register allocation.
-*/
+/* All activation record and  function calling convention related issues
+ * are  assigned dummy  values.  In  later levels,  we  will assign  the
+ * correct values as per stack design. */
 
 #define STACK_GROWS_DOWNWARD 1
 
 #define FRAME_GROWS_DOWNWARD 1
 
 #define STARTING_FRAME_OFFSET \
-starting_frame_offset ()
+0
 
 #define STACK_POINTER_OFFSET \
 0
@@ -229,51 +192,24 @@ starting_frame_offset ()
 #define STACK_POINTER_REGNUM \
 29
 
-#define HARD_FRAME_POINTER_REGNUM \
+#define FRAME_POINTER_REGNUM \
 30
 
 #define ARG_POINTER_REGNUM \
-HARD_FRAME_POINTER_REGNUM 
+FRAME_POINTER_REGNUM
 
-/*Anyway this is dummy pointer, and is always eliminated to hard frame pointer.*/
-#define FRAME_POINTER_REGNUM \
-1
 
-#define FRAME_POINTER_REQUIRED \
-0
-
-/* This macro was defined in level 0.0. But now that we have hard frame pointer, due
- * to variable sized fields between local variable frame and arguments, frame pointer
- * must be reduced to hard frame pointer register, which requires recalculation of
- * frame pointer offsets. Hence, we remove this macro.*/
-/*#define INITIAL_FRAME_POINTER_OFFSET(DEPTH)\
-DEPTH=initial_frame_pointer_offset (DEPTH)*/
-
-#define ELIMINABLE_REGS \
-{{FRAME_POINTER_REGNUM,      STACK_POINTER_REGNUM}, \
- {FRAME_POINTER_REGNUM,      HARD_FRAME_POINTER_REGNUM}, \
- {ARG_POINTER_REGNUM,        STACK_POINTER_REGNUM}, \
- {HARD_FRAME_POINTER_REGNUM, STACK_POINTER_REGNUM} \
-}
-
-/* This just defines predicate on the information in above macro.*/
-#define CAN_ELIMINATE(FROM, TO) \
-((FROM == FRAME_POINTER_REGNUM && (TO == STACK_POINTER_REGNUM || TO == HARD_FRAME_POINTER_REGNUM)) \
-|| (FROM == ARG_POINTER_REGNUM && TO == STACK_POINTER_REGNUM) \
-|| (FROM == HARD_FRAME_POINTER_REGNUM && TO == STACK_POINTER_REGNUM))
-
-/*Recomputes new offsets, after eliminating.*/
-#define INITIAL_ELIMINATION_OFFSET(FROM, TO, VAR) \
-(VAR) = initial_elimination_offset(FROM, TO)
+#define INITIAL_FRAME_POINTER_OFFSET(DEPTH)\
+DEPTH=0
 
 #define ACCUMULATE_OUTGOING_ARGS \
 0
 
-/* Function pops none of its arguments, so it is caller's responsibility 
- * to pop off the parameters. */
-#define RETURN_POPS_ARGS(FUN, TYPE, SIZE) \
-0
 
+/* Currently, arguments  are passed  on stack. Irrelevant  because there
+ * are no function calls in this level. */
+#define FUNCTION_ARG(CUM, MODE, TYPE, NAMED) \
+0
 
 #define FUNCTION_ARG_REGNO_P(r) /* Irrelevant in this level */ \
 0
@@ -289,6 +225,8 @@ int
 CUM = 0;\
 }
 
+#define FUNCTION_ARG_ADVANCE(cum, mode, type, named) \
+cum++
 
 #define FUNCTION_VALUE(valtype, func)\
 function_value()
@@ -307,7 +245,7 @@ function_value()
 #define CONSTANT_ADDRESS_P(X) \
 constant_address_p(X)
 
-/* Since we don't have base indexed mode, we do not need more than one 
+/* Since we don't have  base indexed mode, we do not  need more than one
  * register for any address. */
 #define MAX_REGS_PER_ADDRESS \
 1
@@ -346,18 +284,7 @@ reg_ok_for_index_p1(x)
 reg_ok_for_index_p2(x) 
 #endif
 	
-/* This macro rewrites  instructions to ensure that  the addressing mode
- * is valid. This may require inserting move instructions. */
-#define LEGITIMIZE_ADDRESS(x,oldx,mode,win) \
-{\
-rtx IITB_rtx_op;\
-IITB_rtx_op=legitimize_address(x,oldx,mode);\
-if(memory_address_p(mode,IITB_rtx_op))\
-{\
-  x=IITB_rtx_op;\
-  goto win;\
-}\
-}
+
 
 #define GO_IF_MODE_DEPENDENT_ADDRESS(addr,label) 
 
@@ -365,39 +292,27 @@ if(memory_address_p(mode,IITB_rtx_op))\
  * 			Assembly Output Format                                   *
  * ------------------------------------------------------------------------------*/
 
-#define ASM_OUTPUT_ALIGN(STREAM, POWER)                                   \
-         asm_output_align(STREAM, POWER)
+#define ASM_OUTPUT_ALIGN(STREAM, POWER)                                   
 
-#define ASM_OUTPUT_SKIP(STREAM, NBYTES)                                   \
-         asm_output_skip(STREAM, NBYTES)
+#define ASM_OUTPUT_SKIP(STREAM, NBYTES)                                   
 
-#define PRINT_OPERAND(STREAM, X, CODE)                                    \
-         print_operand(STREAM, X, CODE)
+#define PRINT_OPERAND(STREAM, X, CODE)                                    
 
-#define PRINT_OPERAND_ADDRESS(STREAM, X)                                  \
-         print_operand_address(STREAM, X)
+#define PRINT_OPERAND_ADDRESS(STREAM, X)                                  
 
-#define ASM_GENERATE_INTERNAL_LABEL(STRING, PREFIX, NUM)                  \
-        asm_generate_internal_label(STRING, PREFIX, NUM)
+#define ASM_GENERATE_INTERNAL_LABEL(STRING, PREFIX, NUM)                  
 
-#define ASM_OUTPUT_LOCAL(STREAM, NAME, SIZE, ROUNDED)                     \
-         asm_output_local(STREAM, NAME, SIZE, ROUNDED)
+#define ASM_OUTPUT_LOCAL(STREAM, NAME, SIZE, ROUNDED)                     
 
-#define ASM_OUTPUT_COMMON(STREAM, NAME, SIZE, ROUNDED)                    \
-         asm_output_common(STREAM, NAME, SIZE, ROUNDED)
+#define ASM_OUTPUT_COMMON(STREAM, NAME, SIZE, ROUNDED)                    
 
-#define ASM_OUTPUT_SYMBOL_REF(stream, sym)                                \
-        asm_output_symbol_ref(stream, sym)
-
-#define FUNCTION_PROFILER(file,lab) \
-function_profiler(file,lab)
+#define FUNCTION_PROFILER(file,lab) 
 
 #define ASM_APP_ON                                                        \
-	"#APP"
+        "#APP"
 #define ASM_APP_OFF                                                       \
-	"#NO_APP"
+        "#NO_APP"
 
-extern int target_flags;
 
 /* Required for for producing assembly output. */
 #define REGISTER_NAMES \
@@ -411,15 +326,13 @@ extern int target_flags;
  "$gp","$sp","$fp","$ra", \
 }
 
-
 #define TEXT_SECTION_ASM_OP                                               \
 "\t.text"
 
 #define DATA_SECTION_ASM_OP                                               \
 "\t.data 0x10000000"
-		
-#define ASM_OUTPUT_LABELREF(stream, name) \
-	fprintf(stream,"%s",name);
+
+#define ASM_OUTPUT_LABELREF(stream, name) 
 
 /* ------------------------------------------------------------------------------*
  * 			Misc 
@@ -432,22 +345,19 @@ extern int target_flags;
  * mode), no  constant value is  defined. Later  on we will  define this
  * macro depending  upon constant  values permitted in  addressing modes
  * supported.*/
-#define CONST_OK_FOR_LETTER_P(VALUE, CH)                                  /* D */\
-const_ok_for_letter_p (VALUE, CH)
-
-/* Double is not supported in level0. */
-#define CONST_DOUBLE_OK_FOR_CONSTRAINT_P(op,ch,p)                        /* D */\
+#define CONST_OK_FOR_LETTER_P(VALUE, CH)\
 0
 
-#define EXTRA_CONSTRAINT(VALUE, D) \
-    ((D) == 'S' ? GET_CODE (VALUE) == SYMBOL_REF : 0)
+/* Double is not supported in level0. */
+#define CONST_DOUBLE_OK_FOR_CONSTRAINT_P(op,ch,p) \
+0
 
 #define TRULY_NOOP_TRUNCATION(in,out) \
 1
 
 /* To support  variants of targets  which can be chosen  through command        
  * line arguments */
-//#define TARGET_SWITCHES                                                 /* D */\
+//#define TARGET_SWITCHES                                        /* D */ \
 // {"", 0, ""}
 
 
@@ -459,13 +369,17 @@ do                                            \
   }                                           \
   while (0)
 
-#define INITIALIZE_TRAMPOLINE(a,b,c)\
-initialize_trampoline()
 
-/* This macro has been defined to eliminate call to __main function from `main'. */
-#define HAS_INIT_SECTION
+/* Since  the  compiler  creates  a  unique dummy  exit  (which  may  be
+ * optimized away later),  it emits jump insn. The  compiler assumes the
+ * existence of a jump instruction  and checks for existence of indirect
+ * jump.  Since this  is  irrlevant  in this  level,  we  fool GCC  into
+ * believing that such an instruction exists. */
+#define CODE_FOR_indirect_jump 8
 
 #define TRAMPOLINE_SIZE 32 
 
+#define LEGITIMATE_CONSTANT_P(x) \
+legitimate_constant_p(x)
 
 

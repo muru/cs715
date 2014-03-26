@@ -1,5 +1,5 @@
 #include "target.h"
-#include "ipa-inline.h"
+//#include "ipa-inline.h"
 int is_index_reg PARAMS((int REGN));
 int  is_base_reg PARAMS((int REGN));
 int is_arg_reg PARAMS((int REGN));
