@@ -21,3 +21,5 @@
 #Swap files
 .*.swo
 .*.swp
+
+*c.*.*
