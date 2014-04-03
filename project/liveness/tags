@@ -1,0 +1,66 @@
+@0x4060547c	test6.c.000i.cgraph	/^<built-in>\/14 @0x4060547c (asm: __gxx_personality_/
+@0x4060547c	test6.c.015i.visibility	/^__gxx_personality_v0\/14 @0x4060547c (asm: __gxx_pe/
+CC	Makefile	/^CC = \/home\/pratibha\/gcc_build\/install\/bin\/gcc$/
+CFLAGS	Makefile	/^CFLAGS = -fdump-ipa-all -O0 -fdump-tree-all$/
+CXX	Makefile	/^CXX = \/home\/pratibha\/gcc_build\/install\/bin\/g++$/
+ESCAPED	test6.c.056i.pta	38
+FLAGS	Makefile	/^FLAGS= -fPIC -O2$/
+GCCPLUGINS_DIR	Makefile	/^GCCPLUGINS_DIR:= $(shell $(CC) -print-file-name=pl/
+INCLUDE	Makefile	/^INCLUDE= -I$(GCCPLUGINS_DIR)\/include -I$(CC)$/
+INTEGER	test6.c.056i.pta	41
+Mtest	test.c	/^int main()$/
+Mtest1	test1.c	/^int main()$/
+Mtest3	test3.c	/^int main()$/
+Mtest4	test4.c	/^int main()$/
+Mtest6	test6.c	/^int main()$/
+Mtest6.c.016i.early_local_cleanups	test6.c.016i.early_local_cleanups	/^main ()$/
+Mtest6.c.048i.profile_estimate	test6.c.048i.profile_estimate	/^main ()$/
+Mtest6.c.051i.inline	test6.c.051i.inline	/^;; Function main (main, funcdef_no=12, decl_uid=23/
+Mtest6.c.051i.inline	test6.c.051i.inline	/^main ()$/
+Mtest6.c.056i.pta	test6.c.056i.pta	/^main ()$/
+Mtest6.c.233i.liveness	test6.c.233i.liveness	/^main ()$/
+NONLOCAL	test6.c.056i.pta	39
+Q	test	2
+READONLY	test6.c.056i.pta	37
+STOREDANYTHING	test6.c.056i.pta	40
+_2	test6.c.056i.pta	45
+_5	test6.c.056i.pta	49
+a	test4.c	2
+a	test6.c.056i.pta	48
+b	test4.c	2
+b_1	test6.c.056i.pta	47
+b_1	test6.c.233i.liveness	5
+c	test4.c	2
+call	test6.c.047i.whole-program	/^  called by: main\/12 (1.00 per call) (can throw ex/
+call	test6.c.049i.cp	/^  called by: main\/12 (1.00 per call) (can throw ex/
+clean	Makefile	/^clean:$/
+clobber	test6.c.056i.pta	42
+disambiguations	test6.c.233i.liveness	8
+disambiguations	test6.c.233i.liveness	9
+e	test4.c	2
+f	test3.c	/^void f(int *b, int *c)$/
+foo	test2.c	/^int foo(int a)$/
+is	test6.c.052i.pure-const	/^Function is locally const.$/
+is_odd	test2.c	/^int is_odd (int b)$/
+name	test6.c.053i.static-var	/^Function name:main\/12:$/
+name	test6.c.053i.static-var	/^Function name:main\/12:$/
+overall_size	test6.c.049i.cp	21
+p	test4.c	/^void p()$/
+pass_info	plugin.cpp	64
+pass_info	test5.c	64
+pass_plugin	plugin.cpp	40
+pass_plugin	test5.c	40
+plugin.so	Makefile	/^plugin.so: plugin.cpp$/
+plugin_init	plugin.cpp	/^int plugin_init(struct plugin_name_args *plugin_in/
+plugin_init	test5.c	/^int plugin_init(struct plugin_name_args *plugin_in/
+plugin_is_GPL_compatible	plugin.cpp	34
+plugin_is_GPL_compatible	test5.c	34
+print_liveness	plugin.cpp	/^static unsigned int print_liveness(void) $/
+print_liveness	test5.c	/^static unsigned int print_liveness(void) $/
+printf	test6.c.056i.pta	50
+process_function	plugin.cpp	/^static void process_function (void)$/
+process_function	test5.c	/^static void process_function (void)$/
+r	test6.c.056i.pta	46
+result	test6.c.056i.pta	44
+test	Makefile	/^test: plugin.so test6.c$/
+use	test6.c.056i.pta	43
