@@ -113,8 +113,6 @@ static unsigned int print_liveness(void)
 		}
 	}
 
-	dump_pta_stats (dump_file);
-
 	return 0;
 }
 
@@ -122,10 +120,7 @@ static void process_function (void)
 {
 	basic_block bb;
 	gimple_stmt_iterator si;
-	int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-	int *k = 0;
-	int j = 0;
-	k     = &a[j];
+	int k = 0;
 
 	FOR_EACH_BB (bb)
 	{
@@ -133,32 +128,31 @@ static void process_function (void)
 		{
 			gimple phi = gsi_stmt (si);
 			int n      = gimple_phi_num_args (phi);
-			use_operand_p use_p;
-			ssa_op_iter iter;
-
-			k = &a[++j];
-
-			fprintf(dump_file, "%d %d:\t", bb->index, *k);
-			print_gimple_stmt(dump_file, phi, 0, TDF_SLIM);
-			dump_immediate_uses_for (dump_file, gimple_phi_result (phi));
-
-			FOR_EACH_PHI_ARG (use_p, phi, iter, SSA_OP_ALL_DEFS)
-			{	
-				struct ptr_info_def * def = SSA_NAME_PTR_INFO (use_p->loc.ssa_name);
+			k++;
+			fprintf(stderr, "%d %d %d:\t", bb->index, k, gimple_code (phi) == GIMPLE_ASSIGN);
+			print_gimple_stmt(stderr, phi, 0, TDF_SLIM);
+			if ( (GIMPLE_ASSIGN != gimple_code (phi)))
+				continue;
+			//for (int i = 0; i < n; i++)
+			//{
+				//tree name = gimple_phi_arg_def (phi, i);
+				struct ptr_info_def * def = SSA_NAME_PTR_INFO (PHI_RESULT(phi));
+				fprintf(stderr, "%d %d:\t", bb->index, n);
+				if (! def)
+					continue;
 				if (def->pt.anything)
-					fprintf(stderr, "ANYTHING\t");
+					fprintf(dump_file, "ANYTHING");
 				if (def->pt.nonlocal)
-					fprintf(stderr, "NONLOCAL\t");
+					fprintf(dump_file, "NONLOCAL");
 				if (def->pt.escaped)
-					fprintf(stderr, "ESCAPED\t");
+					fprintf(dump_file, "ESCAPED");
 				if (def->pt.ipa_escaped)
-					fprintf(stderr, "IPA_ESCAPED\t");
+					fprintf(dump_file, "IPA_ESCAPED");
 				if (def->pt.null)
-					fprintf(stderr, "NULL\t");
-				fprintf(stderr, "\n");
-				dump_points_to_solution (dump_file, &(def->pt));
-			}
+					fprintf(dump_file, "NULL");
+			//}
 		}
+		fprintf (stderr, "nooooooooooooooooooooooo!\t %d\n", k );
 	}
 	return;
 }

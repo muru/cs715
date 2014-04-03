@@ -13,7 +13,8 @@ plugin.so: plugin.cpp
 
 test: plugin.so test4.c
 # Specifiy plugin for each file if output for each file is needed.
-	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none test4.c -fdump-ipa-all -fdump-ipa-pta -fipa-pta -o test
+	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none $(INCLUDE) -c test5.c -fdump-ipa-all -fdump-ipa-pta -fipa-pta -o test -O1
+#	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none test4.c -fdump-ipa-all -fdump-ipa-pta -fipa-pta -o test -O1 -ggdb
 # 	$(CXX) -fplugin=./plugin.so -flto -flto-partition=none -c test2.c  $(CFLAGS)
 #	$(CXX) -fplugin=./plugin.so -flto -c test1.c $(CFLAGS)
 #	$(CXX) -fplugin=./plugin.so -flto -c test2.c $(CFLAGS)
