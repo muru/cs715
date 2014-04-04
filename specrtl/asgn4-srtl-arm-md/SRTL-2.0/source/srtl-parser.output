@@ -1,0 +1,4143 @@
+Terminals unused in grammar
+
+   MODE_ATTR
+   CODE_ATTR
+   rid
+   aid
+   HEX
+
+
+State 251 conflicts: 1 shift/reduce
+State 252 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: Pattern_List "end of file"
+
+    1 Pattern_List: Pattern_List Pattern
+    2             | Pattern
+    3             | error '}'
+
+    4 Pattern: Abstract_Pattern
+    5        | Concrete_Pattern
+    6        | List_Pattern
+    7        | CMD_SPEC_BODY
+    8        | DDDD
+
+    9 Abstract_Pattern: ABSTRACT Abstract_Pattern_Name Abstract_Rtl_Spec
+
+   10 Abstract_Pattern_Name: ID
+
+   11 $@1: %empty
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name $@1 '{' Abstract_Extends_Body '}'
+
+   13 $@2: %empty
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name $@2 '{' Abstract_Overrides_Body '}'
+
+   15 Abstract_Extends_Body: Abstract_Extends_Body Stmt
+   16                      | Stmt
+
+   17 Abstract_Overrides_Body: ID
+
+   18 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier Concrete_Rtl_Spec
+   19                 | CONCRETE Concrete_Pattern_Name_Qualifier_C Concrete_Rtl_Spec_C
+   20                 | CONCRETE Concrete_Pattern_Name_Qualifier_S Concrete_Rtl_Spec_S
+   21                 | CONCRETE Concrete_Pattern_Name_List '.' REG_CONS '{' Concrete_Inst_Stmt_List '}'
+
+   22 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' CONS
+   23                                  | Concrete_Pattern_Name_List '.' ATTR
+   24                                  | Concrete_Pattern_Name_List '.' MEM_CONS
+   25                                  | Concrete_Pattern_Name_List '.' ADD_CONS
+
+   26 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' INSN
+   27                                | Concrete_Pattern_Name_List '.' EXP
+   28                                | Concrete_Pattern_Name_List '.' INSN_RESERV
+   29                                | Concrete_Pattern_Name_List '.' PREDICATE
+   30                                | Concrete_Pattern_Name_List '.' SPECIAL_PREDICATE
+
+   31 Concrete_Pattern_Name_Qualifier_C: '.' PEEP2
+   32                                  | '.' SPLIT
+   33                                  | Concrete_Pattern_Name_List '.' INSN_SPLIT
+
+   34 Concrete_Rtl_Spec_S: INSTANTIATES Concrete_Pattern_Name_List Concrete_Instantiates_Body
+
+   35 Concrete_Rtl_Spec: INSTANTIATES Concrete_Pattern_Name_List Concrete_Instantiates_Body CMD_SPEC_BODY
+   36                  | OVERRIDES Concrete_Pattern_Name_List '.' INSN Concrete_Overrides_Body CMD_SPEC_BODY
+   37                  | OVERRIDES Concrete_Pattern_Name_List '.' EXP Concrete_Overrides_Body CMD_SPEC_BODY
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+   39                    | OVERRIDES '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+   40 $@3: %empty
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' IN CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out
+   44                              | OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+
+   45 Concrete_Instantiates_Body: '{' Concrete_Instantiates_Body_Inner '}'
+
+   46 Concrete_Overrides_Body: '{' Concrete_Overrides_Body_Inner '}'
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' Operands ')' ';' Concrete_Inst_Stmt_List
+   48                                 | ROOT '(' Operands ')' ';'
+   49                                 | Concrete_Inst_Stmt_List
+
+   50 Quoted_Id_List: Quoted_Id_List ',' Quoted_Id
+   51               | Quoted_Id
+
+   52 Concrete_Overrides_Body_Inner: Concrete_Inst_Stmt_List
+
+   53 Concrete_Instantiates_Body_Out: '{' Concrete_Instantiates_Body_Inner_Out '}'
+
+   54 Concrete_Overrides_Body_Out: '{' Concrete_Overrides_Body_Inner_Out '}'
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' Operands ')' ';' Concrete_Inst_Stmt_List
+   56                                     | ROOT '(' Operands ')' ';'
+
+   57 Concrete_Overrides_Body_Inner_Out: Concrete_Inst_Stmt_List
+
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List Mode_Stmt
+   59                        | Mode_Stmt
+
+   60 Stmt: ROOT Operand_Access ASSIGN Pattern_Name ';'
+
+   61 Mode_Stmt: ROOT Attr_Access ASSIGN Predicate_Or_Mode ';'
+   62          | ROOT Attr_Access ASSIGN Quoted_Id ';'
+   63          | ROOT Attr_Access ASSIGN '<' Predicate_Or_Mode '>' ';'
+   64          | ROOT Attr_Access ASSIGN CONST_INT ':' INT ';'
+   65          | ROOT Attr_Access ASSIGN ID '(' ID ':' FIXED_REG ')' ';'
+   66          | ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   67          | ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   68          | LATENCY ASSIGN INT ';'
+   69          | LOV ASSIGN Quoted_Id ';'
+   70          | DOCSTRING ASSIGN Quoted_Id ';'
+   71          | REGCLASS ASSIGN Quoted_Id ';'
+   72          | ALLCONSTRAINTS ASSIGN '(' Quoted_Id_List ')' ';'
+   73          | ID '-' '>' ID ';'
+
+   74 Attr_Access: '.' ID
+   75            | Operand_Access '.' ID
+   76            | Operand_Access '.' PREDICATE
+
+   77 Operand_Access: Operand_Access '.' INT
+   78               | '.' INT
+
+   79 Operands: Operands ',' '(' Operands ')'
+   80         | '(' Operands ')'
+   81         | Operands ',' Operand
+   82         | Operand
+
+   83 Operand: Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint
+   84        | INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint
+   85        | DUPLICATE INT
+   86        | Predicate_Or_Mode_List ':' Constraint
+   87        | ATTR ':' Constraint
+   88        | INT '=' Predicate_Or_Mode_List ':' Constraint
+   89        | INT '=' Predicate_Or_Mode_List
+   90        | INT
+   91        | Fixed_Reg_Or_Const
+
+   92 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' FIXED_REG ')'
+   93                   | ID '(' Predicate_Or_Mode_List ':' INT ')'
+   94                   | FIXED_REG
+   95                   | ID
+   96                   | CONST_INT ':' INT
+   97                   | CONST_INT ':' INT ':' ID
+   98                   | '<' INT '>'
+   99                   | '<' ID '>'
+
+  100 Constraint: Quoted_Id
+
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List Predicate_Or_Mode
+  103                       | Predicate_Or_Mode_With_Brackets
+  104                       | Predicate_Or_Mode
+
+  105 Predicate_Or_Mode_With_Brackets: '<' Predicate_Or_Mode '>'
+
+  106 Predicate_Or_Mode: INT
+  107                  | ID
+
+  108 Quoted_Id: QUOTED_ID
+
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List Concrete_Pattern_Name
+  111                           | Concrete_Pattern_Name_With_Brackets
+  112                           | Concrete_Pattern_Name
+
+  113 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name '>'
+  114                                    | '<' Concrete_Pattern_Name ':' Concrete_Pattern_Name '>'
+
+  115 Concrete_Pattern_Name: ID
+  116                      | INT
+  117                      | '*'
+  118                      | ':'
+  119                      | '_'
+
+  120 Base_Name: ID
+
+  121 Pattern_Name: ID
+
+  122 List_Pattern: LIST QUOTED_ID '.' AUTOMATON
+  123             | LIST QUOTED_ID '.' C_ENUM OBRACE ListEntries CBRACE
+  124             | LIST INT '.' BYPASS QIDList
+  125             | LIST QUOTED_ID '.' CPU_UNIT QUOTED_ID
+  126             | LIST QUOTED_ID '.' RESERVATION QUOTED_ID
+  127             | LIST QUOTED_ID '.' RESERVATION '"' PipedId '"'
+  128             | LIST NONAME '.' CONSTANTS OBRACE ListPID CBRACE
+  129             | LIST NONAME '.' ASM_ATTR OBRACE ListAsmEntries CBRACE
+  130             | LIST ID '.' Code_Mode_Iter OBRACE ListEntries CBRACE
+  131             | LIST ID '.' Code_Mode_Attr OBRACE ListQEntries CBRACE
+
+  132 Code_Mode_Iter: C_ITER
+  133               | M_ITER
+
+  134 Code_Mode_Attr: C_ATTR
+  135               | M_ATTR
+
+  136 ListAsmEntries: ListAsmEntries ',' AsmEntry
+  137               | AsmEntry
+
+  138 AsmEntry: '(' SET_ATTR ',' Quoted_Id ',' QUOTED_ID ')'
+
+  139 ListPID: ListPID ',' '(' IEntryPair ')'
+  140        | '(' IEntryPair ')'
+
+  141 ListEntries: ListEntries ',' SEntry
+  142            | SEntry
+  143            | ListEntries ',' '(' SQEntryPair ')'
+  144            | '(' SQEntryPair ')'
+
+  145 ListQEntries: ListQEntries ',' '(' SQEntryPair ')'
+  146             | ListQEntries ',' SEntry
+  147             | '(' SQEntryPair ')'
+  148             | SEntry
+
+  149 SQEntryPair: ID ',' Quoted_Id
+
+  150 IEntryPair: Id_Reg ',' ID
+  151           | Id_Reg ',' INT
+  152           | Id_Reg ',' INT ID
+
+  153 Id_Reg: ID
+  154       | FIXED_REG
+
+  155 QIDList: QUOTED_ID
+  156        | QIDList QUOTED_ID
+
+  157 SEntry: ID
+
+  158 PipedId: ID PIPE PipedId
+  159        | '(' PipedId ')'
+  160        | ID PLUS PipedId
+  161        | ID
+  162        | QUOTED_ID
+  163        | ID ',' PipedId
+
+
+Terminals, with rules where they appear
+
+"end of file" (0) 0
+'"' (34) 127
+'(' (40) 47 48 55 56 65 72 79 80 92 93 138 139 140 143 144 145 147
+    159
+')' (41) 47 48 55 56 65 72 79 80 92 93 138 139 140 143 144 145 147
+    159
+'*' (42) 117
+',' (44) 50 79 81 136 138 139 141 143 145 146 149 150 151 152 163
+'-' (45) 73
+'.' (46) 21 22 23 24 25 26 27 28 29 30 31 32 33 36 37 38 39 41 42 43
+    44 74 75 76 77 78 122 123 124 125 126 127 128 129 130 131
+':' (58) 64 65 66 67 83 84 86 87 88 92 93 96 97 114 118
+';' (59) 47 48 55 56 60 61 62 63 64 65 66 67 68 69 70 71 72 73
+'<' (60) 63 98 99 105 113 114
+'=' (61) 67 84 88 89
+'>' (62) 63 73 98 99 105 113 114
+'_' (95) 119
+'{' (123) 12 14 21 45 46 53 54
+'}' (125) 3 12 14 21 45 46 53 54
+error (256) 3
+CONCRETE (258) 18 19 20 21
+ABSTRACT (259) 9
+EXTENDS (260) 12
+OVERRIDES (261) 14 36 37 39 44
+ROOT (262) 47 48 55 56 60 61 62 63 64 65 66 67
+INSN (263) 26 36
+EXP (264) 27 37
+PEEP2 (265) 31
+SPLIT (266) 32
+INSN_SPLIT (267) 33
+INSN_RESERV (268) 28
+PREDICATE (269) 29 76
+SPECIAL_PREDICATE (270) 30
+ATTR (271) 23 87
+ASM_ATTR (272) 129
+CONS (273) 22
+REG_CONS (274) 21
+MEM_CONS (275) 24
+ADD_CONS (276) 25
+BYPASS (277) 124
+IN (278) 38 39 41
+OUT (279) 42 43 44
+LATENCY (280) 68
+LOV (281) 69
+DOCSTRING (282) 70
+REGCLASS (283) 71
+ALLCONSTRAINTS (284) 72
+INSTANTIATES (285) 34 35 38 42 43
+CONST_INT (286) 64 96 97
+DUPLICATE (287) 85
+FIXED_REG (288) 65 92 94 154
+CMD_SPEC (289) 41 42 44
+CMD_SPEC_BODY (290) 7 35 36 37 41 42 44
+NONAME (291) 128 129
+MODE_ATTR (292)
+SET_ATTR (293) 138
+AUTOMATON (294) 122
+CODE_ATTR (295)
+CONSTANTS (296) 128
+CPU_UNIT (297) 125
+LIST (298) 122 123 124 125 126 127 128 129 130 131
+C_ITER (299) 132
+C_ATTR (300) 134
+M_ITER (301) 133
+M_ATTR (302) 135
+RESERVATION (303) 126 127
+C_ENUM (304) 123
+CBRACE (305) 123 128 129 130 131
+OBRACE (306) 123 128 129 130 131
+PIPE (307) 158
+PLUS (308) 160
+ASSIGN (309) 60 61 62 63 64 65 66 67 68 69 70 71 72
+DDDD (310) 8
+ID (311) 10 17 65 73 74 75 92 93 95 97 99 107 115 120 121 130 131 149
+    150 152 153 157 158 160 161 163
+QUOTED_ID (312) 108 122 123 125 126 127 138 155 156 162
+INT (313) 64 67 68 77 78 84 85 88 89 90 93 96 97 98 106 116 124 151
+    152
+rid (314)
+aid (315)
+HEX (316)
+
+
+Nonterminals, with rules where they appear
+
+$accept (77)
+    on left: 0
+Pattern_List (78)
+    on left: 1 2 3, on right: 0 1
+Pattern (79)
+    on left: 4 5 6 7 8, on right: 1 2
+Abstract_Pattern (80)
+    on left: 9, on right: 4
+Abstract_Pattern_Name (81)
+    on left: 10, on right: 9
+Abstract_Rtl_Spec (82)
+    on left: 12 14, on right: 9
+$@1 (83)
+    on left: 11, on right: 12
+$@2 (84)
+    on left: 13, on right: 14
+Abstract_Extends_Body (85)
+    on left: 15 16, on right: 12 15
+Abstract_Overrides_Body (86)
+    on left: 17, on right: 14
+Concrete_Pattern (87)
+    on left: 18 19 20 21, on right: 5
+Concrete_Pattern_Name_Qualifier_S (88)
+    on left: 22 23 24 25, on right: 20
+Concrete_Pattern_Name_Qualifier (89)
+    on left: 26 27 28 29 30, on right: 18
+Concrete_Pattern_Name_Qualifier_C (90)
+    on left: 31 32 33, on right: 19
+Concrete_Rtl_Spec_S (91)
+    on left: 34, on right: 20
+Concrete_Rtl_Spec (92)
+    on left: 35 36 37, on right: 18
+Concrete_Rtl_Spec_C (93)
+    on left: 38 39, on right: 19
+Concrete_Instantiates_Body_C (94)
+    on left: 41, on right: 38 39
+$@3 (95)
+    on left: 40, on right: 41
+Concrete_Instantiates_Body_C2 (96)
+    on left: 42 43 44, on right: 41
+Concrete_Instantiates_Body (97)
+    on left: 45, on right: 34 35 41
+Concrete_Overrides_Body (98)
+    on left: 46, on right: 36 37
+Concrete_Instantiates_Body_Inner (99)
+    on left: 47 48 49, on right: 45
+Quoted_Id_List (100)
+    on left: 50 51, on right: 50 72
+Concrete_Overrides_Body_Inner (101)
+    on left: 52, on right: 46
+Concrete_Instantiates_Body_Out (102)
+    on left: 53, on right: 42 43
+Concrete_Overrides_Body_Out (103)
+    on left: 54, on right: 44
+Concrete_Instantiates_Body_Inner_Out (104)
+    on left: 55 56, on right: 53
+Concrete_Overrides_Body_Inner_Out (105)
+    on left: 57, on right: 54
+Concrete_Inst_Stmt_List (106)
+    on left: 58 59, on right: 21 47 49 52 55 57 58
+Stmt (107)
+    on left: 60, on right: 15 16
+Mode_Stmt (108)
+    on left: 61 62 63 64 65 66 67 68 69 70 71 72 73, on right: 58 59
+Attr_Access (109)
+    on left: 74 75 76, on right: 61 62 63 64 65
+Operand_Access (110)
+    on left: 77 78, on right: 60 66 67 75 76 77
+Operands (111)
+    on left: 79 80 81 82, on right: 47 48 55 56 79 80 81
+Operand (112)
+    on left: 83 84 85 86 87 88 89 90 91, on right: 81 82
+Fixed_Reg_Or_Const (113)
+    on left: 92 93 94 95 96 97 98 99, on right: 91
+Constraint (114)
+    on left: 100, on right: 83 84 86 87 88
+Predicate_Or_Mode_List (115)
+    on left: 101 102 103 104, on right: 66 67 83 84 86 88 89 92 93
+    101 102
+Predicate_Or_Mode_With_Brackets (116)
+    on left: 105, on right: 101 103
+Predicate_Or_Mode (117)
+    on left: 106 107, on right: 61 63 102 104 105
+Quoted_Id (118)
+    on left: 108, on right: 50 51 62 66 67 69 70 71 100 138 149
+Concrete_Pattern_Name_List (119)
+    on left: 109 110 111 112, on right: 21 22 23 24 25 26 27 28 29
+    30 33 34 35 36 37 38 39 42 43 44 109 110
+Concrete_Pattern_Name_With_Brackets (120)
+    on left: 113 114, on right: 109 111
+Concrete_Pattern_Name (121)
+    on left: 115 116 117 118 119, on right: 110 112 113 114
+Base_Name (122)
+    on left: 120, on right: 12 14
+Pattern_Name (123)
+    on left: 121, on right: 60
+List_Pattern (124)
+    on left: 122 123 124 125 126 127 128 129 130 131, on right: 6
+Code_Mode_Iter (125)
+    on left: 132 133, on right: 130
+Code_Mode_Attr (126)
+    on left: 134 135, on right: 131
+ListAsmEntries (127)
+    on left: 136 137, on right: 129 136
+AsmEntry (128)
+    on left: 138, on right: 136 137
+ListPID (129)
+    on left: 139 140, on right: 128 139
+ListEntries (130)
+    on left: 141 142 143 144, on right: 123 130 141 143
+ListQEntries (131)
+    on left: 145 146 147 148, on right: 131 145 146
+SQEntryPair (132)
+    on left: 149, on right: 143 144 145 147
+IEntryPair (133)
+    on left: 150 151 152, on right: 139 140
+Id_Reg (134)
+    on left: 153 154, on right: 150 151 152
+QIDList (135)
+    on left: 155 156, on right: 124 156
+SEntry (136)
+    on left: 157, on right: 141 142 146 148
+PipedId (137)
+    on left: 158 159 160 161 162 163, on right: 127 158 159 160 163
+
+
+State 0
+
+    0 $accept: . Pattern_List "end of file"
+
+    error          shift, and go to state 1
+    CONCRETE       shift, and go to state 2
+    ABSTRACT       shift, and go to state 3
+    CMD_SPEC_BODY  shift, and go to state 4
+    LIST           shift, and go to state 5
+    DDDD           shift, and go to state 6
+
+    Pattern_List      go to state 7
+    Pattern           go to state 8
+    Abstract_Pattern  go to state 9
+    Concrete_Pattern  go to state 10
+    List_Pattern      go to state 11
+
+
+State 1
+
+    3 Pattern_List: error . '}'
+
+    '}'  shift, and go to state 12
+
+
+State 2
+
+   18 Concrete_Pattern: CONCRETE . Concrete_Pattern_Name_Qualifier Concrete_Rtl_Spec
+   19                 | CONCRETE . Concrete_Pattern_Name_Qualifier_C Concrete_Rtl_Spec_C
+   20                 | CONCRETE . Concrete_Pattern_Name_Qualifier_S Concrete_Rtl_Spec_S
+   21                 | CONCRETE . Concrete_Pattern_Name_List '.' REG_CONS '{' Concrete_Inst_Stmt_List '}'
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '.'  shift, and go to state 17
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_Qualifier_S    go to state 20
+    Concrete_Pattern_Name_Qualifier      go to state 21
+    Concrete_Pattern_Name_Qualifier_C    go to state 22
+    Concrete_Pattern_Name_List           go to state 23
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 3
+
+    9 Abstract_Pattern: ABSTRACT . Abstract_Pattern_Name Abstract_Rtl_Spec
+
+    ID  shift, and go to state 26
+
+    Abstract_Pattern_Name  go to state 27
+
+
+State 4
+
+    7 Pattern: CMD_SPEC_BODY .
+
+    $default  reduce using rule 7 (Pattern)
+
+
+State 5
+
+  122 List_Pattern: LIST . QUOTED_ID '.' AUTOMATON
+  123             | LIST . QUOTED_ID '.' C_ENUM OBRACE ListEntries CBRACE
+  124             | LIST . INT '.' BYPASS QIDList
+  125             | LIST . QUOTED_ID '.' CPU_UNIT QUOTED_ID
+  126             | LIST . QUOTED_ID '.' RESERVATION QUOTED_ID
+  127             | LIST . QUOTED_ID '.' RESERVATION '"' PipedId '"'
+  128             | LIST . NONAME '.' CONSTANTS OBRACE ListPID CBRACE
+  129             | LIST . NONAME '.' ASM_ATTR OBRACE ListAsmEntries CBRACE
+  130             | LIST . ID '.' Code_Mode_Iter OBRACE ListEntries CBRACE
+  131             | LIST . ID '.' Code_Mode_Attr OBRACE ListQEntries CBRACE
+
+    NONAME     shift, and go to state 28
+    ID         shift, and go to state 29
+    QUOTED_ID  shift, and go to state 30
+    INT        shift, and go to state 31
+
+
+State 6
+
+    8 Pattern: DDDD .
+
+    $default  reduce using rule 8 (Pattern)
+
+
+State 7
+
+    0 $accept: Pattern_List . "end of file"
+    1 Pattern_List: Pattern_List . Pattern
+
+    "end of file"  shift, and go to state 32
+    CONCRETE       shift, and go to state 2
+    ABSTRACT       shift, and go to state 3
+    CMD_SPEC_BODY  shift, and go to state 4
+    LIST           shift, and go to state 5
+    DDDD           shift, and go to state 6
+
+    Pattern           go to state 33
+    Abstract_Pattern  go to state 9
+    Concrete_Pattern  go to state 10
+    List_Pattern      go to state 11
+
+
+State 8
+
+    2 Pattern_List: Pattern .
+
+    $default  reduce using rule 2 (Pattern_List)
+
+
+State 9
+
+    4 Pattern: Abstract_Pattern .
+
+    $default  reduce using rule 4 (Pattern)
+
+
+State 10
+
+    5 Pattern: Concrete_Pattern .
+
+    $default  reduce using rule 5 (Pattern)
+
+
+State 11
+
+    6 Pattern: List_Pattern .
+
+    $default  reduce using rule 6 (Pattern)
+
+
+State 12
+
+    3 Pattern_List: error '}' .
+
+    $default  reduce using rule 3 (Pattern_List)
+
+
+State 13
+
+  119 Concrete_Pattern_Name: '_' .
+
+    $default  reduce using rule 119 (Concrete_Pattern_Name)
+
+
+State 14
+
+  117 Concrete_Pattern_Name: '*' .
+
+    $default  reduce using rule 117 (Concrete_Pattern_Name)
+
+
+State 15
+
+  115 Concrete_Pattern_Name: ID .
+
+    $default  reduce using rule 115 (Concrete_Pattern_Name)
+
+
+State 16
+
+  116 Concrete_Pattern_Name: INT .
+
+    $default  reduce using rule 116 (Concrete_Pattern_Name)
+
+
+State 17
+
+   31 Concrete_Pattern_Name_Qualifier_C: '.' . PEEP2
+   32                                  | '.' . SPLIT
+
+    PEEP2  shift, and go to state 34
+    SPLIT  shift, and go to state 35
+
+
+State 18
+
+  113 Concrete_Pattern_Name_With_Brackets: '<' . Concrete_Pattern_Name '>'
+  114                                    | '<' . Concrete_Pattern_Name ':' Concrete_Pattern_Name '>'
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name  go to state 36
+
+
+State 19
+
+  118 Concrete_Pattern_Name: ':' .
+
+    $default  reduce using rule 118 (Concrete_Pattern_Name)
+
+
+State 20
+
+   20 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier_S . Concrete_Rtl_Spec_S
+
+    INSTANTIATES  shift, and go to state 37
+
+    Concrete_Rtl_Spec_S  go to state 38
+
+
+State 21
+
+   18 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier . Concrete_Rtl_Spec
+
+    OVERRIDES     shift, and go to state 39
+    INSTANTIATES  shift, and go to state 40
+
+    Concrete_Rtl_Spec  go to state 41
+
+
+State 22
+
+   19 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier_C . Concrete_Rtl_Spec_C
+
+    OVERRIDES     shift, and go to state 42
+    INSTANTIATES  shift, and go to state 43
+
+    Concrete_Rtl_Spec_C  go to state 44
+
+
+State 23
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List . '.' REG_CONS '{' Concrete_Inst_Stmt_List '}'
+   22 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List . '.' CONS
+   23                                  | Concrete_Pattern_Name_List . '.' ATTR
+   24                                  | Concrete_Pattern_Name_List . '.' MEM_CONS
+   25                                  | Concrete_Pattern_Name_List . '.' ADD_CONS
+   26 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List . '.' INSN
+   27                                | Concrete_Pattern_Name_List . '.' EXP
+   28                                | Concrete_Pattern_Name_List . '.' INSN_RESERV
+   29                                | Concrete_Pattern_Name_List . '.' PREDICATE
+   30                                | Concrete_Pattern_Name_List . '.' SPECIAL_PREDICATE
+   33 Concrete_Pattern_Name_Qualifier_C: Concrete_Pattern_Name_List . '.' INSN_SPLIT
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '.'  shift, and go to state 45
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 24
+
+  111 Concrete_Pattern_Name_List: Concrete_Pattern_Name_With_Brackets .
+
+    $default  reduce using rule 111 (Concrete_Pattern_Name_List)
+
+
+State 25
+
+  112 Concrete_Pattern_Name_List: Concrete_Pattern_Name .
+
+    $default  reduce using rule 112 (Concrete_Pattern_Name_List)
+
+
+State 26
+
+   10 Abstract_Pattern_Name: ID .
+
+    $default  reduce using rule 10 (Abstract_Pattern_Name)
+
+
+State 27
+
+    9 Abstract_Pattern: ABSTRACT Abstract_Pattern_Name . Abstract_Rtl_Spec
+
+    EXTENDS    shift, and go to state 48
+    OVERRIDES  shift, and go to state 49
+
+    Abstract_Rtl_Spec  go to state 50
+
+
+State 28
+
+  128 List_Pattern: LIST NONAME . '.' CONSTANTS OBRACE ListPID CBRACE
+  129             | LIST NONAME . '.' ASM_ATTR OBRACE ListAsmEntries CBRACE
+
+    '.'  shift, and go to state 51
+
+
+State 29
+
+  130 List_Pattern: LIST ID . '.' Code_Mode_Iter OBRACE ListEntries CBRACE
+  131             | LIST ID . '.' Code_Mode_Attr OBRACE ListQEntries CBRACE
+
+    '.'  shift, and go to state 52
+
+
+State 30
+
+  122 List_Pattern: LIST QUOTED_ID . '.' AUTOMATON
+  123             | LIST QUOTED_ID . '.' C_ENUM OBRACE ListEntries CBRACE
+  125             | LIST QUOTED_ID . '.' CPU_UNIT QUOTED_ID
+  126             | LIST QUOTED_ID . '.' RESERVATION QUOTED_ID
+  127             | LIST QUOTED_ID . '.' RESERVATION '"' PipedId '"'
+
+    '.'  shift, and go to state 53
+
+
+State 31
+
+  124 List_Pattern: LIST INT . '.' BYPASS QIDList
+
+    '.'  shift, and go to state 54
+
+
+State 32
+
+    0 $accept: Pattern_List "end of file" .
+
+    $default  accept
+
+
+State 33
+
+    1 Pattern_List: Pattern_List Pattern .
+
+    $default  reduce using rule 1 (Pattern_List)
+
+
+State 34
+
+   31 Concrete_Pattern_Name_Qualifier_C: '.' PEEP2 .
+
+    $default  reduce using rule 31 (Concrete_Pattern_Name_Qualifier_C)
+
+
+State 35
+
+   32 Concrete_Pattern_Name_Qualifier_C: '.' SPLIT .
+
+    $default  reduce using rule 32 (Concrete_Pattern_Name_Qualifier_C)
+
+
+State 36
+
+  113 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name . '>'
+  114                                    | '<' Concrete_Pattern_Name . ':' Concrete_Pattern_Name '>'
+
+    '>'  shift, and go to state 55
+    ':'  shift, and go to state 56
+
+
+State 37
+
+   34 Concrete_Rtl_Spec_S: INSTANTIATES . Concrete_Pattern_Name_List Concrete_Instantiates_Body
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 57
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 38
+
+   20 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier_S Concrete_Rtl_Spec_S .
+
+    $default  reduce using rule 20 (Concrete_Pattern)
+
+
+State 39
+
+   36 Concrete_Rtl_Spec: OVERRIDES . Concrete_Pattern_Name_List '.' INSN Concrete_Overrides_Body CMD_SPEC_BODY
+   37                  | OVERRIDES . Concrete_Pattern_Name_List '.' EXP Concrete_Overrides_Body CMD_SPEC_BODY
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 58
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 40
+
+   35 Concrete_Rtl_Spec: INSTANTIATES . Concrete_Pattern_Name_List Concrete_Instantiates_Body CMD_SPEC_BODY
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 59
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 41
+
+   18 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier Concrete_Rtl_Spec .
+
+    $default  reduce using rule 18 (Concrete_Pattern)
+
+
+State 42
+
+   39 Concrete_Rtl_Spec_C: OVERRIDES . '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    '.'  shift, and go to state 60
+
+
+State 43
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES . '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    '.'  shift, and go to state 61
+
+
+State 44
+
+   19 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_Qualifier_C Concrete_Rtl_Spec_C .
+
+    $default  reduce using rule 19 (Concrete_Pattern)
+
+
+State 45
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List '.' . REG_CONS '{' Concrete_Inst_Stmt_List '}'
+   22 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' . CONS
+   23                                  | Concrete_Pattern_Name_List '.' . ATTR
+   24                                  | Concrete_Pattern_Name_List '.' . MEM_CONS
+   25                                  | Concrete_Pattern_Name_List '.' . ADD_CONS
+   26 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' . INSN
+   27                                | Concrete_Pattern_Name_List '.' . EXP
+   28                                | Concrete_Pattern_Name_List '.' . INSN_RESERV
+   29                                | Concrete_Pattern_Name_List '.' . PREDICATE
+   30                                | Concrete_Pattern_Name_List '.' . SPECIAL_PREDICATE
+   33 Concrete_Pattern_Name_Qualifier_C: Concrete_Pattern_Name_List '.' . INSN_SPLIT
+
+    INSN               shift, and go to state 62
+    EXP                shift, and go to state 63
+    INSN_SPLIT         shift, and go to state 64
+    INSN_RESERV        shift, and go to state 65
+    PREDICATE          shift, and go to state 66
+    SPECIAL_PREDICATE  shift, and go to state 67
+    ATTR               shift, and go to state 68
+    CONS               shift, and go to state 69
+    REG_CONS           shift, and go to state 70
+    MEM_CONS           shift, and go to state 71
+    ADD_CONS           shift, and go to state 72
+
+
+State 46
+
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List Concrete_Pattern_Name_With_Brackets .
+
+    $default  reduce using rule 109 (Concrete_Pattern_Name_List)
+
+
+State 47
+
+  110 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List Concrete_Pattern_Name .
+
+    $default  reduce using rule 110 (Concrete_Pattern_Name_List)
+
+
+State 48
+
+   12 Abstract_Rtl_Spec: EXTENDS . Base_Name $@1 '{' Abstract_Extends_Body '}'
+
+    ID  shift, and go to state 73
+
+    Base_Name  go to state 74
+
+
+State 49
+
+   14 Abstract_Rtl_Spec: OVERRIDES . Base_Name $@2 '{' Abstract_Overrides_Body '}'
+
+    ID  shift, and go to state 73
+
+    Base_Name  go to state 75
+
+
+State 50
+
+    9 Abstract_Pattern: ABSTRACT Abstract_Pattern_Name Abstract_Rtl_Spec .
+
+    $default  reduce using rule 9 (Abstract_Pattern)
+
+
+State 51
+
+  128 List_Pattern: LIST NONAME '.' . CONSTANTS OBRACE ListPID CBRACE
+  129             | LIST NONAME '.' . ASM_ATTR OBRACE ListAsmEntries CBRACE
+
+    ASM_ATTR   shift, and go to state 76
+    CONSTANTS  shift, and go to state 77
+
+
+State 52
+
+  130 List_Pattern: LIST ID '.' . Code_Mode_Iter OBRACE ListEntries CBRACE
+  131             | LIST ID '.' . Code_Mode_Attr OBRACE ListQEntries CBRACE
+
+    C_ITER  shift, and go to state 78
+    C_ATTR  shift, and go to state 79
+    M_ITER  shift, and go to state 80
+    M_ATTR  shift, and go to state 81
+
+    Code_Mode_Iter  go to state 82
+    Code_Mode_Attr  go to state 83
+
+
+State 53
+
+  122 List_Pattern: LIST QUOTED_ID '.' . AUTOMATON
+  123             | LIST QUOTED_ID '.' . C_ENUM OBRACE ListEntries CBRACE
+  125             | LIST QUOTED_ID '.' . CPU_UNIT QUOTED_ID
+  126             | LIST QUOTED_ID '.' . RESERVATION QUOTED_ID
+  127             | LIST QUOTED_ID '.' . RESERVATION '"' PipedId '"'
+
+    AUTOMATON    shift, and go to state 84
+    CPU_UNIT     shift, and go to state 85
+    RESERVATION  shift, and go to state 86
+    C_ENUM       shift, and go to state 87
+
+
+State 54
+
+  124 List_Pattern: LIST INT '.' . BYPASS QIDList
+
+    BYPASS  shift, and go to state 88
+
+
+State 55
+
+  113 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name '>' .
+
+    $default  reduce using rule 113 (Concrete_Pattern_Name_With_Brackets)
+
+
+State 56
+
+  114 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name ':' . Concrete_Pattern_Name '>'
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name  go to state 89
+
+
+State 57
+
+   34 Concrete_Rtl_Spec_S: INSTANTIATES Concrete_Pattern_Name_List . Concrete_Instantiates_Body
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 90
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Instantiates_Body           go to state 91
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 58
+
+   36 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List . '.' INSN Concrete_Overrides_Body CMD_SPEC_BODY
+   37                  | OVERRIDES Concrete_Pattern_Name_List . '.' EXP Concrete_Overrides_Body CMD_SPEC_BODY
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '.'  shift, and go to state 92
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 59
+
+   35 Concrete_Rtl_Spec: INSTANTIATES Concrete_Pattern_Name_List . Concrete_Instantiates_Body CMD_SPEC_BODY
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 90
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Instantiates_Body           go to state 93
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 60
+
+   39 Concrete_Rtl_Spec_C: OVERRIDES '.' . IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    IN  shift, and go to state 94
+
+
+State 61
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES '.' . IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    IN  shift, and go to state 95
+
+
+State 62
+
+   26 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' INSN .
+
+    $default  reduce using rule 26 (Concrete_Pattern_Name_Qualifier)
+
+
+State 63
+
+   27 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' EXP .
+
+    $default  reduce using rule 27 (Concrete_Pattern_Name_Qualifier)
+
+
+State 64
+
+   33 Concrete_Pattern_Name_Qualifier_C: Concrete_Pattern_Name_List '.' INSN_SPLIT .
+
+    $default  reduce using rule 33 (Concrete_Pattern_Name_Qualifier_C)
+
+
+State 65
+
+   28 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' INSN_RESERV .
+
+    $default  reduce using rule 28 (Concrete_Pattern_Name_Qualifier)
+
+
+State 66
+
+   29 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' PREDICATE .
+
+    $default  reduce using rule 29 (Concrete_Pattern_Name_Qualifier)
+
+
+State 67
+
+   30 Concrete_Pattern_Name_Qualifier: Concrete_Pattern_Name_List '.' SPECIAL_PREDICATE .
+
+    $default  reduce using rule 30 (Concrete_Pattern_Name_Qualifier)
+
+
+State 68
+
+   23 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' ATTR .
+
+    $default  reduce using rule 23 (Concrete_Pattern_Name_Qualifier_S)
+
+
+State 69
+
+   22 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' CONS .
+
+    $default  reduce using rule 22 (Concrete_Pattern_Name_Qualifier_S)
+
+
+State 70
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List '.' REG_CONS . '{' Concrete_Inst_Stmt_List '}'
+
+    '{'  shift, and go to state 96
+
+
+State 71
+
+   24 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' MEM_CONS .
+
+    $default  reduce using rule 24 (Concrete_Pattern_Name_Qualifier_S)
+
+
+State 72
+
+   25 Concrete_Pattern_Name_Qualifier_S: Concrete_Pattern_Name_List '.' ADD_CONS .
+
+    $default  reduce using rule 25 (Concrete_Pattern_Name_Qualifier_S)
+
+
+State 73
+
+  120 Base_Name: ID .
+
+    $default  reduce using rule 120 (Base_Name)
+
+
+State 74
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name . $@1 '{' Abstract_Extends_Body '}'
+
+    $default  reduce using rule 11 ($@1)
+
+    $@1  go to state 97
+
+
+State 75
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name . $@2 '{' Abstract_Overrides_Body '}'
+
+    $default  reduce using rule 13 ($@2)
+
+    $@2  go to state 98
+
+
+State 76
+
+  129 List_Pattern: LIST NONAME '.' ASM_ATTR . OBRACE ListAsmEntries CBRACE
+
+    OBRACE  shift, and go to state 99
+
+
+State 77
+
+  128 List_Pattern: LIST NONAME '.' CONSTANTS . OBRACE ListPID CBRACE
+
+    OBRACE  shift, and go to state 100
+
+
+State 78
+
+  132 Code_Mode_Iter: C_ITER .
+
+    $default  reduce using rule 132 (Code_Mode_Iter)
+
+
+State 79
+
+  134 Code_Mode_Attr: C_ATTR .
+
+    $default  reduce using rule 134 (Code_Mode_Attr)
+
+
+State 80
+
+  133 Code_Mode_Iter: M_ITER .
+
+    $default  reduce using rule 133 (Code_Mode_Iter)
+
+
+State 81
+
+  135 Code_Mode_Attr: M_ATTR .
+
+    $default  reduce using rule 135 (Code_Mode_Attr)
+
+
+State 82
+
+  130 List_Pattern: LIST ID '.' Code_Mode_Iter . OBRACE ListEntries CBRACE
+
+    OBRACE  shift, and go to state 101
+
+
+State 83
+
+  131 List_Pattern: LIST ID '.' Code_Mode_Attr . OBRACE ListQEntries CBRACE
+
+    OBRACE  shift, and go to state 102
+
+
+State 84
+
+  122 List_Pattern: LIST QUOTED_ID '.' AUTOMATON .
+
+    $default  reduce using rule 122 (List_Pattern)
+
+
+State 85
+
+  125 List_Pattern: LIST QUOTED_ID '.' CPU_UNIT . QUOTED_ID
+
+    QUOTED_ID  shift, and go to state 103
+
+
+State 86
+
+  126 List_Pattern: LIST QUOTED_ID '.' RESERVATION . QUOTED_ID
+  127             | LIST QUOTED_ID '.' RESERVATION . '"' PipedId '"'
+
+    QUOTED_ID  shift, and go to state 104
+    '"'        shift, and go to state 105
+
+
+State 87
+
+  123 List_Pattern: LIST QUOTED_ID '.' C_ENUM . OBRACE ListEntries CBRACE
+
+    OBRACE  shift, and go to state 106
+
+
+State 88
+
+  124 List_Pattern: LIST INT '.' BYPASS . QIDList
+
+    QUOTED_ID  shift, and go to state 107
+
+    QIDList  go to state 108
+
+
+State 89
+
+  114 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name ':' Concrete_Pattern_Name . '>'
+
+    '>'  shift, and go to state 109
+
+
+State 90
+
+   45 Concrete_Instantiates_Body: '{' . Concrete_Instantiates_Body_Inner '}'
+
+    ROOT            shift, and go to state 110
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    Concrete_Instantiates_Body_Inner  go to state 117
+    Concrete_Inst_Stmt_List           go to state 118
+    Mode_Stmt                         go to state 119
+
+
+State 91
+
+   34 Concrete_Rtl_Spec_S: INSTANTIATES Concrete_Pattern_Name_List Concrete_Instantiates_Body .
+
+    $default  reduce using rule 34 (Concrete_Rtl_Spec_S)
+
+
+State 92
+
+   36 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' . INSN Concrete_Overrides_Body CMD_SPEC_BODY
+   37                  | OVERRIDES Concrete_Pattern_Name_List '.' . EXP Concrete_Overrides_Body CMD_SPEC_BODY
+
+    INSN  shift, and go to state 120
+    EXP   shift, and go to state 121
+
+
+State 93
+
+   35 Concrete_Rtl_Spec: INSTANTIATES Concrete_Pattern_Name_List Concrete_Instantiates_Body . CMD_SPEC_BODY
+
+    CMD_SPEC_BODY  shift, and go to state 122
+
+
+State 94
+
+   39 Concrete_Rtl_Spec_C: OVERRIDES '.' IN . Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 123
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 95
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES '.' IN . Concrete_Pattern_Name_List Concrete_Instantiates_Body_C
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 124
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 96
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List '.' REG_CONS '{' . Concrete_Inst_Stmt_List '}'
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    Concrete_Inst_Stmt_List  go to state 126
+    Mode_Stmt                go to state 119
+
+
+State 97
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name $@1 . '{' Abstract_Extends_Body '}'
+
+    '{'  shift, and go to state 127
+
+
+State 98
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name $@2 . '{' Abstract_Overrides_Body '}'
+
+    '{'  shift, and go to state 128
+
+
+State 99
+
+  129 List_Pattern: LIST NONAME '.' ASM_ATTR OBRACE . ListAsmEntries CBRACE
+
+    '('  shift, and go to state 129
+
+    ListAsmEntries  go to state 130
+    AsmEntry        go to state 131
+
+
+State 100
+
+  128 List_Pattern: LIST NONAME '.' CONSTANTS OBRACE . ListPID CBRACE
+
+    '('  shift, and go to state 132
+
+    ListPID  go to state 133
+
+
+State 101
+
+  130 List_Pattern: LIST ID '.' Code_Mode_Iter OBRACE . ListEntries CBRACE
+
+    ID   shift, and go to state 134
+    '('  shift, and go to state 135
+
+    ListEntries  go to state 136
+    SEntry       go to state 137
+
+
+State 102
+
+  131 List_Pattern: LIST ID '.' Code_Mode_Attr OBRACE . ListQEntries CBRACE
+
+    ID   shift, and go to state 134
+    '('  shift, and go to state 138
+
+    ListQEntries  go to state 139
+    SEntry        go to state 140
+
+
+State 103
+
+  125 List_Pattern: LIST QUOTED_ID '.' CPU_UNIT QUOTED_ID .
+
+    $default  reduce using rule 125 (List_Pattern)
+
+
+State 104
+
+  126 List_Pattern: LIST QUOTED_ID '.' RESERVATION QUOTED_ID .
+
+    $default  reduce using rule 126 (List_Pattern)
+
+
+State 105
+
+  127 List_Pattern: LIST QUOTED_ID '.' RESERVATION '"' . PipedId '"'
+
+    ID         shift, and go to state 141
+    QUOTED_ID  shift, and go to state 142
+    '('        shift, and go to state 143
+
+    PipedId  go to state 144
+
+
+State 106
+
+  123 List_Pattern: LIST QUOTED_ID '.' C_ENUM OBRACE . ListEntries CBRACE
+
+    ID   shift, and go to state 134
+    '('  shift, and go to state 135
+
+    ListEntries  go to state 145
+    SEntry       go to state 137
+
+
+State 107
+
+  155 QIDList: QUOTED_ID .
+
+    $default  reduce using rule 155 (QIDList)
+
+
+State 108
+
+  124 List_Pattern: LIST INT '.' BYPASS QIDList .
+  156 QIDList: QIDList . QUOTED_ID
+
+    QUOTED_ID  shift, and go to state 146
+
+    $default  reduce using rule 124 (List_Pattern)
+
+
+State 109
+
+  114 Concrete_Pattern_Name_With_Brackets: '<' Concrete_Pattern_Name ':' Concrete_Pattern_Name '>' .
+
+    $default  reduce using rule 114 (Concrete_Pattern_Name_With_Brackets)
+
+
+State 110
+
+   47 Concrete_Instantiates_Body_Inner: ROOT . '(' Operands ')' ';' Concrete_Inst_Stmt_List
+   48                                 | ROOT . '(' Operands ')' ';'
+   61 Mode_Stmt: ROOT . Attr_Access ASSIGN Predicate_Or_Mode ';'
+   62          | ROOT . Attr_Access ASSIGN Quoted_Id ';'
+   63          | ROOT . Attr_Access ASSIGN '<' Predicate_Or_Mode '>' ';'
+   64          | ROOT . Attr_Access ASSIGN CONST_INT ':' INT ';'
+   65          | ROOT . Attr_Access ASSIGN ID '(' ID ':' FIXED_REG ')' ';'
+   66          | ROOT . Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   67          | ROOT . Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    '.'  shift, and go to state 147
+    '('  shift, and go to state 148
+
+    Attr_Access     go to state 149
+    Operand_Access  go to state 150
+
+
+State 111
+
+   68 Mode_Stmt: LATENCY . ASSIGN INT ';'
+
+    ASSIGN  shift, and go to state 151
+
+
+State 112
+
+   69 Mode_Stmt: LOV . ASSIGN Quoted_Id ';'
+
+    ASSIGN  shift, and go to state 152
+
+
+State 113
+
+   70 Mode_Stmt: DOCSTRING . ASSIGN Quoted_Id ';'
+
+    ASSIGN  shift, and go to state 153
+
+
+State 114
+
+   71 Mode_Stmt: REGCLASS . ASSIGN Quoted_Id ';'
+
+    ASSIGN  shift, and go to state 154
+
+
+State 115
+
+   72 Mode_Stmt: ALLCONSTRAINTS . ASSIGN '(' Quoted_Id_List ')' ';'
+
+    ASSIGN  shift, and go to state 155
+
+
+State 116
+
+   73 Mode_Stmt: ID . '-' '>' ID ';'
+
+    '-'  shift, and go to state 156
+
+
+State 117
+
+   45 Concrete_Instantiates_Body: '{' Concrete_Instantiates_Body_Inner . '}'
+
+    '}'  shift, and go to state 157
+
+
+State 118
+
+   49 Concrete_Instantiates_Body_Inner: Concrete_Inst_Stmt_List .
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 49 (Concrete_Instantiates_Body_Inner)
+
+    Mode_Stmt  go to state 158
+
+
+State 119
+
+   59 Concrete_Inst_Stmt_List: Mode_Stmt .
+
+    $default  reduce using rule 59 (Concrete_Inst_Stmt_List)
+
+
+State 120
+
+   36 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' INSN . Concrete_Overrides_Body CMD_SPEC_BODY
+
+    '{'  shift, and go to state 159
+
+    Concrete_Overrides_Body  go to state 160
+
+
+State 121
+
+   37 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' EXP . Concrete_Overrides_Body CMD_SPEC_BODY
+
+    '{'  shift, and go to state 159
+
+    Concrete_Overrides_Body  go to state 161
+
+
+State 122
+
+   35 Concrete_Rtl_Spec: INSTANTIATES Concrete_Pattern_Name_List Concrete_Instantiates_Body CMD_SPEC_BODY .
+
+    $default  reduce using rule 35 (Concrete_Rtl_Spec)
+
+
+State 123
+
+   39 Concrete_Rtl_Spec_C: OVERRIDES '.' IN Concrete_Pattern_Name_List . Concrete_Instantiates_Body_C
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 90
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Instantiates_Body_C         go to state 162
+    Concrete_Instantiates_Body           go to state 163
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 124
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES '.' IN Concrete_Pattern_Name_List . Concrete_Instantiates_Body_C
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 90
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Instantiates_Body_C         go to state 164
+    Concrete_Instantiates_Body           go to state 163
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 125
+
+   61 Mode_Stmt: ROOT . Attr_Access ASSIGN Predicate_Or_Mode ';'
+   62          | ROOT . Attr_Access ASSIGN Quoted_Id ';'
+   63          | ROOT . Attr_Access ASSIGN '<' Predicate_Or_Mode '>' ';'
+   64          | ROOT . Attr_Access ASSIGN CONST_INT ':' INT ';'
+   65          | ROOT . Attr_Access ASSIGN ID '(' ID ':' FIXED_REG ')' ';'
+   66          | ROOT . Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   67          | ROOT . Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    '.'  shift, and go to state 147
+
+    Attr_Access     go to state 149
+    Operand_Access  go to state 150
+
+
+State 126
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List '.' REG_CONS '{' Concrete_Inst_Stmt_List . '}'
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+    '}'             shift, and go to state 165
+
+    Mode_Stmt  go to state 158
+
+
+State 127
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name $@1 '{' . Abstract_Extends_Body '}'
+
+    ROOT  shift, and go to state 166
+
+    Abstract_Extends_Body  go to state 167
+    Stmt                   go to state 168
+
+
+State 128
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name $@2 '{' . Abstract_Overrides_Body '}'
+
+    ID  shift, and go to state 169
+
+    Abstract_Overrides_Body  go to state 170
+
+
+State 129
+
+  138 AsmEntry: '(' . SET_ATTR ',' Quoted_Id ',' QUOTED_ID ')'
+
+    SET_ATTR  shift, and go to state 171
+
+
+State 130
+
+  129 List_Pattern: LIST NONAME '.' ASM_ATTR OBRACE ListAsmEntries . CBRACE
+  136 ListAsmEntries: ListAsmEntries . ',' AsmEntry
+
+    CBRACE  shift, and go to state 172
+    ','     shift, and go to state 173
+
+
+State 131
+
+  137 ListAsmEntries: AsmEntry .
+
+    $default  reduce using rule 137 (ListAsmEntries)
+
+
+State 132
+
+  140 ListPID: '(' . IEntryPair ')'
+
+    FIXED_REG  shift, and go to state 174
+    ID         shift, and go to state 175
+
+    IEntryPair  go to state 176
+    Id_Reg      go to state 177
+
+
+State 133
+
+  128 List_Pattern: LIST NONAME '.' CONSTANTS OBRACE ListPID . CBRACE
+  139 ListPID: ListPID . ',' '(' IEntryPair ')'
+
+    CBRACE  shift, and go to state 178
+    ','     shift, and go to state 179
+
+
+State 134
+
+  157 SEntry: ID .
+
+    $default  reduce using rule 157 (SEntry)
+
+
+State 135
+
+  144 ListEntries: '(' . SQEntryPair ')'
+
+    ID  shift, and go to state 180
+
+    SQEntryPair  go to state 181
+
+
+State 136
+
+  130 List_Pattern: LIST ID '.' Code_Mode_Iter OBRACE ListEntries . CBRACE
+  141 ListEntries: ListEntries . ',' SEntry
+  143            | ListEntries . ',' '(' SQEntryPair ')'
+
+    CBRACE  shift, and go to state 182
+    ','     shift, and go to state 183
+
+
+State 137
+
+  142 ListEntries: SEntry .
+
+    $default  reduce using rule 142 (ListEntries)
+
+
+State 138
+
+  147 ListQEntries: '(' . SQEntryPair ')'
+
+    ID  shift, and go to state 180
+
+    SQEntryPair  go to state 184
+
+
+State 139
+
+  131 List_Pattern: LIST ID '.' Code_Mode_Attr OBRACE ListQEntries . CBRACE
+  145 ListQEntries: ListQEntries . ',' '(' SQEntryPair ')'
+  146             | ListQEntries . ',' SEntry
+
+    CBRACE  shift, and go to state 185
+    ','     shift, and go to state 186
+
+
+State 140
+
+  148 ListQEntries: SEntry .
+
+    $default  reduce using rule 148 (ListQEntries)
+
+
+State 141
+
+  158 PipedId: ID . PIPE PipedId
+  160        | ID . PLUS PipedId
+  161        | ID .
+  163        | ID . ',' PipedId
+
+    PIPE  shift, and go to state 187
+    PLUS  shift, and go to state 188
+    ','   shift, and go to state 189
+
+    $default  reduce using rule 161 (PipedId)
+
+
+State 142
+
+  162 PipedId: QUOTED_ID .
+
+    $default  reduce using rule 162 (PipedId)
+
+
+State 143
+
+  159 PipedId: '(' . PipedId ')'
+
+    ID         shift, and go to state 141
+    QUOTED_ID  shift, and go to state 142
+    '('        shift, and go to state 143
+
+    PipedId  go to state 190
+
+
+State 144
+
+  127 List_Pattern: LIST QUOTED_ID '.' RESERVATION '"' PipedId . '"'
+
+    '"'  shift, and go to state 191
+
+
+State 145
+
+  123 List_Pattern: LIST QUOTED_ID '.' C_ENUM OBRACE ListEntries . CBRACE
+  141 ListEntries: ListEntries . ',' SEntry
+  143            | ListEntries . ',' '(' SQEntryPair ')'
+
+    CBRACE  shift, and go to state 192
+    ','     shift, and go to state 183
+
+
+State 146
+
+  156 QIDList: QIDList QUOTED_ID .
+
+    $default  reduce using rule 156 (QIDList)
+
+
+State 147
+
+   74 Attr_Access: '.' . ID
+   78 Operand_Access: '.' . INT
+
+    ID   shift, and go to state 193
+    INT  shift, and go to state 194
+
+
+State 148
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' . Operands ')' ';' Concrete_Inst_Stmt_List
+   48                                 | ROOT '(' . Operands ')' ';'
+
+    ATTR       shift, and go to state 195
+    CONST_INT  shift, and go to state 196
+    DUPLICATE  shift, and go to state 197
+    FIXED_REG  shift, and go to state 198
+    ID         shift, and go to state 199
+    INT        shift, and go to state 200
+    '('        shift, and go to state 201
+    '<'        shift, and go to state 202
+
+    Operands                         go to state 203
+    Operand                          go to state 204
+    Fixed_Reg_Or_Const               go to state 205
+    Predicate_Or_Mode_List           go to state 206
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 149
+
+   61 Mode_Stmt: ROOT Attr_Access . ASSIGN Predicate_Or_Mode ';'
+   62          | ROOT Attr_Access . ASSIGN Quoted_Id ';'
+   63          | ROOT Attr_Access . ASSIGN '<' Predicate_Or_Mode '>' ';'
+   64          | ROOT Attr_Access . ASSIGN CONST_INT ':' INT ';'
+   65          | ROOT Attr_Access . ASSIGN ID '(' ID ':' FIXED_REG ')' ';'
+
+    ASSIGN  shift, and go to state 209
+
+
+State 150
+
+   66 Mode_Stmt: ROOT Operand_Access . ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   67          | ROOT Operand_Access . ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   75 Attr_Access: Operand_Access . '.' ID
+   76            | Operand_Access . '.' PREDICATE
+   77 Operand_Access: Operand_Access . '.' INT
+
+    ASSIGN  shift, and go to state 210
+    '.'     shift, and go to state 211
+
+
+State 151
+
+   68 Mode_Stmt: LATENCY ASSIGN . INT ';'
+
+    INT  shift, and go to state 212
+
+
+State 152
+
+   69 Mode_Stmt: LOV ASSIGN . Quoted_Id ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 214
+
+
+State 153
+
+   70 Mode_Stmt: DOCSTRING ASSIGN . Quoted_Id ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 215
+
+
+State 154
+
+   71 Mode_Stmt: REGCLASS ASSIGN . Quoted_Id ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 216
+
+
+State 155
+
+   72 Mode_Stmt: ALLCONSTRAINTS ASSIGN . '(' Quoted_Id_List ')' ';'
+
+    '('  shift, and go to state 217
+
+
+State 156
+
+   73 Mode_Stmt: ID '-' . '>' ID ';'
+
+    '>'  shift, and go to state 218
+
+
+State 157
+
+   45 Concrete_Instantiates_Body: '{' Concrete_Instantiates_Body_Inner '}' .
+
+    $default  reduce using rule 45 (Concrete_Instantiates_Body)
+
+
+State 158
+
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List Mode_Stmt .
+
+    $default  reduce using rule 58 (Concrete_Inst_Stmt_List)
+
+
+State 159
+
+   46 Concrete_Overrides_Body: '{' . Concrete_Overrides_Body_Inner '}'
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    Concrete_Overrides_Body_Inner  go to state 219
+    Concrete_Inst_Stmt_List        go to state 220
+    Mode_Stmt                      go to state 119
+
+
+State 160
+
+   36 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' INSN Concrete_Overrides_Body . CMD_SPEC_BODY
+
+    CMD_SPEC_BODY  shift, and go to state 221
+
+
+State 161
+
+   37 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' EXP Concrete_Overrides_Body . CMD_SPEC_BODY
+
+    CMD_SPEC_BODY  shift, and go to state 222
+
+
+State 162
+
+   39 Concrete_Rtl_Spec_C: OVERRIDES '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C .
+
+    $default  reduce using rule 39 (Concrete_Rtl_Spec_C)
+
+
+State 163
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body . CMD_SPEC '.' IN CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2
+
+    CMD_SPEC  shift, and go to state 223
+
+
+State 164
+
+   38 Concrete_Rtl_Spec_C: INSTANTIATES '.' IN Concrete_Pattern_Name_List Concrete_Instantiates_Body_C .
+
+    $default  reduce using rule 38 (Concrete_Rtl_Spec_C)
+
+
+State 165
+
+   21 Concrete_Pattern: CONCRETE Concrete_Pattern_Name_List '.' REG_CONS '{' Concrete_Inst_Stmt_List '}' .
+
+    $default  reduce using rule 21 (Concrete_Pattern)
+
+
+State 166
+
+   60 Stmt: ROOT . Operand_Access ASSIGN Pattern_Name ';'
+
+    '.'  shift, and go to state 224
+
+    Operand_Access  go to state 225
+
+
+State 167
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name $@1 '{' Abstract_Extends_Body . '}'
+   15 Abstract_Extends_Body: Abstract_Extends_Body . Stmt
+
+    ROOT  shift, and go to state 166
+    '}'   shift, and go to state 226
+
+    Stmt  go to state 227
+
+
+State 168
+
+   16 Abstract_Extends_Body: Stmt .
+
+    $default  reduce using rule 16 (Abstract_Extends_Body)
+
+
+State 169
+
+   17 Abstract_Overrides_Body: ID .
+
+    $default  reduce using rule 17 (Abstract_Overrides_Body)
+
+
+State 170
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name $@2 '{' Abstract_Overrides_Body . '}'
+
+    '}'  shift, and go to state 228
+
+
+State 171
+
+  138 AsmEntry: '(' SET_ATTR . ',' Quoted_Id ',' QUOTED_ID ')'
+
+    ','  shift, and go to state 229
+
+
+State 172
+
+  129 List_Pattern: LIST NONAME '.' ASM_ATTR OBRACE ListAsmEntries CBRACE .
+
+    $default  reduce using rule 129 (List_Pattern)
+
+
+State 173
+
+  136 ListAsmEntries: ListAsmEntries ',' . AsmEntry
+
+    '('  shift, and go to state 129
+
+    AsmEntry  go to state 230
+
+
+State 174
+
+  154 Id_Reg: FIXED_REG .
+
+    $default  reduce using rule 154 (Id_Reg)
+
+
+State 175
+
+  153 Id_Reg: ID .
+
+    $default  reduce using rule 153 (Id_Reg)
+
+
+State 176
+
+  140 ListPID: '(' IEntryPair . ')'
+
+    ')'  shift, and go to state 231
+
+
+State 177
+
+  150 IEntryPair: Id_Reg . ',' ID
+  151           | Id_Reg . ',' INT
+  152           | Id_Reg . ',' INT ID
+
+    ','  shift, and go to state 232
+
+
+State 178
+
+  128 List_Pattern: LIST NONAME '.' CONSTANTS OBRACE ListPID CBRACE .
+
+    $default  reduce using rule 128 (List_Pattern)
+
+
+State 179
+
+  139 ListPID: ListPID ',' . '(' IEntryPair ')'
+
+    '('  shift, and go to state 233
+
+
+State 180
+
+  149 SQEntryPair: ID . ',' Quoted_Id
+
+    ','  shift, and go to state 234
+
+
+State 181
+
+  144 ListEntries: '(' SQEntryPair . ')'
+
+    ')'  shift, and go to state 235
+
+
+State 182
+
+  130 List_Pattern: LIST ID '.' Code_Mode_Iter OBRACE ListEntries CBRACE .
+
+    $default  reduce using rule 130 (List_Pattern)
+
+
+State 183
+
+  141 ListEntries: ListEntries ',' . SEntry
+  143            | ListEntries ',' . '(' SQEntryPair ')'
+
+    ID   shift, and go to state 134
+    '('  shift, and go to state 236
+
+    SEntry  go to state 237
+
+
+State 184
+
+  147 ListQEntries: '(' SQEntryPair . ')'
+
+    ')'  shift, and go to state 238
+
+
+State 185
+
+  131 List_Pattern: LIST ID '.' Code_Mode_Attr OBRACE ListQEntries CBRACE .
+
+    $default  reduce using rule 131 (List_Pattern)
+
+
+State 186
+
+  145 ListQEntries: ListQEntries ',' . '(' SQEntryPair ')'
+  146             | ListQEntries ',' . SEntry
+
+    ID   shift, and go to state 134
+    '('  shift, and go to state 239
+
+    SEntry  go to state 240
+
+
+State 187
+
+  158 PipedId: ID PIPE . PipedId
+
+    ID         shift, and go to state 141
+    QUOTED_ID  shift, and go to state 142
+    '('        shift, and go to state 143
+
+    PipedId  go to state 241
+
+
+State 188
+
+  160 PipedId: ID PLUS . PipedId
+
+    ID         shift, and go to state 141
+    QUOTED_ID  shift, and go to state 142
+    '('        shift, and go to state 143
+
+    PipedId  go to state 242
+
+
+State 189
+
+  163 PipedId: ID ',' . PipedId
+
+    ID         shift, and go to state 141
+    QUOTED_ID  shift, and go to state 142
+    '('        shift, and go to state 143
+
+    PipedId  go to state 243
+
+
+State 190
+
+  159 PipedId: '(' PipedId . ')'
+
+    ')'  shift, and go to state 244
+
+
+State 191
+
+  127 List_Pattern: LIST QUOTED_ID '.' RESERVATION '"' PipedId '"' .
+
+    $default  reduce using rule 127 (List_Pattern)
+
+
+State 192
+
+  123 List_Pattern: LIST QUOTED_ID '.' C_ENUM OBRACE ListEntries CBRACE .
+
+    $default  reduce using rule 123 (List_Pattern)
+
+
+State 193
+
+   74 Attr_Access: '.' ID .
+
+    $default  reduce using rule 74 (Attr_Access)
+
+
+State 194
+
+   78 Operand_Access: '.' INT .
+
+    $default  reduce using rule 78 (Operand_Access)
+
+
+State 195
+
+   87 Operand: ATTR . ':' Constraint
+
+    ':'  shift, and go to state 245
+
+
+State 196
+
+   96 Fixed_Reg_Or_Const: CONST_INT . ':' INT
+   97                   | CONST_INT . ':' INT ':' ID
+
+    ':'  shift, and go to state 246
+
+
+State 197
+
+   85 Operand: DUPLICATE . INT
+
+    INT  shift, and go to state 247
+
+
+State 198
+
+   94 Fixed_Reg_Or_Const: FIXED_REG .
+
+    $default  reduce using rule 94 (Fixed_Reg_Or_Const)
+
+
+State 199
+
+   92 Fixed_Reg_Or_Const: ID . '(' Predicate_Or_Mode_List ':' FIXED_REG ')'
+   93                   | ID . '(' Predicate_Or_Mode_List ':' INT ')'
+   95                   | ID .
+  107 Predicate_Or_Mode: ID .
+
+    '('  shift, and go to state 248
+
+    ')'       reduce using rule 95 (Fixed_Reg_Or_Const)
+    ','       reduce using rule 95 (Fixed_Reg_Or_Const)
+    $default  reduce using rule 107 (Predicate_Or_Mode)
+
+
+State 200
+
+   84 Operand: INT . '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint
+   88        | INT . '=' Predicate_Or_Mode_List ':' Constraint
+   89        | INT . '=' Predicate_Or_Mode_List
+   90        | INT .
+  106 Predicate_Or_Mode: INT .
+
+    '='  shift, and go to state 249
+
+    ')'       reduce using rule 90 (Operand)
+    ','       reduce using rule 90 (Operand)
+    $default  reduce using rule 106 (Predicate_Or_Mode)
+
+
+State 201
+
+   80 Operands: '(' . Operands ')'
+
+    ATTR       shift, and go to state 195
+    CONST_INT  shift, and go to state 196
+    DUPLICATE  shift, and go to state 197
+    FIXED_REG  shift, and go to state 198
+    ID         shift, and go to state 199
+    INT        shift, and go to state 200
+    '('        shift, and go to state 201
+    '<'        shift, and go to state 202
+
+    Operands                         go to state 250
+    Operand                          go to state 204
+    Fixed_Reg_Or_Const               go to state 205
+    Predicate_Or_Mode_List           go to state 206
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 202
+
+   98 Fixed_Reg_Or_Const: '<' . INT '>'
+   99                   | '<' . ID '>'
+  105 Predicate_Or_Mode_With_Brackets: '<' . Predicate_Or_Mode '>'
+
+    ID   shift, and go to state 251
+    INT  shift, and go to state 252
+
+    Predicate_Or_Mode  go to state 253
+
+
+State 203
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' Operands . ')' ';' Concrete_Inst_Stmt_List
+   48                                 | ROOT '(' Operands . ')' ';'
+   79 Operands: Operands . ',' '(' Operands ')'
+   81         | Operands . ',' Operand
+
+    ')'  shift, and go to state 254
+    ','  shift, and go to state 255
+
+
+State 204
+
+   82 Operands: Operand .
+
+    $default  reduce using rule 82 (Operands)
+
+
+State 205
+
+   91 Operand: Fixed_Reg_Or_Const .
+
+    $default  reduce using rule 91 (Operand)
+
+
+State 206
+
+   83 Operand: Predicate_Or_Mode_List . ':' Predicate_Or_Mode_List ':' Constraint
+   86        | Predicate_Or_Mode_List . ':' Constraint
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 259
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 207
+
+  103 Predicate_Or_Mode_List: Predicate_Or_Mode_With_Brackets .
+
+    $default  reduce using rule 103 (Predicate_Or_Mode_List)
+
+
+State 208
+
+  104 Predicate_Or_Mode_List: Predicate_Or_Mode .
+
+    $default  reduce using rule 104 (Predicate_Or_Mode_List)
+
+
+State 209
+
+   61 Mode_Stmt: ROOT Attr_Access ASSIGN . Predicate_Or_Mode ';'
+   62          | ROOT Attr_Access ASSIGN . Quoted_Id ';'
+   63          | ROOT Attr_Access ASSIGN . '<' Predicate_Or_Mode '>' ';'
+   64          | ROOT Attr_Access ASSIGN . CONST_INT ':' INT ';'
+   65          | ROOT Attr_Access ASSIGN . ID '(' ID ':' FIXED_REG ')' ';'
+
+    CONST_INT  shift, and go to state 262
+    ID         shift, and go to state 263
+    QUOTED_ID  shift, and go to state 213
+    INT        shift, and go to state 257
+    '<'        shift, and go to state 264
+
+    Predicate_Or_Mode  go to state 265
+    Quoted_Id          go to state 266
+
+
+State 210
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN . Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+   67          | ROOT Operand_Access ASSIGN . INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 267
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 268
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 211
+
+   75 Attr_Access: Operand_Access '.' . ID
+   76            | Operand_Access '.' . PREDICATE
+   77 Operand_Access: Operand_Access '.' . INT
+
+    PREDICATE  shift, and go to state 269
+    ID         shift, and go to state 270
+    INT        shift, and go to state 271
+
+
+State 212
+
+   68 Mode_Stmt: LATENCY ASSIGN INT . ';'
+
+    ';'  shift, and go to state 272
+
+
+State 213
+
+  108 Quoted_Id: QUOTED_ID .
+
+    $default  reduce using rule 108 (Quoted_Id)
+
+
+State 214
+
+   69 Mode_Stmt: LOV ASSIGN Quoted_Id . ';'
+
+    ';'  shift, and go to state 273
+
+
+State 215
+
+   70 Mode_Stmt: DOCSTRING ASSIGN Quoted_Id . ';'
+
+    ';'  shift, and go to state 274
+
+
+State 216
+
+   71 Mode_Stmt: REGCLASS ASSIGN Quoted_Id . ';'
+
+    ';'  shift, and go to state 275
+
+
+State 217
+
+   72 Mode_Stmt: ALLCONSTRAINTS ASSIGN '(' . Quoted_Id_List ')' ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id_List  go to state 276
+    Quoted_Id       go to state 277
+
+
+State 218
+
+   73 Mode_Stmt: ID '-' '>' . ID ';'
+
+    ID  shift, and go to state 278
+
+
+State 219
+
+   46 Concrete_Overrides_Body: '{' Concrete_Overrides_Body_Inner . '}'
+
+    '}'  shift, and go to state 279
+
+
+State 220
+
+   52 Concrete_Overrides_Body_Inner: Concrete_Inst_Stmt_List .
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 52 (Concrete_Overrides_Body_Inner)
+
+    Mode_Stmt  go to state 158
+
+
+State 221
+
+   36 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' INSN Concrete_Overrides_Body CMD_SPEC_BODY .
+
+    $default  reduce using rule 36 (Concrete_Rtl_Spec)
+
+
+State 222
+
+   37 Concrete_Rtl_Spec: OVERRIDES Concrete_Pattern_Name_List '.' EXP Concrete_Overrides_Body CMD_SPEC_BODY .
+
+    $default  reduce using rule 37 (Concrete_Rtl_Spec)
+
+
+State 223
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC . '.' IN CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2
+
+    '.'  shift, and go to state 280
+
+
+State 224
+
+   78 Operand_Access: '.' . INT
+
+    INT  shift, and go to state 194
+
+
+State 225
+
+   60 Stmt: ROOT Operand_Access . ASSIGN Pattern_Name ';'
+   77 Operand_Access: Operand_Access . '.' INT
+
+    ASSIGN  shift, and go to state 281
+    '.'     shift, and go to state 282
+
+
+State 226
+
+   12 Abstract_Rtl_Spec: EXTENDS Base_Name $@1 '{' Abstract_Extends_Body '}' .
+
+    $default  reduce using rule 12 (Abstract_Rtl_Spec)
+
+
+State 227
+
+   15 Abstract_Extends_Body: Abstract_Extends_Body Stmt .
+
+    $default  reduce using rule 15 (Abstract_Extends_Body)
+
+
+State 228
+
+   14 Abstract_Rtl_Spec: OVERRIDES Base_Name $@2 '{' Abstract_Overrides_Body '}' .
+
+    $default  reduce using rule 14 (Abstract_Rtl_Spec)
+
+
+State 229
+
+  138 AsmEntry: '(' SET_ATTR ',' . Quoted_Id ',' QUOTED_ID ')'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 283
+
+
+State 230
+
+  136 ListAsmEntries: ListAsmEntries ',' AsmEntry .
+
+    $default  reduce using rule 136 (ListAsmEntries)
+
+
+State 231
+
+  140 ListPID: '(' IEntryPair ')' .
+
+    $default  reduce using rule 140 (ListPID)
+
+
+State 232
+
+  150 IEntryPair: Id_Reg ',' . ID
+  151           | Id_Reg ',' . INT
+  152           | Id_Reg ',' . INT ID
+
+    ID   shift, and go to state 284
+    INT  shift, and go to state 285
+
+
+State 233
+
+  139 ListPID: ListPID ',' '(' . IEntryPair ')'
+
+    FIXED_REG  shift, and go to state 174
+    ID         shift, and go to state 175
+
+    IEntryPair  go to state 286
+    Id_Reg      go to state 177
+
+
+State 234
+
+  149 SQEntryPair: ID ',' . Quoted_Id
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 287
+
+
+State 235
+
+  144 ListEntries: '(' SQEntryPair ')' .
+
+    $default  reduce using rule 144 (ListEntries)
+
+
+State 236
+
+  143 ListEntries: ListEntries ',' '(' . SQEntryPair ')'
+
+    ID  shift, and go to state 180
+
+    SQEntryPair  go to state 288
+
+
+State 237
+
+  141 ListEntries: ListEntries ',' SEntry .
+
+    $default  reduce using rule 141 (ListEntries)
+
+
+State 238
+
+  147 ListQEntries: '(' SQEntryPair ')' .
+
+    $default  reduce using rule 147 (ListQEntries)
+
+
+State 239
+
+  145 ListQEntries: ListQEntries ',' '(' . SQEntryPair ')'
+
+    ID  shift, and go to state 180
+
+    SQEntryPair  go to state 289
+
+
+State 240
+
+  146 ListQEntries: ListQEntries ',' SEntry .
+
+    $default  reduce using rule 146 (ListQEntries)
+
+
+State 241
+
+  158 PipedId: ID PIPE PipedId .
+
+    $default  reduce using rule 158 (PipedId)
+
+
+State 242
+
+  160 PipedId: ID PLUS PipedId .
+
+    $default  reduce using rule 160 (PipedId)
+
+
+State 243
+
+  163 PipedId: ID ',' PipedId .
+
+    $default  reduce using rule 163 (PipedId)
+
+
+State 244
+
+  159 PipedId: '(' PipedId ')' .
+
+    $default  reduce using rule 159 (PipedId)
+
+
+State 245
+
+   87 Operand: ATTR ':' . Constraint
+
+    QUOTED_ID  shift, and go to state 213
+
+    Constraint  go to state 290
+    Quoted_Id   go to state 291
+
+
+State 246
+
+   96 Fixed_Reg_Or_Const: CONST_INT ':' . INT
+   97                   | CONST_INT ':' . INT ':' ID
+
+    INT  shift, and go to state 292
+
+
+State 247
+
+   85 Operand: DUPLICATE INT .
+
+    $default  reduce using rule 85 (Operand)
+
+
+State 248
+
+   92 Fixed_Reg_Or_Const: ID '(' . Predicate_Or_Mode_List ':' FIXED_REG ')'
+   93                   | ID '(' . Predicate_Or_Mode_List ':' INT ')'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 293
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 249
+
+   84 Operand: INT '=' . Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint
+   88        | INT '=' . Predicate_Or_Mode_List ':' Constraint
+   89        | INT '=' . Predicate_Or_Mode_List
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 294
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 250
+
+   79 Operands: Operands . ',' '(' Operands ')'
+   80         | '(' Operands . ')'
+   81         | Operands . ',' Operand
+
+    ')'  shift, and go to state 295
+    ','  shift, and go to state 255
+
+
+State 251
+
+   99 Fixed_Reg_Or_Const: '<' ID . '>'
+  107 Predicate_Or_Mode: ID .
+
+    '>'  shift, and go to state 296
+
+    '>'  [reduce using rule 107 (Predicate_Or_Mode)]
+
+
+State 252
+
+   98 Fixed_Reg_Or_Const: '<' INT . '>'
+  106 Predicate_Or_Mode: INT .
+
+    '>'  shift, and go to state 297
+
+    '>'  [reduce using rule 106 (Predicate_Or_Mode)]
+
+
+State 253
+
+  105 Predicate_Or_Mode_With_Brackets: '<' Predicate_Or_Mode . '>'
+
+    '>'  shift, and go to state 298
+
+
+State 254
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' Operands ')' . ';' Concrete_Inst_Stmt_List
+   48                                 | ROOT '(' Operands ')' . ';'
+
+    ';'  shift, and go to state 299
+
+
+State 255
+
+   79 Operands: Operands ',' . '(' Operands ')'
+   81         | Operands ',' . Operand
+
+    ATTR       shift, and go to state 195
+    CONST_INT  shift, and go to state 196
+    DUPLICATE  shift, and go to state 197
+    FIXED_REG  shift, and go to state 198
+    ID         shift, and go to state 199
+    INT        shift, and go to state 200
+    '('        shift, and go to state 300
+    '<'        shift, and go to state 202
+
+    Operand                          go to state 301
+    Fixed_Reg_Or_Const               go to state 205
+    Predicate_Or_Mode_List           go to state 206
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 256
+
+  107 Predicate_Or_Mode: ID .
+
+    $default  reduce using rule 107 (Predicate_Or_Mode)
+
+
+State 257
+
+  106 Predicate_Or_Mode: INT .
+
+    $default  reduce using rule 106 (Predicate_Or_Mode)
+
+
+State 258
+
+  105 Predicate_Or_Mode_With_Brackets: '<' . Predicate_Or_Mode '>'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+
+    Predicate_Or_Mode  go to state 253
+
+
+State 259
+
+   83 Operand: Predicate_Or_Mode_List ':' . Predicate_Or_Mode_List ':' Constraint
+   86        | Predicate_Or_Mode_List ':' . Constraint
+
+    ID         shift, and go to state 256
+    QUOTED_ID  shift, and go to state 213
+    INT        shift, and go to state 257
+    '<'        shift, and go to state 258
+
+    Constraint                       go to state 302
+    Predicate_Or_Mode_List           go to state 303
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+    Quoted_Id                        go to state 291
+
+
+State 260
+
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List Predicate_Or_Mode_With_Brackets .
+
+    $default  reduce using rule 101 (Predicate_Or_Mode_List)
+
+
+State 261
+
+  102 Predicate_Or_Mode_List: Predicate_Or_Mode_List Predicate_Or_Mode .
+
+    $default  reduce using rule 102 (Predicate_Or_Mode_List)
+
+
+State 262
+
+   64 Mode_Stmt: ROOT Attr_Access ASSIGN CONST_INT . ':' INT ';'
+
+    ':'  shift, and go to state 304
+
+
+State 263
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID . '(' ID ':' FIXED_REG ')' ';'
+  107 Predicate_Or_Mode: ID .
+
+    '('  shift, and go to state 305
+
+    $default  reduce using rule 107 (Predicate_Or_Mode)
+
+
+State 264
+
+   63 Mode_Stmt: ROOT Attr_Access ASSIGN '<' . Predicate_Or_Mode '>' ';'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+
+    Predicate_Or_Mode  go to state 306
+
+
+State 265
+
+   61 Mode_Stmt: ROOT Attr_Access ASSIGN Predicate_Or_Mode . ';'
+
+    ';'  shift, and go to state 307
+
+
+State 266
+
+   62 Mode_Stmt: ROOT Attr_Access ASSIGN Quoted_Id . ';'
+
+    ';'  shift, and go to state 308
+
+
+State 267
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT . '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+  106 Predicate_Or_Mode: INT .
+
+    '='  shift, and go to state 309
+
+    $default  reduce using rule 106 (Predicate_Or_Mode)
+
+
+State 268
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List . ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 310
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 269
+
+   76 Attr_Access: Operand_Access '.' PREDICATE .
+
+    $default  reduce using rule 76 (Attr_Access)
+
+
+State 270
+
+   75 Attr_Access: Operand_Access '.' ID .
+
+    $default  reduce using rule 75 (Attr_Access)
+
+
+State 271
+
+   77 Operand_Access: Operand_Access '.' INT .
+
+    $default  reduce using rule 77 (Operand_Access)
+
+
+State 272
+
+   68 Mode_Stmt: LATENCY ASSIGN INT ';' .
+
+    $default  reduce using rule 68 (Mode_Stmt)
+
+
+State 273
+
+   69 Mode_Stmt: LOV ASSIGN Quoted_Id ';' .
+
+    $default  reduce using rule 69 (Mode_Stmt)
+
+
+State 274
+
+   70 Mode_Stmt: DOCSTRING ASSIGN Quoted_Id ';' .
+
+    $default  reduce using rule 70 (Mode_Stmt)
+
+
+State 275
+
+   71 Mode_Stmt: REGCLASS ASSIGN Quoted_Id ';' .
+
+    $default  reduce using rule 71 (Mode_Stmt)
+
+
+State 276
+
+   50 Quoted_Id_List: Quoted_Id_List . ',' Quoted_Id
+   72 Mode_Stmt: ALLCONSTRAINTS ASSIGN '(' Quoted_Id_List . ')' ';'
+
+    ')'  shift, and go to state 311
+    ','  shift, and go to state 312
+
+
+State 277
+
+   51 Quoted_Id_List: Quoted_Id .
+
+    $default  reduce using rule 51 (Quoted_Id_List)
+
+
+State 278
+
+   73 Mode_Stmt: ID '-' '>' ID . ';'
+
+    ';'  shift, and go to state 313
+
+
+State 279
+
+   46 Concrete_Overrides_Body: '{' Concrete_Overrides_Body_Inner '}' .
+
+    $default  reduce using rule 46 (Concrete_Overrides_Body)
+
+
+State 280
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' . IN CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2
+
+    IN  shift, and go to state 314
+
+
+State 281
+
+   60 Stmt: ROOT Operand_Access ASSIGN . Pattern_Name ';'
+
+    ID  shift, and go to state 315
+
+    Pattern_Name  go to state 316
+
+
+State 282
+
+   77 Operand_Access: Operand_Access '.' . INT
+
+    INT  shift, and go to state 271
+
+
+State 283
+
+  138 AsmEntry: '(' SET_ATTR ',' Quoted_Id . ',' QUOTED_ID ')'
+
+    ','  shift, and go to state 317
+
+
+State 284
+
+  150 IEntryPair: Id_Reg ',' ID .
+
+    $default  reduce using rule 150 (IEntryPair)
+
+
+State 285
+
+  151 IEntryPair: Id_Reg ',' INT .
+  152           | Id_Reg ',' INT . ID
+
+    ID  shift, and go to state 318
+
+    $default  reduce using rule 151 (IEntryPair)
+
+
+State 286
+
+  139 ListPID: ListPID ',' '(' IEntryPair . ')'
+
+    ')'  shift, and go to state 319
+
+
+State 287
+
+  149 SQEntryPair: ID ',' Quoted_Id .
+
+    $default  reduce using rule 149 (SQEntryPair)
+
+
+State 288
+
+  143 ListEntries: ListEntries ',' '(' SQEntryPair . ')'
+
+    ')'  shift, and go to state 320
+
+
+State 289
+
+  145 ListQEntries: ListQEntries ',' '(' SQEntryPair . ')'
+
+    ')'  shift, and go to state 321
+
+
+State 290
+
+   87 Operand: ATTR ':' Constraint .
+
+    $default  reduce using rule 87 (Operand)
+
+
+State 291
+
+  100 Constraint: Quoted_Id .
+
+    $default  reduce using rule 100 (Constraint)
+
+
+State 292
+
+   96 Fixed_Reg_Or_Const: CONST_INT ':' INT .
+   97                   | CONST_INT ':' INT . ':' ID
+
+    ':'  shift, and go to state 322
+
+    $default  reduce using rule 96 (Fixed_Reg_Or_Const)
+
+
+State 293
+
+   92 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List . ':' FIXED_REG ')'
+   93                   | ID '(' Predicate_Or_Mode_List . ':' INT ')'
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 323
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 294
+
+   84 Operand: INT '=' Predicate_Or_Mode_List . ':' Predicate_Or_Mode_List ':' Constraint
+   88        | INT '=' Predicate_Or_Mode_List . ':' Constraint
+   89        | INT '=' Predicate_Or_Mode_List .
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 324
+
+    $default  reduce using rule 89 (Operand)
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 295
+
+   80 Operands: '(' Operands ')' .
+
+    $default  reduce using rule 80 (Operands)
+
+
+State 296
+
+   99 Fixed_Reg_Or_Const: '<' ID '>' .
+
+    $default  reduce using rule 99 (Fixed_Reg_Or_Const)
+
+
+State 297
+
+   98 Fixed_Reg_Or_Const: '<' INT '>' .
+
+    $default  reduce using rule 98 (Fixed_Reg_Or_Const)
+
+
+State 298
+
+  105 Predicate_Or_Mode_With_Brackets: '<' Predicate_Or_Mode '>' .
+
+    $default  reduce using rule 105 (Predicate_Or_Mode_With_Brackets)
+
+
+State 299
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' Operands ')' ';' . Concrete_Inst_Stmt_List
+   48                                 | ROOT '(' Operands ')' ';' .
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 48 (Concrete_Instantiates_Body_Inner)
+
+    Concrete_Inst_Stmt_List  go to state 325
+    Mode_Stmt                go to state 119
+
+
+State 300
+
+   79 Operands: Operands ',' '(' . Operands ')'
+
+    ATTR       shift, and go to state 195
+    CONST_INT  shift, and go to state 196
+    DUPLICATE  shift, and go to state 197
+    FIXED_REG  shift, and go to state 198
+    ID         shift, and go to state 199
+    INT        shift, and go to state 200
+    '('        shift, and go to state 201
+    '<'        shift, and go to state 202
+
+    Operands                         go to state 326
+    Operand                          go to state 204
+    Fixed_Reg_Or_Const               go to state 205
+    Predicate_Or_Mode_List           go to state 206
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 301
+
+   81 Operands: Operands ',' Operand .
+
+    $default  reduce using rule 81 (Operands)
+
+
+State 302
+
+   86 Operand: Predicate_Or_Mode_List ':' Constraint .
+
+    $default  reduce using rule 86 (Operand)
+
+
+State 303
+
+   83 Operand: Predicate_Or_Mode_List ':' Predicate_Or_Mode_List . ':' Constraint
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 327
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 304
+
+   64 Mode_Stmt: ROOT Attr_Access ASSIGN CONST_INT ':' . INT ';'
+
+    INT  shift, and go to state 328
+
+
+State 305
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' . ID ':' FIXED_REG ')' ';'
+
+    ID  shift, and go to state 329
+
+
+State 306
+
+   63 Mode_Stmt: ROOT Attr_Access ASSIGN '<' Predicate_Or_Mode . '>' ';'
+
+    '>'  shift, and go to state 330
+
+
+State 307
+
+   61 Mode_Stmt: ROOT Attr_Access ASSIGN Predicate_Or_Mode ';' .
+
+    $default  reduce using rule 61 (Mode_Stmt)
+
+
+State 308
+
+   62 Mode_Stmt: ROOT Attr_Access ASSIGN Quoted_Id ';' .
+
+    $default  reduce using rule 62 (Mode_Stmt)
+
+
+State 309
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' . Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 331
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 310
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' . Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 332
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 311
+
+   72 Mode_Stmt: ALLCONSTRAINTS ASSIGN '(' Quoted_Id_List ')' . ';'
+
+    ';'  shift, and go to state 333
+
+
+State 312
+
+   50 Quoted_Id_List: Quoted_Id_List ',' . Quoted_Id
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 334
+
+
+State 313
+
+   73 Mode_Stmt: ID '-' '>' ID ';' .
+
+    $default  reduce using rule 73 (Mode_Stmt)
+
+
+State 314
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' IN . CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2
+
+    CMD_SPEC_BODY  shift, and go to state 335
+
+
+State 315
+
+  121 Pattern_Name: ID .
+
+    $default  reduce using rule 121 (Pattern_Name)
+
+
+State 316
+
+   60 Stmt: ROOT Operand_Access ASSIGN Pattern_Name . ';'
+
+    ';'  shift, and go to state 336
+
+
+State 317
+
+  138 AsmEntry: '(' SET_ATTR ',' Quoted_Id ',' . QUOTED_ID ')'
+
+    QUOTED_ID  shift, and go to state 337
+
+
+State 318
+
+  152 IEntryPair: Id_Reg ',' INT ID .
+
+    $default  reduce using rule 152 (IEntryPair)
+
+
+State 319
+
+  139 ListPID: ListPID ',' '(' IEntryPair ')' .
+
+    $default  reduce using rule 139 (ListPID)
+
+
+State 320
+
+  143 ListEntries: ListEntries ',' '(' SQEntryPair ')' .
+
+    $default  reduce using rule 143 (ListEntries)
+
+
+State 321
+
+  145 ListQEntries: ListQEntries ',' '(' SQEntryPair ')' .
+
+    $default  reduce using rule 145 (ListQEntries)
+
+
+State 322
+
+   97 Fixed_Reg_Or_Const: CONST_INT ':' INT ':' . ID
+
+    ID  shift, and go to state 338
+
+
+State 323
+
+   92 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' . FIXED_REG ')'
+   93                   | ID '(' Predicate_Or_Mode_List ':' . INT ')'
+
+    FIXED_REG  shift, and go to state 339
+    INT        shift, and go to state 340
+
+
+State 324
+
+   84 Operand: INT '=' Predicate_Or_Mode_List ':' . Predicate_Or_Mode_List ':' Constraint
+   88        | INT '=' Predicate_Or_Mode_List ':' . Constraint
+
+    ID         shift, and go to state 256
+    QUOTED_ID  shift, and go to state 213
+    INT        shift, and go to state 257
+    '<'        shift, and go to state 258
+
+    Constraint                       go to state 341
+    Predicate_Or_Mode_List           go to state 342
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+    Quoted_Id                        go to state 291
+
+
+State 325
+
+   47 Concrete_Instantiates_Body_Inner: ROOT '(' Operands ')' ';' Concrete_Inst_Stmt_List .
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 47 (Concrete_Instantiates_Body_Inner)
+
+    Mode_Stmt  go to state 158
+
+
+State 326
+
+   79 Operands: Operands . ',' '(' Operands ')'
+   79         | Operands ',' '(' Operands . ')'
+   81         | Operands . ',' Operand
+
+    ')'  shift, and go to state 343
+    ','  shift, and go to state 255
+
+
+State 327
+
+   83 Operand: Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' . Constraint
+
+    QUOTED_ID  shift, and go to state 213
+
+    Constraint  go to state 344
+    Quoted_Id   go to state 291
+
+
+State 328
+
+   64 Mode_Stmt: ROOT Attr_Access ASSIGN CONST_INT ':' INT . ';'
+
+    ';'  shift, and go to state 345
+
+
+State 329
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' ID . ':' FIXED_REG ')' ';'
+
+    ':'  shift, and go to state 346
+
+
+State 330
+
+   63 Mode_Stmt: ROOT Attr_Access ASSIGN '<' Predicate_Or_Mode '>' . ';'
+
+    ';'  shift, and go to state 347
+
+
+State 331
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List . ':' Predicate_Or_Mode_List ':' Quoted_Id ';'
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 348
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 332
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List . ':' Quoted_Id ';'
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 349
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 333
+
+   72 Mode_Stmt: ALLCONSTRAINTS ASSIGN '(' Quoted_Id_List ')' ';' .
+
+    $default  reduce using rule 72 (Mode_Stmt)
+
+
+State 334
+
+   50 Quoted_Id_List: Quoted_Id_List ',' Quoted_Id .
+
+    $default  reduce using rule 50 (Quoted_Id_List)
+
+
+State 335
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' IN CMD_SPEC_BODY . $@3 Concrete_Instantiates_Body_C2
+
+    $default  reduce using rule 40 ($@3)
+
+    $@3  go to state 350
+
+
+State 336
+
+   60 Stmt: ROOT Operand_Access ASSIGN Pattern_Name ';' .
+
+    $default  reduce using rule 60 (Stmt)
+
+
+State 337
+
+  138 AsmEntry: '(' SET_ATTR ',' Quoted_Id ',' QUOTED_ID . ')'
+
+    ')'  shift, and go to state 351
+
+
+State 338
+
+   97 Fixed_Reg_Or_Const: CONST_INT ':' INT ':' ID .
+
+    $default  reduce using rule 97 (Fixed_Reg_Or_Const)
+
+
+State 339
+
+   92 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' FIXED_REG . ')'
+
+    ')'  shift, and go to state 352
+
+
+State 340
+
+   93 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' INT . ')'
+
+    ')'  shift, and go to state 353
+
+
+State 341
+
+   88 Operand: INT '=' Predicate_Or_Mode_List ':' Constraint .
+
+    $default  reduce using rule 88 (Operand)
+
+
+State 342
+
+   84 Operand: INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List . ':' Constraint
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 354
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 343
+
+   79 Operands: Operands ',' '(' Operands ')' .
+
+    $default  reduce using rule 79 (Operands)
+
+
+State 344
+
+   83 Operand: Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint .
+
+    $default  reduce using rule 83 (Operand)
+
+
+State 345
+
+   64 Mode_Stmt: ROOT Attr_Access ASSIGN CONST_INT ':' INT ';' .
+
+    $default  reduce using rule 64 (Mode_Stmt)
+
+
+State 346
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' ID ':' . FIXED_REG ')' ';'
+
+    FIXED_REG  shift, and go to state 355
+
+
+State 347
+
+   63 Mode_Stmt: ROOT Attr_Access ASSIGN '<' Predicate_Or_Mode '>' ';' .
+
+    $default  reduce using rule 63 (Mode_Stmt)
+
+
+State 348
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' . Predicate_Or_Mode_List ':' Quoted_Id ';'
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+
+    Predicate_Or_Mode_List           go to state 356
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 349
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' . Quoted_Id ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 357
+
+
+State 350
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' IN CMD_SPEC_BODY $@3 . Concrete_Instantiates_Body_C2
+
+    OVERRIDES     shift, and go to state 358
+    INSTANTIATES  shift, and go to state 359
+
+    Concrete_Instantiates_Body_C2  go to state 360
+
+
+State 351
+
+  138 AsmEntry: '(' SET_ATTR ',' Quoted_Id ',' QUOTED_ID ')' .
+
+    $default  reduce using rule 138 (AsmEntry)
+
+
+State 352
+
+   92 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' FIXED_REG ')' .
+
+    $default  reduce using rule 92 (Fixed_Reg_Or_Const)
+
+
+State 353
+
+   93 Fixed_Reg_Or_Const: ID '(' Predicate_Or_Mode_List ':' INT ')' .
+
+    $default  reduce using rule 93 (Fixed_Reg_Or_Const)
+
+
+State 354
+
+   84 Operand: INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' . Constraint
+
+    QUOTED_ID  shift, and go to state 213
+
+    Constraint  go to state 361
+    Quoted_Id   go to state 291
+
+
+State 355
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' ID ':' FIXED_REG . ')' ';'
+
+    ')'  shift, and go to state 362
+
+
+State 356
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List . ':' Quoted_Id ';'
+  101 Predicate_Or_Mode_List: Predicate_Or_Mode_List . Predicate_Or_Mode_With_Brackets
+  102                       | Predicate_Or_Mode_List . Predicate_Or_Mode
+
+    ID   shift, and go to state 256
+    INT  shift, and go to state 257
+    '<'  shift, and go to state 258
+    ':'  shift, and go to state 363
+
+    Predicate_Or_Mode_With_Brackets  go to state 260
+    Predicate_Or_Mode                go to state 261
+
+
+State 357
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id . ';'
+
+    ';'  shift, and go to state 364
+
+
+State 358
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES . '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+
+    '.'  shift, and go to state 365
+
+
+State 359
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES . '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES . '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out
+
+    '.'  shift, and go to state 366
+
+
+State 360
+
+   41 Concrete_Instantiates_Body_C: Concrete_Instantiates_Body CMD_SPEC '.' IN CMD_SPEC_BODY $@3 Concrete_Instantiates_Body_C2 .
+
+    $default  reduce using rule 41 (Concrete_Instantiates_Body_C)
+
+
+State 361
+
+   84 Operand: INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Constraint .
+
+    $default  reduce using rule 84 (Operand)
+
+
+State 362
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' ID ':' FIXED_REG ')' . ';'
+
+    ';'  shift, and go to state 367
+
+
+State 363
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' . Quoted_Id ';'
+
+    QUOTED_ID  shift, and go to state 213
+
+    Quoted_Id  go to state 368
+
+
+State 364
+
+   66 Mode_Stmt: ROOT Operand_Access ASSIGN Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';' .
+
+    $default  reduce using rule 66 (Mode_Stmt)
+
+
+State 365
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' . OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+
+    OUT  shift, and go to state 369
+
+
+State 366
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' . OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES '.' . OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out
+
+    OUT  shift, and go to state 370
+
+
+State 367
+
+   65 Mode_Stmt: ROOT Attr_Access ASSIGN ID '(' ID ':' FIXED_REG ')' ';' .
+
+    $default  reduce using rule 65 (Mode_Stmt)
+
+
+State 368
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id . ';'
+
+    ';'  shift, and go to state 371
+
+
+State 369
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT . Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 372
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 370
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT . Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES '.' OUT . Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Pattern_Name_List           go to state 373
+    Concrete_Pattern_Name_With_Brackets  go to state 24
+    Concrete_Pattern_Name                go to state 25
+
+
+State 371
+
+   67 Mode_Stmt: ROOT Operand_Access ASSIGN INT '=' Predicate_Or_Mode_List ':' Predicate_Or_Mode_List ':' Quoted_Id ';' .
+
+    $default  reduce using rule 67 (Mode_Stmt)
+
+
+State 372
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List . Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 374
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Overrides_Body_Out          go to state 375
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 373
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List . Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES '.' OUT Concrete_Pattern_Name_List . Concrete_Instantiates_Body_Out
+  109 Concrete_Pattern_Name_List: Concrete_Pattern_Name_List . Concrete_Pattern_Name_With_Brackets
+  110                           | Concrete_Pattern_Name_List . Concrete_Pattern_Name
+
+    '_'  shift, and go to state 13
+    '*'  shift, and go to state 14
+    ID   shift, and go to state 15
+    INT  shift, and go to state 16
+    '{'  shift, and go to state 376
+    '<'  shift, and go to state 18
+    ':'  shift, and go to state 19
+
+    Concrete_Instantiates_Body_Out       go to state 377
+    Concrete_Pattern_Name_With_Brackets  go to state 46
+    Concrete_Pattern_Name                go to state 47
+
+
+State 374
+
+   54 Concrete_Overrides_Body_Out: '{' . Concrete_Overrides_Body_Inner_Out '}'
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    Concrete_Overrides_Body_Inner_Out  go to state 378
+    Concrete_Inst_Stmt_List            go to state 379
+    Mode_Stmt                          go to state 119
+
+
+State 375
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out . CMD_SPEC '.' OUT CMD_SPEC_BODY
+
+    CMD_SPEC  shift, and go to state 380
+
+
+State 376
+
+   53 Concrete_Instantiates_Body_Out: '{' . Concrete_Instantiates_Body_Inner_Out '}'
+
+    ROOT  shift, and go to state 381
+
+    Concrete_Instantiates_Body_Inner_Out  go to state 382
+
+
+State 377
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out . CMD_SPEC '.' OUT CMD_SPEC_BODY
+   43                              | INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out .
+
+    CMD_SPEC  shift, and go to state 383
+
+    $default  reduce using rule 43 (Concrete_Instantiates_Body_C2)
+
+
+State 378
+
+   54 Concrete_Overrides_Body_Out: '{' Concrete_Overrides_Body_Inner_Out . '}'
+
+    '}'  shift, and go to state 384
+
+
+State 379
+
+   57 Concrete_Overrides_Body_Inner_Out: Concrete_Inst_Stmt_List .
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 57 (Concrete_Overrides_Body_Inner_Out)
+
+    Mode_Stmt  go to state 158
+
+
+State 380
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC . '.' OUT CMD_SPEC_BODY
+
+    '.'  shift, and go to state 385
+
+
+State 381
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT . '(' Operands ')' ';' Concrete_Inst_Stmt_List
+   56                                     | ROOT . '(' Operands ')' ';'
+
+    '('  shift, and go to state 386
+
+
+State 382
+
+   53 Concrete_Instantiates_Body_Out: '{' Concrete_Instantiates_Body_Inner_Out . '}'
+
+    '}'  shift, and go to state 387
+
+
+State 383
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC . '.' OUT CMD_SPEC_BODY
+
+    '.'  shift, and go to state 388
+
+
+State 384
+
+   54 Concrete_Overrides_Body_Out: '{' Concrete_Overrides_Body_Inner_Out '}' .
+
+    $default  reduce using rule 54 (Concrete_Overrides_Body_Out)
+
+
+State 385
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' . OUT CMD_SPEC_BODY
+
+    OUT  shift, and go to state 389
+
+
+State 386
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' . Operands ')' ';' Concrete_Inst_Stmt_List
+   56                                     | ROOT '(' . Operands ')' ';'
+
+    ATTR       shift, and go to state 195
+    CONST_INT  shift, and go to state 196
+    DUPLICATE  shift, and go to state 197
+    FIXED_REG  shift, and go to state 198
+    ID         shift, and go to state 199
+    INT        shift, and go to state 200
+    '('        shift, and go to state 201
+    '<'        shift, and go to state 202
+
+    Operands                         go to state 390
+    Operand                          go to state 204
+    Fixed_Reg_Or_Const               go to state 205
+    Predicate_Or_Mode_List           go to state 206
+    Predicate_Or_Mode_With_Brackets  go to state 207
+    Predicate_Or_Mode                go to state 208
+
+
+State 387
+
+   53 Concrete_Instantiates_Body_Out: '{' Concrete_Instantiates_Body_Inner_Out '}' .
+
+    $default  reduce using rule 53 (Concrete_Instantiates_Body_Out)
+
+
+State 388
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' . OUT CMD_SPEC_BODY
+
+    OUT  shift, and go to state 391
+
+
+State 389
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT . CMD_SPEC_BODY
+
+    CMD_SPEC_BODY  shift, and go to state 392
+
+
+State 390
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' Operands . ')' ';' Concrete_Inst_Stmt_List
+   56                                     | ROOT '(' Operands . ')' ';'
+   79 Operands: Operands . ',' '(' Operands ')'
+   81         | Operands . ',' Operand
+
+    ')'  shift, and go to state 393
+    ','  shift, and go to state 255
+
+
+State 391
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT . CMD_SPEC_BODY
+
+    CMD_SPEC_BODY  shift, and go to state 394
+
+
+State 392
+
+   44 Concrete_Instantiates_Body_C2: OVERRIDES '.' OUT Concrete_Pattern_Name_List Concrete_Overrides_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY .
+
+    $default  reduce using rule 44 (Concrete_Instantiates_Body_C2)
+
+
+State 393
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' Operands ')' . ';' Concrete_Inst_Stmt_List
+   56                                     | ROOT '(' Operands ')' . ';'
+
+    ';'  shift, and go to state 395
+
+
+State 394
+
+   42 Concrete_Instantiates_Body_C2: INSTANTIATES '.' OUT Concrete_Pattern_Name_List Concrete_Instantiates_Body_Out CMD_SPEC '.' OUT CMD_SPEC_BODY .
+
+    $default  reduce using rule 42 (Concrete_Instantiates_Body_C2)
+
+
+State 395
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' Operands ')' ';' . Concrete_Inst_Stmt_List
+   56                                     | ROOT '(' Operands ')' ';' .
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 56 (Concrete_Instantiates_Body_Inner_Out)
+
+    Concrete_Inst_Stmt_List  go to state 396
+    Mode_Stmt                go to state 119
+
+
+State 396
+
+   55 Concrete_Instantiates_Body_Inner_Out: ROOT '(' Operands ')' ';' Concrete_Inst_Stmt_List .
+   58 Concrete_Inst_Stmt_List: Concrete_Inst_Stmt_List . Mode_Stmt
+
+    ROOT            shift, and go to state 125
+    LATENCY         shift, and go to state 111
+    LOV             shift, and go to state 112
+    DOCSTRING       shift, and go to state 113
+    REGCLASS        shift, and go to state 114
+    ALLCONSTRAINTS  shift, and go to state 115
+    ID              shift, and go to state 116
+
+    $default  reduce using rule 55 (Concrete_Instantiates_Body_Inner_Out)
+
+    Mode_Stmt  go to state 158

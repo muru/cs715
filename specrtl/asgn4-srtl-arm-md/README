@@ -1,0 +1,25 @@
+This dorectory contains the following resources:
+
+- arm.md: 
+  The arm md files in the conventional format.
+
+- armmddoc.ps: 
+  Document describing arm machine descriptions.
+
+- arm-md-patterns-groups.pdf:
+  The groups of patterns for Assignment 4.
+
+- compare.py:
+  A python script to compare machine description files.
+
+- README:
+  This file.
+
+- rm_Comments.awk:
+  A trivial awk script to remove comments from machine description files.
+
+- SRTL-2.0: 
+  The specRTL version 2.0 source (with sample md files).
+
+- using-srtl-for-arm-md-asgn.txt:
+  A file describing the usage of specRTL compiler for Assignment 4.

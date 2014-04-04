@@ -13,6 +13,11 @@
 #include "ggc.h"
 #include "vec.h"
 
+#include "tree-flow.h"
+#include "toplev.h"
+#include "bitmap.h"
+#include "tree-ssa-operands.h"
+#include "tree-flow-inline.h"
 /* Changes from tree-ssa-structalias.c. Lookup a heap var for FROM, and return it if we find one.  
 
 struct GTY(()) heapvar_map {

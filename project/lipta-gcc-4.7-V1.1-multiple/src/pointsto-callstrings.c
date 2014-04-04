@@ -13,6 +13,139 @@ int plugin_is_GPL_compatible;
   prepended to their names have been lifted from tree-ssa-structalias.c
   ---------------------------------------------------------------------*/
 
+static unsigned int print_liveness(void);
+static void process_function (void);
+
+
+static unsigned int print_liveness(void) 
+{
+	struct cgraph_node *node;
+	for (node = cgraph_nodes; node; node = node->next)
+	{
+		if (gimple_has_body_p(node->decl))
+		{
+			push_cfun (DECL_STRUCT_FUNCTION (node->decl));
+			process_function ();
+			pop_cfun ();
+		}
+	}
+
+	dump_pta_stats (dump_file);
+
+	return 0;
+}
+
+/*static void process_function (void)
+  {
+  basic_block bb;
+  gimple_stmt_iterator si;
+  int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+  int *k = 0;
+  int j = 0;
+  k     = &a[j];
+
+  FOR_EACH_BB (bb)
+  {
+  for (si = gsi_start_phis (bb); !gsi_end_p (si); gsi_next (&si))
+  {
+  gimple phi = gsi_stmt (si);
+  int n      = gimple_phi_num_args (phi);
+  use_operand_p use_p;
+  ssa_op_iter iter;
+
+  k = &a[++j];
+
+  fprintf(dump_file, "%d %d:\t", bb->index, *k);
+  print_gimple_stmt(dump_file, phi, 0, TDF_SLIM);
+  dump_immediate_uses_for (dump_file, gimple_phi_result (phi));
+
+  FOR_EACH_PHI_ARG (use_p, phi, iter, SSA_OP_ALL_DEFS)
+  {	
+  struct ptr_info_def * def = SSA_NAME_PTR_INFO (use_p->loc.ssa_name);
+  if (def->pt.anything)
+  fprintf(stderr, "ANYTHING\t");
+  if (def->pt.nonlocal)
+  fprintf(stderr, "NONLOCAL\t");
+  if (def->pt.escaped)
+  fprintf(stderr, "ESCAPED\t");
+  if (def->pt.ipa_escaped)
+  fprintf(stderr, "IPA_ESCAPED\t");
+  if (def->pt.null)
+  fprintf(stderr, "NULL\t");
+  fprintf(stderr, "\n");
+  dump_points_to_solution (dump_file, &(def->pt));
+  }
+  }
+  }
+  return;
+  }*/
+
+
+static void process_function (void)
+{
+	fprintf (dump_file,"num_ssa_name=%d\n",num_ssa_names);
+
+	fprintf (dump_file, "\n\npoints-to information\n\n");
+	int i;
+	for (i = 0; i < num_ssa_names; i++)
+	{
+		tree ptr = ssa_name (i);
+		struct ptr_info_def *pi;
+		//fprintf(dump_file,"num_ssa_name=%d\n",num_ssa_name); 
+		if (ptr == NULL_TREE
+			/*	|| SSA_NAME_IN_FREE_LIST (ptr)*/)
+		{
+			fprintf(dump_file, "Tree is NULL.\n");
+			continue;
+		}
+
+		pi = SSA_NAME_PTR_INFO (ptr);
+		if (pi)
+			dump_points_to_info_for (dump_file, ptr);
+		else
+			fprintf(dump_file, "Pointor info NULL.\n");
+
+	}
+
+	fprintf (dump_file, "-----------------------------------------------------\n\n");
+
+	basic_block bb;
+	gimple_stmt_iterator si;
+	FOR_EACH_BB (bb)
+	{
+		for (si = gsi_start_phis (bb); !gsi_end_p (si); gsi_next (&si))
+		{    
+			gimple phi = gsi_stmt(si);
+			int n =	gimple_phi_num_args (phi);
+			use_operand_p use_p;
+			ssa_op_iter iter;
+			print_gimple_stmt(dump_file, phi, 0, TDF_SLIM);
+			dump_immediate_uses_for (dump_file, gimple_phi_result (phi));
+			FOR_EACH_PHI_ARG (use_p, phi, iter, SSA_OP_ALL_DEFS)
+			{	
+				struct ptr_info_def * def = SSA_NAME_PTR_INFO (use_p->loc.ssa_name);
+				if (def->pt.anything)
+					fprintf(stderr, "ANYTHING\t");
+				if (def->pt.nonlocal)
+					fprintf(stderr, "NONLOCAL\t");
+				if (def->pt.escaped)
+					fprintf(stderr, "ESCAPED\t");
+				if (def->pt.ipa_escaped)
+					fprintf(stderr, "IPA_ESCAPED\t");
+				if (def->pt.null)
+					fprintf(stderr, "NULL\t");
+				fprintf(stderr, "\n");
+				dump_points_to_solution (dump_file, &(def->pt));
+			}
+		}
+	}
+	return;
+}
+
+
+
+/*******************************************************************************/
+
 /* Return the varmap element N */
 static inline csvarinfo_t
 cs_get_varinfo (unsigned int n)
@@ -6691,6 +6824,7 @@ execute_ipacs (void)
    current_function_decl = old_cfundecl;
    set_cfun (old_cfun);
 	//printf("end\n");
+	print_liveness();	
    return 0;
 }
 
@@ -6732,7 +6866,7 @@ struct register_pass_info pass_info =
 	&(pass_ipacs.pass),
 	"pta",
 	0,
-	PASS_POS_INSERT_AFTER
+	PASS_POS_INSERT_BEFORE
 };
 int plugin_init(struct plugin_name_args *plugin_info, struct plugin_gcc_version *version)
 {

@@ -1,6 +1,6 @@
 
 #------ MAKE CHANGES TO BASE_DIR : Please put the path to base directory of your pristine gcc-4.7.2 build -----------#
-GCC_SRC =  /home/bro3886/devel/
+GCC_SRC = /home/bro3886/devel/
 GCC_DIR = /opt/cs715/
 OBJ_DIR = obj
 SRC_DIR = src
@@ -18,7 +18,7 @@ NEW_PATH = $(GCC_DIR)/gcc-4.7.2/gcc
 #------------------------------- Multiple dependent files maybe also be added ------------------------------#
 OBJS = $(addprefix $(OBJ_DIR)/, test1.o test2.o)
 OUT = $(OUT_DIR)/result
-LIB = $(LIB_DIR)/plugin.so
+LIB = $(LIB_DIR)/lfcpa.so
 
 GCCPLUGINS_DIR:= $(shell $(CXX) -print-file-name=plugin)
 INCLUDE= -I$(GCCPLUGINS_DIR)/include -I$(NEW_PATH)
@@ -50,3 +50,7 @@ clean:
 debug: CFLAGS = -ggdb -flto -flto-partition=none
 debug: clean
 debug: test
+
+.PHONY: install
+install: $(LIB)
+	cp $(LIB) $(GCCPLUGINS_DIR)

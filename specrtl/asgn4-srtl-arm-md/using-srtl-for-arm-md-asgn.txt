@@ -1,0 +1,17 @@
+Using specRTL compiler for Assignment 4 
+---------------------------------------
+
+1. Untar the SRTL-2.0.tar.gz archive and run `make' in source directory to create srtl executable. 
+
+2. Assume that your chosen group is X (where X could be A, B, C, or D).
+   2a. Create arm-X.md by removing the patterns that do not belong to group X.
+   2b. Remove comments from arm-X.md by using command awk -f rm_Comments.awk < arm-X.md. You will
+       need to store the output in a temporary file and then rename it to arm-X.md.
+   2c. Create arm-X.specmd corresponding to arm-X.md. Include the pattern numbers as comments in 
+       arm-X.specmd similar to those in arm-X.md. This is required primarily for manual inspection
+       of the generated md file.
+   2d. Generate the conventional md file from arm-X.md by giving the command `srtl -o outfile.md arm-X.specmd'.
+   2e. Compare outfile.md with arm-X.md after stripping the comments using rm_Comments.awk. The compare script
+       can be run by the command `python compare.py' after embedding the md file names in the file compare.py.
+
+3. In case you come across any bug or any difficulty, please contact Aniket (aniketm@cse) or Sheweta (sheweta@cse).

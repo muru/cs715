@@ -1,25 +1,26 @@
 #include <stdio.h>
-int a, b, c, *e;
+int *a, *b, c, *e;
 void p()
 {
 	printf ("%d", e);
 }
 int main()
 {
-	scanf("%d %d %d", &a, &b, &c);
-
+	//scanf("%d %d %d", &a, &b, &c);
+	int i = 0, j  = 1, k[13];
+	a     = &i; b = k + 6;
 	if (a == b)
 		e = &c;   /* statement n1 */
 	else
-		e = &b;   /* statement n2 */
+		e = k + 7;   /* statement n2 */
 
 	if (c - 5)
 		a = b;
 	else if (c)
-		a = b - 5;
+		a = &j;
 	else
-		a = b + 5;
+		a = e;
 
-	e = &a;           /* statement n3 */
+	e = a;           /* statement n3 */
 	p();
 }
