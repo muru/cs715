@@ -6824,7 +6824,7 @@ execute_ipacs (void)
    current_function_decl = old_cfundecl;
    set_cfun (old_cfun);
 	//printf("end\n");
-	print_liveness();	
+	//print_liveness();	
    return 0;
 }
 

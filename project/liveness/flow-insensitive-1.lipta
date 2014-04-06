@@ -1,0 +1,519 @@
+main ()
+{
+  # BLOCK 2 freq:10000
+  # PRED: ENTRY [100.0%]  (fallthru,exec)
+  fn1 ();
+  # SUCC: 4 [100.0%]  (fallthru)
+
+  # BLOCK 4 freq:10000
+  # PRED: 2 [100.0%]  (fallthru)
+  # SUCC: 3 [100.0%]  (fallthru)
+
+  # BLOCK 3 freq:10000
+  # PRED: 4 [100.0%]  (fallthru)
+  fn2 ();
+  # SUCC: 6 [100.0%]  (fallthru)
+
+  # BLOCK 6 freq:10000
+  # PRED: 3 [100.0%]  (fallthru)
+  # SUCC: 5 [100.0%]  (fallthru)
+
+  # BLOCK 5 freq:10000
+  # PRED: 6 [100.0%]  (fallthru)
+  return 0;
+  # SUCC: EXIT [100.0%] 
+
+}
+
+
+fn1() ()
+{
+  int D.2751;
+  int * p.0;
+
+  # BLOCK 2 freq:10000
+  # PRED: ENTRY [100.0%]  (fallthru,exec)
+  p = &a;
+  # SUCC: 3 [100.0%]  (fallthru)
+
+  # BLOCK 3 freq:10000
+  # PRED: 2 [100.0%]  (fallthru)
+  fn3 ();
+  # SUCC: 5 [100.0%]  (fallthru)
+
+  # BLOCK 5 freq:10000
+  # PRED: 3 [100.0%]  (fallthru)
+  # SUCC: 4 [100.0%]  (fallthru)
+
+  # BLOCK 4 freq:10000
+  # PRED: 5 [100.0%]  (fallthru)
+  p.0_1 = p;
+  # SUCC: 6 [100.0%]  (fallthru)
+
+  # BLOCK 6 freq:10000
+  # PRED: 4 [100.0%]  (fallthru)
+  D.2751_2 = *p.0_1;
+  printf ("%d", D.2751_2);
+  # SUCC: 7 [100.0%]  (fallthru)
+
+  # BLOCK 7 freq:10000
+  # PRED: 6 [100.0%]  (fallthru)
+  return;
+  # SUCC: EXIT [100.0%] 
+
+}
+
+
+fn2() ()
+{
+  int D.2753;
+  int * p.1;
+
+  # BLOCK 2 freq:10000
+  # PRED: ENTRY [100.0%]  (fallthru,exec)
+  p = &b;
+  # SUCC: 3 [100.0%]  (fallthru)
+
+  # BLOCK 3 freq:10000
+  # PRED: 2 [100.0%]  (fallthru)
+  fn3 ();
+  # SUCC: 5 [100.0%]  (fallthru)
+
+  # BLOCK 5 freq:10000
+  # PRED: 3 [100.0%]  (fallthru)
+  # SUCC: 4 [100.0%]  (fallthru)
+
+  # BLOCK 4 freq:10000
+  # PRED: 5 [100.0%]  (fallthru)
+  p.1_1 = p;
+  # SUCC: 6 [100.0%]  (fallthru)
+
+  # BLOCK 6 freq:10000
+  # PRED: 4 [100.0%]  (fallthru)
+  D.2753_2 = *p.1_1;
+  printf ("%d", D.2753_2);
+  # SUCC: 7 [100.0%]  (fallthru)
+
+  # BLOCK 7 freq:10000
+  # PRED: 6 [100.0%]  (fallthru)
+  return;
+  # SUCC: EXIT [100.0%] 
+
+}
+
+
+fn3() ()
+{
+  int D.2755;
+  int * p.2;
+
+  # BLOCK 2 freq:10000
+  # PRED: ENTRY [100.0%]  (fallthru,exec)
+  p.2_1 = p;
+  # SUCC: 3 [100.0%]  (fallthru)
+
+  # BLOCK 3 freq:10000
+  # PRED: 2 [100.0%]  (fallthru)
+  D.2755_2 = *p.2_1;
+  printf ("%d", D.2755_2);
+  # SUCC: 4 [100.0%]  (fallthru)
+
+  # BLOCK 4 freq:10000
+  # PRED: 3 [100.0%]  (fallthru)
+  return;
+  # SUCC: EXIT [100.0%] 
+
+}
+
+
+
+				liveness information for main function, basic block no 5:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				liveness information for main function, basic block no 6:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+No liveness mapping required at fn2() node's 7 block 
+
+				liveness information for fn2() function, basic block no 7:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout : NULL
+livein : NULL
+
+				liveness information for fn2() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout : NULL
+livein :   p.1
+
+				liveness information for fn2() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout :   p.1
+livein :   p
+
+				liveness information for fn2() function, basic block no 5:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout :   p
+livein :   p
+
+No liveness mapping required at fn3() node's 4 block 
+
+				liveness information for fn3() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+liveout :   p
+livein :   p
+
+				liveness information for fn3() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+liveout :   p
+livein :   p,  p.2
+
+				liveness information for fn3() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+liveout :   p,  p.2
+livein :   p
+
+				liveness information for fn2() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout :   p
+livein :   p
+
+				liveness information for fn2() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {main.3}
+liveout :   p
+livein : NULL
+
+				liveness information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				liveness information for main function, basic block no 4:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+No liveness mapping required at fn1() node's 7 block 
+
+				liveness information for fn1() function, basic block no 7:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout : NULL
+livein : NULL
+
+				liveness information for fn1() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout : NULL
+livein :   p.0
+
+				liveness information for fn1() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout :   p.0
+livein :   p
+
+				liveness information for fn1() function, basic block no 5:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout :   p
+livein :   p
+
+liveness mapping at fn3() node's 4 block:
+{fn2().3, main.3} --> {fn1().3, main.2}
+
+				liveness information for fn3() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+liveout :   p
+livein : value is mapped
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+liveout :   p
+livein :   p
+
+				liveness information for fn3() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+liveout : value is mapped
+livein :   p
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+liveout :   p,  p.2
+livein :   p
+
+				liveness information for fn1() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout :   p
+livein :   p
+
+				liveness information for fn1() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {main.2}
+liveout :   p
+livein : NULL
+
+				liveness information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				pointer information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for fn1() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :  null
+mayout :   p->{a}
+
+				pointer information for fn1() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :   p->{a}
+mayout :   p->{a}
+
+				pointer information for fn1() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :  null
+mayout :  null
+
+				pointer information for fn1() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :  null
+mayout :  null
+
+				pointer information for fn2() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :  null
+mayout :   p->{b}
+
+				pointer information for fn2() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :   p->{b}
+mayout :   p->{b}
+
+				pointer information for fn2() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :  null
+mayout :  null
+
+				pointer information for fn2() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :  null
+mayout :  null
+
+				pointer information for fn3() function, basic block no 2:
+
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+mayin :  null
+mayout :   p->{a}  p.2->{a}
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+mayin :   p->{a}
+mayout :   p->{a}  p.2->{a}
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+mayin :   p->{b}
+mayout :   p->{b}  p.2->{b}
+
+				pointer information for fn3() function, basic block no 3:
+
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+mayin :   p->{a}  p.2->{a}
+mayout :   p->{a}  p.2->{a}
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+mayin :   p->{b}  p.2->{b}
+mayout :   p->{b}  p.2->{b}
+
+pointsto regeneration not required at fn3() node's 4 block
+
+				pointer information for fn3() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {fn1().3, main.2}
+mayin :   p->{a}
+mayout :   p->{a}
+CALLSTRING SEQUENCE : {fn2().3, main.3}
+mayin :   p->{b}
+mayout :   p->{b}
+
+				pointer information for fn2() function, basic block no 5:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :   p->{b}
+mayout :   p->{b}
+CALLSTRING SEQUENCE : {main.3}
+mayin :   p->{b}
+mayout :   p->{b}
+
+				pointer information for fn2() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :   p->{undef,b}
+mayout :   p->{undef,b}  p.1->{undef,b}
+
+				pointer information for fn2() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :   p.1->{undef,b}
+mayout :   p.1->{undef,b}
+
+pointsto regeneration not required at fn2() node's 7 block
+
+				pointer information for fn2() function, basic block no 7:
+
+CALLSTRING SEQUENCE : {main.3}
+mayin :  null
+mayout :  null
+
+				pointer information for fn1() function, basic block no 5:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :   p->{a}
+mayout :   p->{a}
+
+				pointer information for fn1() function, basic block no 4:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :   p->{a}
+mayout :   p->{a}  p.0->{a}
+
+				pointer information for fn1() function, basic block no 6:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :   p.0->{a}
+mayout :   p.0->{a}
+
+pointsto regeneration not required at fn1() node's 7 block
+
+				pointer information for fn1() function, basic block no 7:
+
+CALLSTRING SEQUENCE : {main.2}
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 4:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 6:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 5:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+Merging blocks 2 and 4
+Merging blocks 3 and 6
+Merging blocks 2 and 3
+Merging blocks 2 and 5
+Merging blocks 2 and 3
+Merging blocks 4 and 6
+Removing basic block 5
+Merging blocks 2 and 4
+Merging blocks 2 and 7
+Merging blocks 2 and 3
+Merging blocks 4 and 6
+Removing basic block 5
+Merging blocks 2 and 4
+Merging blocks 2 and 7
+Merging blocks 2 and 3
+Merging blocks 2 and 4
+Time taken = 0 seconds,    936 microseconds
+main ()
+{
+<bb 2>:
+  fn1 ();
+  fn2 ();
+  return 0;
+
+}
+
+
+fn1() ()
+{
+  int D.2751;
+  int * p.0;
+
+<bb 2>:
+  p = &a;
+  fn3 ();
+  p.0_1 = p;
+  D.2751_2 = *p.0_1;
+  printf ("%d", D.2751_2);
+  return;
+
+}
+
+
+fn2() ()
+{
+  int D.2753;
+  int * p.1;
+
+<bb 2>:
+  p = &b;
+  fn3 ();
+  p.1_1 = p;
+  D.2753_2 = *p.1_1;
+  printf ("%d", D.2753_2);
+  return;
+
+}
+
+
+fn3() ()
+{
+  int D.2755;
+  int * p.2;
+
+<bb 2>:
+  p.2_1 = p;
+  D.2755_2 = *p.2_1;
+  printf ("%d", D.2755_2);
+  return;
+
+}
+
+

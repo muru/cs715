@@ -8,26 +8,28 @@ CC = g++-4.7.2
 #----- MAKE CHANGES TO OBJS : Add the name of your test file with extension .o (say test as test.o) --------#
 #------------------------------- Multiple dependent files maybe also be added ------------------------------#
 OBJS = test.o
-
+LIB = mlfcpa.so
 GCCPLUGINS_DIR:= $(shell $(CC) -print-file-name=plugin)
 INCLUDE= -I$(GCCPLUGINS_DIR)/include
 
 FLAGS= -fPIC -O2 -flto -flto-partition=none
 
-
+.PHONY: clean test install 
 %.o : %.c
 	$(CC) $(FLAGS) $(INCLUDE) -c $< 
 
-plugin.so: pointsto-callstrings.o 
+$(LIB): pointsto-callstrings.o 
 	$(CC) $(INCLUDE) $(FLAGS) -shared $^ -o $@
 
-test:  plugin.so
-	$(CC) -flto -flto-partition=none -fplugin=./plugin.so test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
-#~/gcc_build/install/bin/gcc -flto -flto-partition=none -fplugin=./plugin.so test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
+test:  $(LIB)
+	$(CC) -flto -flto-partition=none -fplugin=./$(LIB) test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
+#~/gcc_build/install/bin/gcc -flto -flto-partition=none -fplugin=./$(LIB) test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
 
 clean:
-	rm -f plugin.so *~ *.o a.out result* test.c.* .pointsto-callstrings.h.swp .pointsto-callstrings.c.swp
+	rm -f $(LIB) *~ *.o a.out result* test.c.* .pointsto-callstrings.h.swp .pointsto-callstrings.c.swp
 
 clean_test:
 	rm -f a.out result* test.c.* ERROR_test.c.* test*.c.*
 
+install: $(LIB)
+	cp $(LIB) $(GCCPLUGINS_DIR)

@@ -1,0 +1,189 @@
+main ()
+{
+  int * y;
+  int * * z;
+  int c;
+  int b;
+  int a;
+  int D.2708;
+  int c.0;
+
+  # BLOCK 2
+  # PRED: ENTRY (fallthru)
+  scanf ("%d %d", &a, &c);
+  # SUCC: 8 (eh) 3 (fallthru)
+
+  # BLOCK 3
+  # PRED: 2 (fallthru)
+  y_2 = &c;
+  z_3 = &a;
+  c.0_4 = c;
+  if (c.0_4 != 0)
+    goto <bb 4>;
+  else
+    goto <bb 5>;
+  # SUCC: 4 (true) 5 (false)
+
+  # BLOCK 4
+  # PRED: 3 (true)
+  D.2708_5 = 0;
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  goto <bb 7> (<L4>);
+  # SUCC: 7 (fallthru)
+
+  # BLOCK 5
+  # PRED: 3 (false)
+  *z_3 = y_2;
+  z_6 = &b;
+  printf ("%p", z_6);
+  # SUCC: 8 (eh) 6 (fallthru)
+
+  # BLOCK 6
+  # PRED: 5 (fallthru)
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  D.2708_7 = 0;
+  # SUCC: 7 (fallthru)
+
+  # BLOCK 7
+  # PRED: 4 (fallthru) 6 (fallthru)
+  # D.2708_1 = PHI <D.2708_5(4), D.2708_7(6)>
+<L4>:
+  return D.2708_1;
+  # SUCC: EXIT
+
+  # BLOCK 8
+  # PRED: 2 (eh) 5 (eh)
+<L5>:
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  resx 1
+  # SUCC:
+
+}
+
+
+
+				liveness information for main function, basic block no 7:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				liveness information for main function, basic block no 5:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein :   z
+
+				liveness information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+liveout :   z
+livein : NULL
+
+				liveness information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein : NULL
+
+				pointer information for main function, basic block no 2:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :   y->{c}  z->{a}
+
+				liveness information for main function, basic block no 5:
+
+CALLSTRING SEQUENCE : null
+liveout : NULL
+livein :   z
+
+				pointer information for main function, basic block no 3:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :   y->{c}  z->{a}
+
+				pointer information for main function, basic block no 5:
+
+CALLSTRING SEQUENCE : null
+mayin :   z->{a}
+mayout :   z->{b}
+
+				pointer information for main function, basic block no 8:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+
+				pointer information for main function, basic block no 7:
+
+CALLSTRING SEQUENCE : null
+mayin :  null
+mayout :  null
+Time taken = 0 seconds,    339 microseconds
+main ()
+{
+  int * y;
+  int * * z;
+  int c;
+  int b;
+  int a;
+  int D.2708;
+  int c.0;
+
+<bb 2>:
+  scanf ("%d %d", &a, &c);
+
+<bb 3>:
+  y_2 = &c;
+  z_3 = &a;
+  c.0_4 = c;
+  if (c.0_4 != 0)
+    goto <bb 4>;
+  else
+    goto <bb 5>;
+
+<bb 4>:
+  D.2708_5 = 0;
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  goto <bb 7> (<L4>);
+
+<bb 5>:
+  *z_3 = y_2;
+  z_6 = &b;
+  printf ("%p", z_6);
+
+<bb 6>:
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  D.2708_7 = 0;
+
+  # D.2708_1 = PHI <D.2708_5(4), D.2708_7(6)>
+<L4>:
+  return D.2708_1;
+
+<L5>:
+  a ={v} {CLOBBER};
+  b ={v} {CLOBBER};
+  c ={v} {CLOBBER};
+  resx 1
+
+}
+
+

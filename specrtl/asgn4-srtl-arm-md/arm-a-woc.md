@@ -1,25 +1,20 @@
 //Pattern#1
-;;- See file "rtl.def" for documentation on define_insn, match_*, et. al.
 
 
-;;---------------------------------------------------------------------------
-;; Constants
 
-;; Register numbers -- All machine registers should be defined here
 //Pattern#2
 (define_constants
-  [(R0_REGNUM         0)	; First CORE register
-   (R1_REGNUM	      1)	; Second CORE register
-   (IP_REGNUM	     12)	; Scratch register
-   (SP_REGNUM	     13)	; Stack pointer
-   (LR_REGNUM        14)	; Return address register
-   (PC_REGNUM	     15)	; Program counter
-   (LAST_ARM_REGNUM  15)	;
-   (CC_REGNUM       100)	; Condition code pseudo register
-   (VFPCC_REGNUM    101)	; VFP Condition code pseudo register
+  [(R0_REGNUM         0)
+   (R1_REGNUM	      1)
+   (IP_REGNUM	     12)
+   (SP_REGNUM	     13)
+   (LR_REGNUM        14)
+   (PC_REGNUM	     15)
+   (LAST_ARM_REGNUM  15)
+   (CC_REGNUM       100)
+   (VFPCC_REGNUM    101)
   ]
 )
-;; 3rd operand to select_dominance_cc_mode
 //Pattern#3
 (define_constants
   [(DOM_CC_X_AND_Y  0)
@@ -27,7 +22,6 @@
    (DOM_CC_X_OR_Y   2)
   ]
 )
-;; conditional compare combination
 //Pattern#4
 (define_constants
   [(CMP_CMP 0)
@@ -39,49 +33,29 @@
 )
 
 
-;;---------------------------------------------------------------------------
-;; Attributes
 
-;; Processor type.  This is created automatically from arm-cores.def.
 (include "arm-tune.md")
 
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#5
 (define_attr "is_thumb" "no,yes" (const (symbol_ref "thumb_code")))
 
-; IS_ARCH6 is set to 'yes' when we are generating code form ARMv6.
 //Pattern#6
 (define_attr "is_arch6" "no,yes" (const (symbol_ref "arm_arch6")))
 
-; IS_THUMB1 is set to 'yes' iff we are generating Thumb-1 code.
 //Pattern#7
 (define_attr "is_thumb1" "no,yes" (const (symbol_ref "thumb1_code")))
 
-;; Operand number of an input operand that is shifted.  Zero if the
-;; given instruction does not shift one of its input operands.
 //Pattern#8
 (define_attr "shift" "" (const_int 0))
 
-; Floating Point Unit.  If we only have floating point emulation, then there
-; is no point in scheduling the floating point insns.  (Well, for best
-; performance we should try and group them together).
 //Pattern#9
 (define_attr "fpu" "none,vfp"
   (const (symbol_ref "arm_fpu_attr")))
 
-; LENGTH of an instruction (in bytes)
 //Pattern#10
 (define_attr "length" ""
   (const_int 4))
 
-; The architecture which supports the instruction (or alternative).
-; This can be "a" for ARM, "t" for either of the Thumbs, "32" for
-; TARGET_32BIT, "t1" or "t2" to specify a specific Thumb mode.  "v6"
-; for ARM or Thumb-2 with arm_arch6, and nov6 for ARM without
-; arm_arch6.  This attribute is used to compute attribute "enabled",
-; use type "any" to enable an alternative in all cases.
 //Pattern#11
 (define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2"
   (const_string "any"))
@@ -161,13 +135,10 @@
 	 (const_string "yes")]
 	(const_string "no")))
 
-; Allows an insn to disable certain alternatives for reasons other than
-; arch support.
 //Pattern#15
 (define_attr "insn_enabled" "no,yes"
   (const_string "yes"))
 
-; Enable all alternatives that are both arch_enabled and insn_enabled.
 //Pattern#16
  (define_attr "enabled" "no,yes"
    (cond [(eq_attr "insn_enabled" "no")
@@ -180,14 +151,6 @@
 	  (const_string "no")]
 	 (const_string "yes")))
 
-; POOL_RANGE is how far away from a constant pool entry that this insn
-; can be placed.  If the distance is zero, then this insn will never
-; reference the pool.
-; Note that for Thumb constant pools the PC value is rounded down to the
-; nearest multiple of four.  Therefore, THUMB2_POOL_RANGE (and POOL_RANGE for
-; Thumb insns) should be set to <max_range> - 2.
-; NEG_POOL_RANGE is nonzero for insns that can reference a constant pool entry
-; before its address.  It is set to <max_range> - (8 + <data_size>).
 //Pattern#17
 (define_attr "arm_pool_range" "" (const_int 0))
 //Pattern#18
@@ -206,68 +169,19 @@
   (cond [(eq_attr "is_thumb" "yes") (attr "thumb2_neg_pool_range")]
 	(attr "arm_neg_pool_range")))
 
-; An assembler sequence may clobber the condition codes without us knowing.
-; If such an insn references the pool, then we have no way of knowing how,
-; so use the most conservative value for pool_range.
 //Pattern#23
 (define_asm_attributes
  [(set_attr "conds" "clob")
   (set_attr "length" "4")
   (set_attr "pool_range" "250")])
 
-;; The instruction used to implement a particular pattern.  This
-;; information is used by pipeline descriptions to provide accurate
-;; scheduling information.
 
 //Pattern#24
 (define_attr "insn"
         "mov,mvn,smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,umull,umulls,umlal,umlals,smull,smulls,smlal,smlals,smlawy,smuad,smuadx,smlad,smladx,smusd,smusdx,smlsd,smlsdx,smmul,smmulr,smmla,umaal,smlald,smlsld,clz,mrs,msr,xtab,sdiv,udiv,sat,other"
         (const_string "other"))
 
-; TYPE attribute is used to detect floating point instructions which, if
-; running on a co-processor can run in parallel with other, basic instructions
-; If write-buffer scheduling is enabled then it can also be used in the
-; scheduling of writes.
 
-; Classification of each insn
-; Note: vfp.md has different meanings for some of these, and some further
-; types as well.  See that file for details.
-; simple_alu_imm  a simple alu instruction that doesn't hit memory or fp
-;               regs or have a shifted source operand and has an immediate
-;               operand. This currently only tracks very basic immediate
-;               alu operations.
-; alu_reg       any alu instruction that doesn't hit memory or fp
-;               regs or have a shifted source operand
-;               and does not have an immediate operand. This is
-;               also the default
-; simple_alu_shift covers UXTH, UXTB, SXTH, SXTB
-; alu_shift	any data instruction that doesn't hit memory or fp
-;		regs, but has a source operand shifted by a constant
-; alu_shift_reg	any data instruction that doesn't hit memory or fp
-;		regs, but has a source operand shifted by a register value
-; mult		a multiply instruction
-; block		blockage insn, this blocks all functional units
-; float		a floating point arithmetic operation (subject to expansion)
-; fdivd		DFmode floating point division
-; fdivs		SFmode floating point division
-; f_load[sd]	A single/double load from memory. Used for VFP unit.
-; f_store[sd]	A single/double store to memory. Used for VFP unit.
-; f_flag	a transfer of co-processor flags to the CPSR
-; f_2_r		transfer float to core (no memory needed)
-; r_2_f		transfer core to float
-; f_cvt		convert floating<->integral
-; branch	a branch
-; call		a subroutine call
-; load_byte	load byte(s) from memory to arm registers
-; load1		load 1 word from memory to arm registers
-; load2         load 2 words from memory to arm registers
-; load3         load 3 words from memory to arm registers
-; load4         load 4 words from memory to arm registers
-; store		store 1 word to memory from arm registers
-; store2	store 2 words
-; store3	store 3 words
-; store4	store 4 (or more) words
-;
 
 //Pattern#25
 (define_attr "type"
@@ -325,7 +239,6 @@
     (const_string "mult")
     (const_string "alu_reg")))
 
-; Is this an (integer side) multiply with a 64-bit result?
 //Pattern#26
 (define_attr "mul64" "no,yes"
   (if_then_else
@@ -334,17 +247,13 @@
     (const_string "yes")
     (const_string "no")))
 
-; wtype for WMMX insn scheduling purposes.
 //Pattern#27
 (define_attr "wtype"
         "none,wor,wxor,wand,wandn,wmov,tmcrr,tmrrc,wldr,wstr,tmcr,tmrc,wadd,wsub,wmul,wmac,wavg2,tinsr,textrm,wshufh,wcmpeq,wcmpgt,wmax,wmin,wpack,wunpckih,wunpckil,wunpckeh,wunpckel,wror,wsra,wsrl,wsll,wmadd,tmia,tmiaph,tmiaxy,tbcst,tmovmsk,wacc,waligni,walignr,tandc,textrc,torc,torvsc,wsad,wabs,wabsdiff,waddsubhx,wsubaddhx,wavg4,wmulw,wqmulm,wqmulwm,waddbhus,wqmiaxy,wmiaxy,wmiawxy,wmerge" (const_string "none"))
 
-; Load scheduling, set from the arm_ld_sched variable
-; initialized by arm_option_override()
 //Pattern#28
 (define_attr "ldsched" "no,yes" (const (symbol_ref "arm_ld_sched")))
 
-;; Classification of NEON instructions for scheduling purposes.
 //Pattern#29
 (define_attr "neon_type"
    "neon_int_1,\
@@ -412,25 +321,6 @@
    none"
  (const_string "none"))
 
-; condition codes: this one is used by final_prescan_insn to speed up
-; conditionalizing instructions.  It saves having to scan the rtl to see if
-; it uses or alters the condition codes.
-; 
-; USE means that the condition codes are used by the insn in the process of
-;   outputting code, this means (at present) that we can't use the insn in
-;   inlined branches
-;
-; SET means that the purpose of the insn is to set the condition codes in a
-;   well defined manner.
-;
-; CLOB means that the condition codes are altered in an undefined manner, if
-;   they are altered at all
-;
-; UNCONDITIONAL means the instruction can not be conditionally executed and
-;   that the instruction does not use or alter the condition codes.
-;
-; NOCOND means that the instruction does not use or alter the condition
-;   codes but can be converted into a conditionally exectuted instruction.
 
 //Pattern#30
 (define_attr "conds" "use,set,clob,unconditional,nocond"
@@ -442,22 +332,12 @@
 	  (const_string "nocond")
 	  (const_string "unconditional"))))
 
-; Predicable means that the insn can be conditionally executed based on
-; an automatically added predicate (additional patterns are generated by 
-; gen...).  We default to 'no' because no Thumb patterns match this rule
-; and not all ARM patterns do.
 //Pattern#31
 (define_attr "predicable" "no,yes" (const_string "no"))
 
-; Only model the write buffer for ARM6 and ARM7.  Earlier processors don't
-; have one.  Later ones, such as StrongARM, have write-back caches, so don't
-; suffer blockages enough to warrant modelling this (and it can adversely
-; affect the schedule).
 //Pattern#32
 (define_attr "model_wbuf" "no,yes" (const (symbol_ref "arm_tune_wbuf")))
 
-; WRITE_CONFLICT implies that a read following an unrelated write is likely
-; to stall the processor.  Used with model_wbuf above.
 //Pattern#33
 (define_attr "write_conflict" "no,yes"
   (if_then_else (eq_attr "type"
@@ -465,8 +345,6 @@
 		(const_string "yes")
 		(const_string "no")))
 
-; Classify the insns into those that take one cycle and those that take more
-; than one on the main cpu execution unit.
 //Pattern#34
 (define_attr "core_cycles" "single,multi"
   (if_then_else (eq_attr "type"
@@ -476,35 +354,23 @@
 		(const_string "single")
 	        (const_string "multi")))
 
-;; FAR_JUMP is "yes" if a BL instruction is used to generate a branch to a
-;; distant label.  Only applicable to Thumb code.
 //Pattern#35
 (define_attr "far_jump" "yes,no" (const_string "no"))
 
 
-;; The number of machine instructions this pattern expands to.
-;; Used for Thumb-2 conditional execution.
 //Pattern#36
 (define_attr "ce_count" "" (const_int 1))
 
-;;---------------------------------------------------------------------------
-;; Unspecs
 
 (include "unspecs.md")
 
-;;---------------------------------------------------------------------------
-;; Mode iterators
 
 (include "iterators.md")
 
-;;---------------------------------------------------------------------------
-;; Predicates
 
 (include "predicates.md")
 (include "constraints.md")
 
-;;---------------------------------------------------------------------------
-;; Pipeline descriptions
 
 //Pattern#37
 (define_attr "tune_cortexr4" "yes,no"
@@ -513,7 +379,6 @@
 	  (const_string "yes")
 	  (const_string "no"))))
 
-;; True if the generic scheduling description should be used.
 
 //Pattern#38
 (define_attr "generic_sched" "yes,no"
@@ -556,14 +421,7 @@
 (include "marvell-pj4.md")
 
 
-;;---------------------------------------------------------------------------
-;; Insn patterns
-;;
-;; Addition insns.
 
-;; Note: For DImode insns, there is normally no reason why operands should
-;; not be in the same register, what we don't want is for something being
-;; written to partially overlap something that is an input.
 
 //Pattern#40
 (define_expand "adddi3"
@@ -700,8 +558,6 @@
   "
 )
 
-; If there is a scratch available, this will be faster than synthesizing the
-; addition.
 //Pattern#46
 (define_peephole2
   [(match_scratch:SI 3 "r")
@@ -717,9 +573,6 @@
   ""
 )
 
-;; The r/r/k alternative is required when reloading the address
-;;  (plus (reg rN) (reg sp)) into (reg rN).  In this case reload will
-;; put the duplicated register first, and not try the commutative version.
 //Pattern#47
 (define_insn_and_split "*arm_addsi3"
   [(set (match_operand:SI          0 "s_register_operand" "=rk, r,k, r,r, k, r, k,k,r, k, r")
@@ -809,8 +662,6 @@
   [(set_attr "length" "2,2,2,2,2,2,2,4,4,4")]
 )
 
-;; Reloading and elimination of the frame pointer can
-;; sometimes cause this optimization to be missed.
 //Pattern#49
 (define_peephole2
   [(set (match_operand:SI 0 "arm_general_register_operand" "")
@@ -872,8 +723,6 @@
    (set_attr "predicable" "yes")]
 )
 
-;; This is the canonicalization of addsi3_compare0_for_combiner when the
-;; addend is a constant.
 //Pattern#53
 (define_insn "*cmpsi2_addneg"
   [(set (reg:CC CC_REGNUM)
@@ -890,15 +739,6 @@
   [(set_attr "conds" "set")]
 )
 
-;; Convert the sequence
-;;  sub  rd, rn, #1
-;;  cmn  rd, #1	(equivalent to cmp rd, #-1)
-;;  bne  dest
-;; into
-;;  subs rd, rn, #1
-;;  bcs  dest	((unsigned)rn >= 1)
-;; similarly for the beq variant using bcc.
-;; This is a common looping idiom (while (n--))
 //Pattern#54
 (define_peephole2
   [(set (match_operand:SI 0 "arm_general_register_operand" "")
@@ -928,10 +768,6 @@
 				 operands[2], const0_rtx);"
 )
 
-;; The next four insns work because they compare the result with one of
-;; the operands, and we know that the use of the condition code is
-;; either GEU or LTU, so we can use the carry flag from the addition
-;; instead of doing the compare a second time.
 //Pattern#55
 (define_insn "*addsi3_compare_op1"
   [(set (reg:CC_C CC_REGNUM)
@@ -1081,7 +917,6 @@
    (set_attr "length" "4,8")]
 )
 
-; transform ((x << y) - 1) to ~(~(x-1) << y)  Where X is a constant.
 //Pattern#65
 (define_split
   [(set (match_operand:SI 0 "s_register_operand" "")
@@ -1254,7 +1089,6 @@
   [(set_attr "length" "2")
    (set_attr "conds" "set")])
 
-; ??? Check Thumb-2 split length
 //Pattern#78
 (define_insn_and_split "*arm_subsi3_insn"
   [(set (match_operand:SI           0 "s_register_operand" "=r,r,r,rk,r")
@@ -1372,7 +1206,6 @@
 ")
 
 
-;; Multiplication insns
 
 //Pattern#86
 (define_expand "mulsi3"
@@ -1383,7 +1216,6 @@
   ""
 )
 
-;; Use `&' and then `0' to prevent the operands 0 and 1 being the same
 //Pattern#87
 (define_insn "*arm_mulsi3"
   [(set (match_operand:SI          0 "s_register_operand" "=&r,&r")
@@ -1406,11 +1238,6 @@
    (set_attr "predicable" "yes")]
 )
 
-; Unfortunately with the Thumb the '&'/'0' trick can fails when operands 
-; 1 and 2; are the same, because reload will make operand 0 match 
-; operand 1 without realizing that this conflicts with operand 2.  We fix 
-; this by adding another alternative to match this case, and then `reload' 
-; it ourselves.  This alternative must come first.
 //Pattern#89
 (define_insn "*thumb_mulsi3"
   [(set (match_operand:SI          0 "register_operand" "=&l,&l,&l")
@@ -1499,7 +1326,6 @@
    (set_attr "insn" "muls")]
 )
 
-;; Unnamed templates to match MLA instruction.
 
 //Pattern#95
 (define_insn "*mulsi3addsi"
@@ -1647,11 +1473,6 @@
    (set_attr "predicable" "yes")]
 )
 
-;; 32x32->64 widening multiply.
-;; As with mulsi3, the only difference between the v3-5 and v6+
-;; versions of these patterns is the requirement that the output not
-;; overlap the inputs, but that still means we have to have a named
-;; expander and two different starred insns.
 
 //Pattern#105
 (define_expand "mulsidi3"
@@ -1924,7 +1745,6 @@
    (set_attr "predicable" "yes")]
 )
 
-;; Note: there is no maddhisi4ibt because this one is canonical form
 //Pattern#125
 (define_insn "*maddhisi4tb"
   [(set (match_operand:SI 0 "s_register_operand" "=r")
@@ -1970,7 +1790,6 @@
   [(set_attr "insn" "smlalxy")
    (set_attr "predicable" "yes")])
 
-;; Note: there is no maddhidi4ibt because this one is canonical form
 //Pattern#128
 (define_insn "*maddhidi4tb"
   [(set (match_operand:DI 0 "s_register_operand" "=r")
@@ -2023,7 +1842,6 @@
   "
 ")
 
-;; Division insns
 
 //Pattern#132
 (define_expand "divsf3"
@@ -2041,12 +1859,8 @@
   "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP_DOUBLE"
   "")
 
-;; Boolean and,ior,xor insns
 
-;; Split up double word logical operations
 
-;; Split up simple DImode logical operations.  Simply perform the logical
-;; operation on the upper and lower halves of the registers.
 //Pattern#243
 (define_insn "divsi3"
   [(set (match_operand:SI	  0 "s_register_operand" "=r")
@@ -2070,7 +1884,6 @@
 )
 
 
-;; Unary arithmetic insns
 
 //Pattern#245
 (define_expand "negdi2"
@@ -2088,8 +1901,6 @@
   }
 )
 
-;; The constraints here are to prevent a *partial* overlap (where %Q0 == %R1).
-;; The first alternative allows the common case of a *full* overlap.
 //Pattern#246
 (define_insn "*arm_negdi2"
   [(set (match_operand:DI         0 "s_register_operand" "=r,&r")
@@ -2152,10 +1963,6 @@
   "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP_DOUBLE"
   "")
 
-;; abssi2 doesn't really clobber the condition codes if a different register
-;; is being set.  To keep things simple, assume during rtl manipulations that
-;; it does, but tell the final scan operator the truth.  Similarly for
-;; (neg (abs...))
 
 //Pattern#253
 (define_expand "abssi2"
@@ -2339,8 +2146,8 @@
    (set_attr "insn" "mvn")]
 )
 
-;; Fixed <--> Floating conversion insns
 
+//Pattern#268
 //Pattern#276
 (define_expand "truncdfsf2"
   [(set (match_operand:SF  0 "s_register_operand" "")
@@ -2367,5 +2174,4 @@
   }"
 )
 
-;; Zero and sign extension instructions.
 

@@ -1,21 +1,24 @@
 {:
-; Register numbers -- All machine registers should be defined here
+//Pattern#1
+
+:}
+
+{:
 //Pattern#2
 :}
 list noname.constants
-  [(R0_REGNUM, 0),	
-   (R1_REGNUM, 1),	
-   (IP_REGNUM, 12),	
-   (SP_REGNUM, 13),	
-   (LR_REGNUM, 14),	
-   (PC_REGNUM, 15),	
-   (LAST_ARM_REGNUM, 15),	
-   (CC_REGNUM, 100),	
+  [(R0_REGNUM, 0),
+   (R1_REGNUM, 1),
+   (IP_REGNUM, 12),
+   (SP_REGNUM, 13),
+   (LR_REGNUM, 14),
+   (PC_REGNUM, 15),
+   (LAST_ARM_REGNUM, 15),
+   (CC_REGNUM, 100),
    (VFPCC_REGNUM, 101)
   ]
-
+  
 {:
-; 3rd operand to select_dominance_cc_mode
 //Pattern#3
 :}
 list noname.constants
@@ -25,7 +28,6 @@ list noname.constants
   ]
 
 {:
-; conditional compare combination
 //Pattern#4
 :}
 list noname.constants
@@ -35,11 +37,11 @@ list noname.constants
    (CMN_CMN, 3),
    (NUM_OF_COND_CMP, 4)
   ]
+{:
+(include"arm-tune.md")
+:}
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#5
 :}
 concrete is_thumb.attr instantiates const
@@ -49,9 +51,6 @@ concrete is_thumb.attr instantiates const
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#6
 :}
 concrete is_arch6.attr instantiates const
@@ -61,9 +60,6 @@ concrete is_arch6.attr instantiates const
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#7
 :}
 concrete is_thumb1.attr instantiates const
@@ -73,9 +69,6 @@ concrete is_thumb1.attr instantiates const
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#8
 :}
 concrete shift.attr instantiates sequence
@@ -85,9 +78,6 @@ concrete shift.attr instantiates sequence
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#9
 :}
 concrete fpu.attr instantiates const
@@ -97,9 +87,6 @@ concrete fpu.attr instantiates const
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#10
 :}
 concrete length.attr instantiates sequence
@@ -109,9 +96,6 @@ concrete length.attr instantiates sequence
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#11
 :}
 concrete arch.attr instantiates sequence
@@ -120,11 +104,9 @@ concrete arch.attr instantiates sequence
 	lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
 }
 
+//to do
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
-//Pattern#12 TODO
+//Pattern#12 
 :}
 concrete arch_enabled.attr instantiates sequence
 {
@@ -133,9 +115,6 @@ concrete arch_enabled.attr instantiates sequence
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#13
 :}
 concrete opt.attr instantiates sequence
@@ -144,22 +123,17 @@ concrete opt.attr instantiates sequence
 	lov:="any,speed,size";
 }
 
+//to do
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
-//Pattern#14 TODO
+//Pattern#14
 :}
-concrete opt.attr instantiates sequence
+concrete opt_enabled.attr instantiates sequence
 {
 	root (const_string:"any");
 	lov:="any,speed,size";
 }
 
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
 //Pattern#15
 :}
 concrete insn_enabled.attr instantiates sequence
@@ -168,27 +142,17 @@ concrete insn_enabled.attr instantiates sequence
 	lov:="no,yes";
 }
 
+//to do
 {:
-; IS_THUMB is set to 'yes' when we are generating Thumb code, and 'no' when
-; generating ARM code.  This is used to control the length of some insn
-; patterns that share the same RTL in both ARM and Thumb code.
-//Pattern#16 TODO
+//Pattern#16
 :}
-concrete opt.attr instantiates sequence
+concrete enabled.attr instantiates sequence
 {
 	root (const_string:"any");
 	lov:="any,speed,size";
 }
 
 {:
-; POOL_RANGE is how far away from a constant pool entry that this insn
-; can be placed.  If the distance is zero, then this insn will never
-; reference the pool.
-; Note that for Thumb constant pools the PC value is rounded down to the
-; nearest multiple of four.  Therefore, THUMB2_POOL_RANGE (and POOL_RANGE for
-; Thumb insns) should be set to <max_range> - 2.
-; NEG_POOL_RANGE is nonzero for insns that can reference a constant pool entry
-; before its address.  It is set to <max_range> - (8 + <data_size>).
 //Pattern#17
 :}
 concrete arm_pool_range.attr instantiates sequence
@@ -224,8 +188,9 @@ concrete thumb2_neg_pool_range.attr instantiates sequence
 	lov:="";
 }
 
+//to do
 {:
-//Pattern#21 TODO
+//Pattern#21 
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -233,8 +198,9 @@ concrete arm_pool_range.attr instantiates sequence
 	lov:="";
 }
 
+//to do
 {:
-//Pattern#22 TODO
+//Pattern#22
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -242,8 +208,9 @@ concrete arm_pool_range.attr instantiates sequence
 	lov:="";
 }
 
+//to do
 {:
-//Pattern#23 TODO
+//Pattern#23 
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -251,11 +218,9 @@ concrete arm_pool_range.attr instantiates sequence
 	lov:="";
 }
 
+//to do
 {:
-;; The instruction used to implement a particular pattern.  This
-;; information is used by pipeline descriptions to provide accurate
-;; scheduling information.
-//Pattern#24 TODO
+//Pattern#24 
 :}
 concrete INSN.attr instantiates sequence
 {
@@ -263,18 +228,37 @@ concrete INSN.attr instantiates sequence
 	lov:="mov,mvn,smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,umull,umulls,umlal,umlals,smull,smulls,smlal,smlals,smlawy,smuad,smuadx,smlad,smladx,smusd,smusdx,smlsd,smlsdx,smmul,smmulr,smmla,umaal,smlald,smlsld,clz,mrs,msr,xtab,sdiv,udiv,sat,other";
 }
 
+//to do
 {:
-//Pattern#25 TODO
+//Pattern#25 
 :}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+
+//to do
+{:
+//Pattern#26 
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
 
 {:
-//Pattern#26 TODO
-:}
-
-{:
-; wtype for WMMX insn scheduling purposes.
 //Pattern#27
 :}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
 concrete wtype.attr instantiates sequence
 {
 	root (const_string:"none");
@@ -282,8 +266,6 @@ concrete wtype.attr instantiates sequence
 }
 
 {:
-; Load scheduling, set from the arm_ld_sched variable
-; initialized by arm_option_override()
 //Pattern#28
 :}
 concrete ldsched.attr instantiates const 
@@ -293,25 +275,26 @@ concrete ldsched.attr instantiates const
 }
 
 {:
-;; Classification of NEON instructions for scheduling purposes.
 //Pattern#29
 :}
 concrete wtype.attr instantiates sequence
 {
 	root (const_string:"none");
-	lov:="neon_int_1,neon_int_2,neon_int_3,neon_int_4,neon_int_5,neon_vqneg_vqabs,neon_vmov,neon_vaba,neon_vsma,neon_vaba_qqq,neon_mul_ddd_8_16_qdd_16_8_long_32_16_long,neon_mul_qqq_8_16_32_ddd_32,neon_mul_qdd_64_32_long_qqd_16_ddd_32_scalar_64_32_long_scalar,neon_mla_ddd_8_16_qdd_16_8_long_32_16_long,neon_mla_qqq_8_16,neon_mla_ddd_32_qqd_16_ddd_32_scalar_qdd_64_32_long_scalar_qdd_64_32_long,neon_mla_qqq_32_qqd_32_scalar,neon_mul_ddd_16_scalar_32_16_long_scalar,neon_mul_qqd_32_scalar,neon_mla_ddd_16_scalar_qdd_32_16_long_scalar,neon_shift_1,neon_shift_2,neon_shift_3,neon_vshl_ddd,neon_vqshl_vrshl_vqrshl_qqq,neon_vsra_vrsra,neon_fp_vadd_ddd_vabs_dd,neon_fp_vadd_qqq_vabs_qq,neon_fp_vsum,neon_fp_vmul_ddd,neon_fp_vmul_qqd,neon_fp_vmla_ddd,neon_fp_vmla_qqq,neon_fp_vmla_ddd_scalar,neon_fp_vmla_qqq_scalar,neon_fp_vrecps_vrsqrts_ddd,neon_fp_vrecps_vrsqrts_qqq,neon_bp_simple,neon_bp_2cycle,neon_bp_3cycle,neon_ldr,neon_str,neon_vld1_1_2_regs,neon_vld1_3_4_regs,neon_vld2_2_regs_vld1_vld2_all_lanes,neon_vld2_4_regs,neon_vld3_vld4,neon_vst1_1_2_regs_vst2_2_regs,neon_vst1_3_4_regs,neon_vst2_4_regs_vst3_vst4,neon_vst3_vst4,neon_vld1_vld2_lane,neon_vld3_vld4_lane,neon_vst1_vst2_lane,neon_vst3_vst4_lane,neon_vld3_vld4_all_lanes,\
-   neon_mcr,neon_mcr_2_mcrr,neon_mrc,neon_mrrc,neon_ldm_2,neon_stm_2,none";
+	lov:="neon_int_1,neon_int_2,neon_int_3,neon_int_4,neon_int_5,neon_vqneg_vqabs,neon_vmov,neon_vaba,neon_vsma,neon_vaba_qqq,neon_mul_ddd_8_16_qdd_16_8_long_32_16_long,neon_mul_qqq_8_16_32_ddd_32,neon_mul_qdd_64_32_long_qqd_16_ddd_32_scalar_64_32_long_scalar,neon_mla_ddd_8_16_qdd_16_8_long_32_16_long,neon_mla_qqq_8_16,neon_mla_ddd_32_qqd_16_ddd_32_scalar_qdd_64_32_long_scalar_qdd_64_32_long,neon_mla_qqq_32_qqd_32_scalar,neon_mul_ddd_16_scalar_32_16_long_scalar,neon_mul_qqd_32_scalar,neon_mla_ddd_16_scalar_qdd_32_16_long_scalar,neon_shift_1,neon_shift_2,neon_shift_3,neon_vshl_ddd,neon_vqshl_vrshl_vqrshl_qqq,neon_vsra_vrsra,neon_fp_vadd_ddd_vabs_dd,neon_fp_vadd_qqq_vabs_qq,neon_fp_vsum,neon_fp_vmul_ddd,neon_fp_vmul_qqd,neon_fp_vmla_ddd,neon_fp_vmla_qqq,neon_fp_vmla_ddd_scalar,neon_fp_vmla_qqq_scalar,neon_fp_vrecps_vrsqrts_ddd,neon_fp_vrecps_vrsqrts_qqq,neon_bp_simple,neon_bp_2cycle,neon_bp_3cycle,neon_ldr,neon_str,neon_vld1_1_2_regs,neon_vld1_3_4_regs,neon_vld2_2_regs_vld1_vld2_all_lanes,neon_vld2_4_regs,neon_vld3_vld4,neon_vst1_1_2_regs_vst2_2_regs,neon_vst1_3_4_regs,neon_vst2_4_regs_vst3_vst4,neon_vst3_vst4,neon_vld1_vld2_lane,neon_vld3_vld4_lane,neon_vst1_vst2_lane,neon_vst3_vst4_lane,neon_vld3_vld4_all_lanes,neon_mcr,neon_mcr_2_mcrr,neon_mrc,neon_mrrc,neon_ldm_2,neon_stm_2,none";
 }
 
+//to do
 {:
-//Pattern#30 TODO
+//Pattern#30
 :}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
 
 {:
-; Predicable means that the insn can be conditionally executed based on
-; an automatically added predicate (additional patterns are generated by 
-; gen...).  We default to 'no' because no Thumb patterns match this rule
-; and not all ARM patterns do.
 //Pattern#31
 :}
 concrete predicable.attr instantiates sequence
@@ -322,10 +305,6 @@ concrete predicable.attr instantiates sequence
 
 
 {:
-; Only model the write buffer for ARM6 and ARM7.  Earlier processors don't
-; have one.  Later ones, such as StrongARM, have write-back caches, so don't
-; suffer blockages enough to warrant modelling this (and it can adversely
-; affect the schedule).
 //Pattern#32
 :}
 concrete model_wbuf.attr instantiates const 
@@ -334,22 +313,30 @@ concrete model_wbuf.attr instantiates const
 	lov:="no,yes"; 
 }
 
+//to do
 {:
-; WRITE_CONFLICT implies that a read following an unrelated write is likely
-; to stall the processor.  Used with model_wbuf above.
-//Pattern#33 TODO
+//Pattern#33 
 :}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
 
 
+
+//to do
 {:
-; Classify the insns into those that take one cycle and those that take more
-; than one on the main cpu execution unit.
-//Pattern#34 TODO
+//Pattern#34 
 :}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
 
 {:
-;; FAR_JUMP is "yes" if a BL instruction is used to generate a branch to a
-;; distant label.  Only applicable to Thumb code.
 //Pattern#35
 :}
 concrete far_jump.attr instantiates sequence 
@@ -359,8 +346,6 @@ concrete far_jump.attr instantiates sequence
 }
 
 {:
-;; The number of machine instructions this pattern expands to.
-;; Used for Thumb-2 conditional execution.
 //Pattern#36
 :}
 concrete ce_count.attr instantiates sequence
@@ -369,20 +354,683 @@ concrete ce_count.attr instantiates sequence
 	lov:=""; 
 }
 
+//to do
 {:
-;;---------------------------------------------------------------------------
-;; Pipeline descriptions
+//Pattern#37 
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
 
-//Pattern#37 TODO
+
+//to do
+{:
+//Pattern#38 
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+
+//to do
+{:
+//Pattern#39 
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+
+//to do
+{:
+//Pattern#40 
+:}
+abstract parallel_set_plus2_clobber extends parallel {
+	root.1:=set_plus2; root.2:=clobber;
+}
+concrete adddi3.insn instantiates parallel_set_plus2_clobber {
+	root (s_register_operand:DI:"", s_register_operand:DI:"",
+		arm_adddi_operand:DI:"",reg(CC:CC_REGNUM));
+}
+{:
+  "TARGET_EITHER"
+  "
+  if (TARGET_THUMB1)
+    {
+      if (!REG_P (operands[1]))
+        operands[1] = force_reg (DImode, operands[1]);
+      if (!REG_P (operands[2]))
+        operands[2] = force_reg (DImode, operands[2]);
+     }
+  "
 :}
 
 {:
-;; True if the generic scheduling description should be used.
-
-//Pattern#38 TODO
+//Pattern#41
+:}
+abstract set_plus2_clobber extends sequence 
+{
+	root.1:=set_plus2; root.2:=clobber;
+}
+abstract set_minus2_clobber extends sequence 
+{
+	root.1:=set_minus2; root.2:=clobber;
+}
+concrete *thumb1_adddi3.insn instantiates set_plus2_clobber 
+{
+	root (register_operand:DI:"=l", register_operand:DI:"%0",
+		register_operand:DI:"l",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
+}
+{:
+  "TARGET_THUMB1"
+  "add\\t%Q0, %Q0, %Q2\;adc\\t%R0, %R0, %R2"
+  [(set_attr "length" "4")]
 :}
 
 {:
-//Pattern#39 TODO
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#42
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+	root (const_int:0);
+	lov:="";
+}
+
+{:
+//Pattern#69
+:}
+concrete *arm_subdi3.insn instantiates set_minus2_clobber 
+{
+	root (s_register_operand:DI:"=&r,&r,&r", s_register_operand:DI:"0,r,0",
+		s_register_operand:DI:"r,0,0",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && !TARGET_NEON"
+  "subs\\t%Q0, %Q1, %Q2\;sbc\\t%R0, %R1, %R2"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
 :}
 
+{:
+//Pattern#70
+:}
+concrete *thumb_subdi3.insn instantiates set_minus2_clobber 
+{
+	root (register_operand:DI:"=l", register_operand:DI:"0",
+		register_operand:DI:"l",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
+}
+{:
+  "TARGET_THUMB1"
+  "sub\\t%Q0, %Q0, %Q2\;sbc\\t%R0, %R0, %R2"
+  [(set_attr "length" "4")]
+:}
+
+{:
+//Pattern#71
+:}
+abstract set_minus_2zero_extend_clobber extends sequence
+{
+	root.1:=set_minus2;
+	root.1.2.2:=zero_extend;
+	root.2:=clobber;
+}
+concrete *subdi_di_zesidi.insn instantiates set_minus_2zero_extend_clobber
+{
+	root (s_register_operand:DI:"=&r,&r", s_register_operand:DI:"0,r",
+		s_register_operand:DI:"r,r", reg(CC:CC_REGNUM));
+	root.1.1.mode:=DI;
+	root.1.2.mode:=DI;
+	root.1.2.2.mode:=DI;
+	root.1.2.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "subs\\t%Q0, %Q1, %2\;sbc\\t%R0, %R1, #0"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+
+{:
+//Pattern#72
+:}
+abstract set_minus_sign_extend_clobber extends sequence
+{
+	root.1:=set_minus2;
+	root.1.2.2:=sign_extend;
+	root.2:=clobber;
+}
+concrete *subdi_di_sesidi.insn instantiates set_minus_sign_extend_clobber
+{
+	root (s_register_operand:DI:"=&r,&r", s_register_operand:DI:"0,r",
+		s_register_operand:DI:"r,r", reg(CC:CC_REGNUM));
+	root.1.1.mode:=DI;
+	root.1.2.mode:=DI;
+	root.1.2.2.mode:=DI;
+	root.1.2.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "subs\\t%Q0, %Q1, %2\;sbc\\t%R0, %R1, %2, asr #31"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+
+{:
+//Pattern#73
+:}
+abstract set_minus_1zero_extend_clobber extends sequence
+{
+	root.1:=set_minus2;
+	root.1.2.1:=zero_extend;
+	root.2:=clobber;
+}
+concrete *subdi_zesidi_di.insn instantiates set_minus_1zero_extend_clobber
+{
+	root (s_register_operand:DI:"=&r,&r", 2=s_register_operand:DI:"r,r",
+		1=s_register_operand:DI:"0,r", reg(CC:CC_REGNUM));
+	root.1.1.mode:=DI;
+	root.1.2.mode:=DI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=SI;
+}
+{:
+  "TARGET_ARM"
+  "rsbs\\t%Q0, %Q1, %2\;rsc\\t%R0, %R1, #0"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+
+{:
+//Pattern#74
+:}
+abstract set_minus_1sign_extend_clobber extends sequence
+{
+	root.1:=set_minus2;
+	root.1.2.1:=sign_extend;
+	root.2:=clobber;
+}
+concrete *subdi_sesidi_di.insn instantiates set_minus_1sign_extend_clobber
+{
+	root (s_register_operand:DI:"=&r,&r", 2=s_register_operand:DI:"r,r",
+		1=s_register_operand:DI:"0,r", reg(CC:CC_REGNUM));
+	root.1.1.mode:=DI;
+	root.1.2.mode:=DI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=SI;
+}
+{:
+  "TARGET_ARM"
+  "rsbs\\t%Q0, %Q1, %2\;rsc\\t%R0, %R1, %2, asr #31"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+
+{:
+//Pattern#75
+:}
+abstract set_minus_1zero_extend_2zero_extend_clobber extends sequence
+{
+	root.1:=set_minus2;
+	root.1.2.1:=zero_extend;
+	root.1.2.2:=zero_extend;
+	root.2:=clobber;
+}
+concrete *subdi_zesidi_zesidi.insn instantiates set_minus_1zero_extend_2zero_extend_clobber
+{
+	root (s_register_operand:DI:"=r", s_register_operand:DI:"r",
+		s_register_operand:DI:"r", reg(CC:CC_REGNUM));
+	root.1.1.mode:=DI;
+	root.1.2.mode:=DI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=SI;
+	root.1.2.mode:=DI;
+	root.1.2.2.mode:=DI;
+	root.1.2.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "subs\\t%Q0, %1, %2\;sbc\\t%R0, %1, %1"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+
+{:
+//Pattern#76
+:}
+concrete subsi3.exp instantiates set_minus2
+{
+	root (s_register_operand:SI:"", reg_or_int_operand:SI:"",
+		s_register_operand:SI:"");
+	root.1.mode:=SI;
+	root.2.mode:=SI;
+}
+{: 
+  "TARGET_EITHER"
+  "
+  if (CONST_INT_P (operands[1]))
+    {
+      if (TARGET_32BIT)
+        {
+          arm_split_constant (MINUS, SImode, NULL_RTX,
+	                      INTVAL (operands[1]), operands[0],
+	  		      operands[2], optimize && can_create_pseudo_p ());
+          DONE;
+	}
+      else /* TARGET_THUMB1 */
+        operands[1] = force_reg (SImode, operands[1]);
+    }
+  "
+:}
+
+{:
+//Pattern#77
+:}
+concrete thumb1_subsi3_insn.insn instantiates set_minus2
+{
+	root (register_operand:SI:"=l", register_operand:SI:"l",
+		reg_or_int_operand:SI:"lPd");
+	root.1.mode:=SI;
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_THUMB1"
+  "sub\\t%0, %1, %2"
+  [(set_attr "length" "2")
+   (set_attr "conds" "set")]
+:}
+
+{:
+//Pattern#78
+:}
+concrete *arm_subsi3_insn.insn_and_split instantiates.in set_minus2
+{
+	root (s_register_operand:SI:"=r,r,r,rk,r", reg_or_int_operand:SI:"rI,r,r,k,?n",
+		reg_or_int_operand:SI:"r,I,r,r, r");
+	root.1.mode:=SI;
+	root.2.mode:=SI;
+}
+cmd_spec.in
+{:
+  "TARGET_32BIT"
+  "@
+   rsb%?\\t%0, %2, %1
+   sub%?\\t%0, %1, %2
+   sub%?\\t%0, %1, %2
+   sub%?\\t%0, %1, %2
+   #"
+  "&& (CONST_INT_P (operands[1])
+       && !const_ok_for_arm (INTVAL (operands[1])))"
+:}
+instantiates.out clobber
+{
+  root (const_int:0);
+}
+cmd_spec.out
+{:
+  "
+  arm_split_constant (MINUS, SImode, curr_insn,
+                      INTVAL (operands[1]), operands[0], operands[2], 0);
+  DONE;
+  "
+  [(set_attr "length" "4,4,4,4,16")
+   (set_attr "predicable" "yes")
+   (set_attr "type"  "*,simple_alu_imm,*,*,*")]
+:}
+
+{:
+//Pattern#79
+:}
+abstract match_set_minus2 extends sequence
+{
+	root.1:=sequence;
+	root.1.2:=set_minus2;
+}
+abstract set_dup_dup_minus extends sequence
+{
+	root.1:=set;
+	root.2:=set;
+	root.2.2:=minus;
+}
+concrete .peep2 instantiates.in match_set_minus2
+{
+	root (3=SI:"r", arm_general_register_operand:SI:"", const_int_operand:SI:"",
+		arm_general_register_operand:SI:"");
+	root.1.2.2.mode:=SI;
+}
+cmd_spec.in
+{:
+  "TARGET_32BIT
+   && !const_ok_for_arm (INTVAL (operands[1]))
+   && const_ok_for_arm (~INTVAL (operands[1]))"
+:}
+instantiates.out set_dup_dup_minus
+{
+	root(duplicate 3, duplicate 1, duplicate 0, duplicate 3, duplicate 2);
+	root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+  ""
+:}
+
+{:
+//Pattern#80
+:}
+abstract set_compare_minus_minus extends sequence
+{
+	root.1:=set_compare2_minus;
+	root.2:=set_minus2;
+}
+concrete *subsi3_compare0.insn instantiates set_compare_minus_minus	
+{
+	root(reg(CC_NOOV:CC_REGNUM), 1=arm_rhs_operand:SI:"r,r,I", 2=arm_rhs_operand:SI:"I,r,r", const_int:0, 0=s_register_operand:SI:"=r,r,r",duplicate 1, duplicate 2);
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "@
+   sub%.\\t%0, %1, %2
+   sub%.\\t%0, %1, %2
+   rsb%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "type"  "simple_alu_imm,*,*")]
+:}
+
+{:
+//Pattern#81
+:}
+abstract set_compare_minus_minus extends sequence
+{
+	root.1:=set_compare2;
+	root.2:=set_minus2;
+}
+concrete *subsi3_compare.insn instantiates set_compare_minus_minus	
+{
+	root(reg(CC:CC_REGNUM), 1=arm_rhs_operand:SI:"r,r,I", 2=arm_rhs_operand:SI:"I,r,r", 0=s_register_operand:SI:"=r,r,r",duplicate 1, duplicate 2);
+	root.1.2.mode:=CC;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "@
+   sub%.\\t%0, %1, %2
+   sub%.\\t%0, %1, %2
+   rsb%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "type"  "simple_alu_imm,*,*")]
+:}
+
+{:
+//Pattern#82
+:}
+abstract set_minus2_match_operator extends set_minus2
+{
+	root.2.2:=match_operator;
+}
+concrete decscc.exp instantiates  set_minus2_match_operator
+{
+	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r",(arm_comparison_operator,cc_register:"",const_int:0));
+}
+{:
+  "TARGET_32BIT"
+  ""
+:}
+
+{:
+//Pattern#83
+:}
+concrete *arm_decscc.insn instantiates  set_minus2_match_operator
+{
+	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r",arm_comparison_operator,(cc_register:"",const_int:0));
+}
+{:
+  "TARGET_ARM"
+  "@
+   sub%d2\\t%0, %1, #1
+   mov%D2\\t%0, %1\;sub%d2\\t%0, %1, #1"
+  [(set_attr "conds" "use")
+   (set_attr "length" "*,8")
+   (set_attr "type" "simple_alu_imm,*")]
+:}
+
+{:
+//Pattern#84
+:}

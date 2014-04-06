@@ -1,0 +1,163 @@
+Generating constraints for global initializers
+
+ANYTHING = &ANYTHING
+READONLY = &READONLY
+ESCAPED = *ESCAPED
+ESCAPED = ESCAPED + UNKNOWN
+*ESCAPED = NONLOCAL
+NONLOCAL = &NONLOCAL
+NONLOCAL = &ESCAPED
+INTEGER = &ANYTHING
+b = NONLOCAL
+a = NONLOCAL
+p = NONLOCAL
+
+Generating constraints for main (main)
+
+main.clobber = _Z3fn1v.clobber
+main.use = _Z3fn1v.use
+main.clobber = _Z3fn2v.clobber
+main.use = _Z3fn2v.use
+main.result = &NULL
+
+Generating constraints for fn1() (_Z3fn1v)
+
+ESCAPED = _Z3fn1v.result
+p = &a
+ESCAPED = &a
+_Z3fn1v.clobber = &p
+_Z3fn1v.clobber = _Z3fn3v.clobber
+_Z3fn1v.use = _Z3fn3v.use
+p.0_1 = p
+_Z3fn1v.use = &p
+D.2751_2 = *p.0_1
+_Z3fn1v.use = p.0_1
+ESCAPED = &READONLY
+ESCAPED = D.2751_2
+_Z3fn1v.clobber = ESCAPED
+_Z3fn1v.use = ESCAPED
+
+Generating constraints for fn2() (_Z3fn2v)
+
+ESCAPED = _Z3fn2v.result
+p = &b
+ESCAPED = &b
+_Z3fn2v.clobber = &p
+_Z3fn2v.clobber = _Z3fn3v.clobber
+_Z3fn2v.use = _Z3fn3v.use
+p.1_1 = p
+_Z3fn2v.use = &p
+D.2753_2 = *p.1_1
+_Z3fn2v.use = p.1_1
+ESCAPED = &READONLY
+ESCAPED = D.2753_2
+_Z3fn2v.clobber = ESCAPED
+_Z3fn2v.use = ESCAPED
+
+Generating constraints for fn3() (_Z3fn3v)
+
+ESCAPED = _Z3fn3v.result
+p.2_1 = p
+_Z3fn3v.use = &p
+D.2755_2 = *p.2_1
+_Z3fn3v.use = p.2_1
+ESCAPED = &READONLY
+ESCAPED = D.2755_2
+_Z3fn3v.clobber = ESCAPED
+_Z3fn3v.use = ESCAPED
+
+
+Collapsing static cycles and doing variable substitution
+Building predecessor graph
+Detecting pointer and location equivalences
+Rewriting constraints and unifying variables
+Uniting pointer but not location equivalent variables
+Finding indirect cycles
+Solving graph
+
+Points-to sets
+
+ANYTHING = { ANYTHING }
+READONLY = { READONLY }
+ESCAPED = { READONLY ESCAPED NONLOCAL b a } same as _Z3fn3v.clobber
+NONLOCAL = { ESCAPED NONLOCAL }
+STOREDANYTHING = { }
+INTEGER = { ANYTHING }
+main.clobber = { ESCAPED p }
+main.use = { ESCAPED NONLOCAL b a p }
+main.result = { NULL }
+_Z3fn1v.clobber = { ESCAPED p } same as main.clobber
+_Z3fn1v.use = { ESCAPED NONLOCAL b a p } same as main.use
+_Z3fn1v.result = { }
+_Z3fn2v.clobber = { ESCAPED p } same as main.clobber
+_Z3fn2v.use = { ESCAPED NONLOCAL b a p } same as main.use
+_Z3fn2v.result = { }
+_Z3fn3v.clobber = { READONLY ESCAPED NONLOCAL b a }
+_Z3fn3v.use = { ESCAPED NONLOCAL b a p } same as main.use
+_Z3fn3v.result = { }
+b = { ESCAPED NONLOCAL }
+a = { ESCAPED NONLOCAL }
+p = { ESCAPED NONLOCAL b a } same as p.0_1
+p.0_1 = { ESCAPED NONLOCAL b a }
+D.2751_2 = { READONLY ESCAPED NONLOCAL b a } same as _Z3fn3v.clobber
+printf = { }
+p.1_1 = { ESCAPED NONLOCAL b a } same as p.0_1
+D.2753_2 = { READONLY ESCAPED NONLOCAL b a } same as _Z3fn3v.clobber
+p.2_1 = { ESCAPED NONLOCAL b a } same as p.0_1
+D.2755_2 = { READONLY ESCAPED NONLOCAL b a } same as _Z3fn3v.clobber
+main ()
+{
+<bb 2>:
+  fn1 ();
+  fn2 ();
+  return 0;
+
+}
+
+
+fn1() ()
+{
+  int D.2751;
+  int * p.0;
+
+<bb 2>:
+  p = &a;
+  fn3 ();
+  p.0_1 = p;
+  D.2751_2 = *p.0_1;
+  printf ("%d", D.2751_2);
+  return;
+
+}
+
+
+fn2() ()
+{
+  int D.2753;
+  int * p.1;
+
+<bb 2>:
+  p = &b;
+  fn3 ();
+  p.1_1 = p;
+  D.2753_2 = *p.1_1;
+  printf ("%d", D.2753_2);
+  return;
+
+}
+
+
+fn3() ()
+{
+  int D.2755;
+  int * p.2;
+
+<bb 2>:
+  p.2_1 = p;
+  D.2755_2 = *p.2_1;
+  printf ("%d", D.2755_2);
+  return;
+
+}
+
+

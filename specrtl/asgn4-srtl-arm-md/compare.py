@@ -1,9 +1,14 @@
+#! /usr/bin/python
+import sys
 import re
 import string
 #p=open('log_and_rel/log_and_rel_gen.md','r')
 #q=open('log_and_rel/log_and_rel.md','r')
-p=open('FILE_TO_BE_COMPARED.md','r')
-q=open('FILE_TO_BE_COMPARED_TO.md','r')
+if len(sys.argv) < 3:
+	print('Usage: ' + sys.argv[0] + ' <orig_md> <gen_md>')
+	quit(-1)
+p=open(sys.argv[1],'r')
+q=open(sys.argv[2],'r')
 log_orig_data=p.read()
 log_orig=log_orig_data.split('(define_')
 log_read_data=q.read()

@@ -1,0 +1,205 @@
+{:
+//pattern #2
+:}
+list noname.constants
+  [(R0_REGNUM, 0),
+   (R1_REGNUM, 1),
+   (IP_REGNUM, 12),
+   (SP_REGNUM, 13),
+   (LR_REGNUM, 14),
+   (PC_REGNUM, 15),
+   (LAST_ARM_REGNUM, 15),
+   (CC_REGNUM, 100),
+   (VFPCC_REGNUM, 101)
+  ]
+
+
+{:
+//pattern #3
+:}
+list noname.constants
+   [(DOM_CC_X_AND_Y,0),(DOM_CC_NX_OR_Y,1),
+     (DOM_CC_X_OR_Y,2)]
+   
+{:
+//pattern #4
+:}
+list noname.constants
+  [(CMP_CMP, 0),
+   (CMN_CMP, 1),
+   (CMP_CMN, 2),
+   (CMN_CMN, 3),
+   (NUM_OF_COND_CMP, 4)
+  ]
+
+{:
+//pattern #5
+:}
+concrete is_thumb.attr instantiates const
+{
+        root (symbol_ref:"thumb_code");
+        lov:="no,yes";
+}
+{:
+//pattern #6
+:}
+concrete is_arch6.attr instantiates const
+{
+        root (symbol_ref:"arm_arch6");
+        lov:="no,yes";
+}
+{:
+//pattern #7
+:}
+concrete is_thumb1.attr instantiates const
+{
+        root (symbol_ref:"thumb1_code");
+        lov:="no,yes";
+}
+{:
+//pattern #8
+:}
+concrete shift.attr instantiates sequence
+{
+        root (const_int:0);
+        lov:="";
+}
+{:
+//pattern #9
+:}
+concrete fpu.attr instantiates const
+{
+        root (symbol_ref:"arm_fpu_attr");
+        lov:="none,vfp";
+}
+{:
+//pattern #10
+:}
+concrete length.attr instantiates sequence
+{
+        root (const_int:4);
+        lov:="";
+}
+{:
+//pattern #11
+:}
+concrete arch.attr instantiates sequence
+{
+    root (const_string:"any");
+    lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
+}
+{:
+//pattern #13
+:}
+concrete opt.attr instantiates sequence
+{
+    root (const_string:"any");
+    lov:="any,speed,size";
+}
+{:
+//pattern #15
+:}
+concrete insn_enabled.attr instantiates sequence
+{
+        root (const_string:"yes");
+        lov:="no,yes";
+}
+{:
+//pattern #17
+:}
+concrete arm_pool_range.attr instantiates sequence
+{
+        root (const_int:0);
+        lov:="";
+}
+{:
+//p #18
+:}
+concrete thumb2_pool_range.attr instantiates sequence
+{
+        root (const_int:0);
+        lov:="";
+}
+{:
+//p #19
+:}
+concrete arm_neg_pool_range.attr instantiates sequence
+{
+        root (const_int:0);
+        lov:="";
+}
+
+{:
+//p #20
+:}
+concrete thumb2_neg_pool_range.attr instantiates sequence
+{
+        root (const_int:0);
+        lov:="";
+}
+{:
+//p #27
+:}
+concrete wtype.attr instantiates sequence
+{
+        root (const_string:"none");
+        lov:="none,wor,wxor,wand,wandn,wmov,tmcrr,tmrrc,wldr,wstr,tmcr,tmrc,wadd,wsub,wmul,wmac,wavg2,tinsr,textrm,wshufh,wcmpeq,wcmpgt,wmax,wmin,wpack,wunpckih,wunpckil,wunpckeh,wunpckel,wror,wsra,wsrl,wsll,wmadd,tmia,tmiaph,tmiaxy,tbcst,tmovmsk,wacc,waligni,walignr,tandc,textrc,torc,torvsc,wsad,wabs,wabsdiff,waddsubhx,wsubaddhx,wavg4,wmulw,wqmulm,wqmulwm,waddbhus,wqmiaxy,wmiaxy,wmiawxy,wmerge";
+}
+{:
+//p #28
+:}
+concrete ldsched.attr instantiates const
+{
+        root (symbol_ref:"arm_ld_sched");
+        lov:="no,yes";
+}
+{:
+//p #31
+:}
+concrete predicable.attr instantiates sequence
+{
+        root (const_string:"no");
+        lov:="no,yes";
+}
+{:
+//p #32
+:}
+concrete model_wbuf.attr instantiates const
+{
+        root (symbol_ref:"arm_tune_wbuf");
+        lov:="no,yes";
+}
+{:
+//p #35
+:}
+concrete far_jump.attr instantiates sequence
+{
+    root (const_string:"no");
+    lov:="yes,no";
+}
+{:
+//p #21
+:}
+abstract cond_sequence extends cond
+{
+    root.1:=sequence;
+}
+concrete pool_range.attr instantiates cond_sequence
+{
+    root ((is_thumb:"yes",
+        attr:"thumb2_pool_range"),attr:"arm_pool_range");
+    lov:="";
+}
+{:
+//p #22
+:}
+abstract cond_sequence extends cond
+{
+    root.1:=sequence;
+}
+concrete neg_pool_range.attr instantiates cond_sequence
+{
+    root ((is_thumb:"yes",
+        attr:"thumb2_neg_pool_range"),attr:"arm_neg_pool_range");
+    lov:="";
+}
