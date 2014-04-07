@@ -180,6 +180,7 @@ static int process_function (void)
 				else if (gimple_has_body_p (fn))
 				{
 					int sub_count;
+	fprintf(stderr, "Call to %s`.\n", IDENTIFIER_POINTER(DECL_NAME(fn)));
 
 					push_cfun(DECL_STRUCT_FUNCTION (fn));
 					sub_count = process_function();

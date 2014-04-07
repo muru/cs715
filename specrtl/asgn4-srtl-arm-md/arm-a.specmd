@@ -232,7 +232,7 @@ concrete INSN.attr instantiates sequence
 {:
 //Pattern#25 
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete type.attr instantiates sequence
 {
 	root (const_int:0);
 	lov:="";
@@ -253,12 +253,6 @@ concrete arm_pool_range.attr instantiates sequence
 {:
 //Pattern#27
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
-}
-
 concrete wtype.attr instantiates sequence
 {
 	root (const_string:"none");
@@ -437,15 +431,59 @@ concrete *thumb1_adddi3.insn instantiates set_plus2_clobber
 {:
 //Pattern#42
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract set_compare_plus_plus extends sequence
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=set_compare2_plus;
+	root.2:=set_plus2;
 }
+abstract set_plus_plus_ltu extends set_plus2
+{
+	root.1.2.1:=plus;
+	root.1.2.2:=ltu;
+}
+abstract parallel_compare_plus_plus extends parallel
+{
+	root.1:=set_compare_plus_plus;
+}
+abstract parallel_compare_plus2_set_plus2_ltu extends sequence
+{
+	root.1:=parallel_compare_plus_plus;
+	root.2:=set_plus_plus_ltu;
+}
+
+concrete *arm_adddi3.insn instantiates set_plus2_clobber
+{
+	root (s_register_operand:DI:"=&r,&r,&r,&r,&r",s_register_operand:DI:"%0, 0, r, 0, r",arm_adddi_operand:DI:"r,  0, r, Dd, Dd", reg(CC:CC_REGNUM));
+}
+//cmd_spec.in
+{:
+  "TARGET_32BIT && !TARGET_NEON"
+  "#"
+  "TARGET_32BIT && reload_completed
+   && ! (TARGET_NEON && IS_VFP_REGNUM (REGNO (operands[0])))"
+:}
+//instantiates.out parallel_compare_plus2_set_plus2_ltu
+//{
+//	root (reg(CC_C:CC_REGNUM), duplicate 1, duplicate 2, duplicate 1, duplicate 0, duplicate 1, duplicate 2, duplicate 3, duplicate 4, duplicate 5, reg(CC_C:CC_REGNUM), const_int:0);
+//}
+//cmd_spec.out
+//{:
+//  "
+//  {
+//    operands[3] = gen_highpart (SImode, operands[0]);
+//    operands[0] = gen_lowpart (SImode, operands[0]);
+//    operands[4] = gen_highpart (SImode, operands[1]);
+//    operands[1] = gen_lowpart (SImode, operands[1]);
+//    operands[5] = gen_highpart_mode (SImode, DImode, operands[2]);
+//    operands[2] = gen_lowpart (SImode, operands[2]);
+//  }"
+//  [(set_attr "conds" "clob")
+//   (set_attr "length" "8")]
+//:}
 
 
 {:
-//Pattern#42
+//Pattern#43
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -454,7 +492,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#44
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -463,7 +501,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#45
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -472,7 +510,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#46
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -481,7 +519,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#47
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -490,7 +528,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#48
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -499,7 +537,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#49
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -508,7 +546,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#50
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -517,7 +555,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#51
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -526,7 +564,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#52
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -535,7 +573,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#53
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -544,7 +582,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#54
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -553,7 +591,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#55
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -562,7 +600,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#56
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -571,7 +609,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#57
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -580,7 +618,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#58
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -589,7 +627,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#59
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -598,7 +636,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#60
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -607,7 +645,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#61
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -616,7 +654,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#62
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -625,7 +663,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#63
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -634,7 +672,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#64
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -643,7 +681,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#65
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -652,7 +690,7 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#66
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
@@ -661,13 +699,38 @@ concrete arm_pool_range.attr instantiates sequence
 }
 
 {:
-//Pattern#42
+//Pattern#67
 :}
 concrete arm_pool_range.attr instantiates sequence
 {
 	root (const_int:0);
 	lov:="";
 }
+
+{:
+//Pattern#68
+:}
+abstract parallel_set_minus_clobber extends parallel
+{
+	root.1:=set_minus2_clobber;
+}
+concrete subdi3.exp instantiates parallel_set_minus_clobber
+{
+	root (s_register_operand:DI:"", s_register_operand:DI:"", s_register_operand:DI:"",reg(CC:CC_REGNUM));
+	root.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_EITHER"
+  "
+  if (TARGET_THUMB1)
+    {
+      if (!REG_P (operands[1]))
+        operands[1] = force_reg (DImode, operands[1]);
+      if (!REG_P (operands[2]))
+        operands[2] = force_reg (DImode, operands[2]);
+     }
+  "
+:}
 
 {:
 //Pattern#69
@@ -1007,7 +1070,9 @@ abstract set_minus2_match_operator extends set_minus2
 }
 concrete decscc.exp instantiates  set_minus2_match_operator
 {
-	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r",(arm_comparison_operator,cc_register:"",const_int:0));
+	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r", 2=arm_comparison_operator, (3=cc_register:NULL:"",const_int:0));
+	root.2.mode:=SI;
+	root.2.2.mode:=SI;
 }
 {:
   "TARGET_32BIT"
@@ -1019,7 +1084,9 @@ concrete decscc.exp instantiates  set_minus2_match_operator
 :}
 concrete *arm_decscc.insn instantiates  set_minus2_match_operator
 {
-	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r",arm_comparison_operator,(cc_register:"",const_int:0));
+	root(s_register_operand:SI:"=r,r",s_register_operand:SI:"0,?r",2=arm_comparison_operator, (3=cc_register:NULL:"", const_int:0));
+	root.2.mode:=SI;
+	root.2.2.mode:=SI;
 }
 {:
   "TARGET_ARM"
@@ -1033,4 +1100,511 @@ concrete *arm_decscc.insn instantiates  set_minus2_match_operator
 
 {:
 //Pattern#84
+:}
+concrete subsf3.exp instantiates  set_minus2
+{
+	root(s_register_operand:SF:"",s_register_operand:SF:"",s_register_operand:SF:"");
+	root.2.mode:=SF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT"
+  "
+"
+:}
+
+{:
+//Pattern#85
+:}
+concrete subdf3.exp instantiates  set_minus2
+{
+	root(s_register_operand:DF:"",s_register_operand:DF:"",s_register_operand:DF:"");
+	root.2.mode:=DF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  "
+"
+:}
+
+{:
+//Pattern#86
+:}
+concrete mulsi3.exp instantiates  set_mult2
+{
+	root(s_register_operand:SI:"", 2=s_register_operand:SI:"", 1=s_register_operand:SI:"");
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_EITHER"
+  ""
+:}
+
+{:
+//Pattern#87
+:}
+concrete *arm_mulsi3.insn instantiates  set_mult2
+{
+	root(s_register_operand:SI:"=&r,&r",2=s_register_operand:SI:"r,r",1=s_register_operand:SI:"%0,r");
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT && !arm_arch6"
+  "mul%?\\t%0, %2, %1"
+  [(set_attr "insn" "mul")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#88
+:}
+concrete *arm_mulsi3_v6.insn instantiates  set_mult2
+{
+	root(s_register_operand:SI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r");
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "mul%?\\t%0, %1, %2"
+  [(set_attr "insn" "mul")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#89
+:}
+concrete *thumb_mulsi3.insn instantiates  set_mult2
+{
+	root(register_operand:SI:"=&l,&l,&l", register_operand:SI:"%l,*h,0", register_operand:SI:"l,l,l");
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_THUMB1 && !arm_arch6"
+  "*
+  if (which_alternative < 2)
+    return \"mov\\t%0, %1\;mul\\t%0, %2\";
+  else
+    return \"mul\\t%0, %2\";
+  "
+  [(set_attr "length" "4,4,2")
+   (set_attr "insn" "mul")]
+:}
+
+{:
+//Pattern#90
+:}
+concrete *thumb_mulsi3_v6.insn instantiates  set_mult2
+{
+	root(register_operand:SI:"=l,l,l", register_operand:SI:"0,l,0", register_operand:SI:"l,0,0");
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_THUMB1 && arm_arch6"
+  "@
+   mul\\t%0, %2
+   mul\\t%0, %1
+   mul\\t%0, %1"
+  [(set_attr "length" "2")
+   (set_attr "insn" "mul")]
+:}
+
+{:
+//Pattern#91
+:}
+abstract set_compare2_mult extends set_compare2
+{
+	root.2.1:=mult;
+}
+abstract set_compare_mult_mult extends sequence
+{
+	root.1:=set_compare2_mult;
+	root.2:=set_mult2;
+}
+concrete *mulsi3_compare0.insn instantiates  set_compare_mult_mult
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r,r", 1=s_register_operand:SI:"%0,r", const_int:0, 0=s_register_operand:SI:"=&r,&r",duplicate 2, duplicate 1);
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && !arm_arch6"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+:}
+
+{:
+//Pattern#92
+:}
+concrete *mulsi3_compare0_v6.insn instantiates  set_compare_mult_mult
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r", const_int:0, 0=s_register_operand:SI:"=r",duplicate 2, duplicate 1);
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+:}
+
+{:
+//Pattern#93
+:}
+abstract set_compare_mult_clobber extends sequence
+{
+	root.1:=set_compare2_mult;
+	root.2:=clobber;
+}
+concrete *mulsi_compare0_scratch.insn instantiates  set_compare_mult_clobber
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r,r", 1=s_register_operand:SI:"%0,r", const_int:0, 0=SI:"=&r,&r");
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && !arm_arch6"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+:}
+
+{:
+//Pattern#94
+:}
+concrete *mulsi_compare0_scratch_v6.insn instantiates  set_compare_mult_clobber
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r", const_int:0, 0=SI:"=r");
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+:}
+
+{:
+//Pattern#95
+:}
+abstract set_plus_mult extends set_plus2 
+{
+	root.2.1:=mult;
+}
+concrete *mulsi3addsi.insn instantiates set_plus_mult
+{
+	root(s_register_operand:SI:"=&r,&r,&r,&r", 2=s_register_operand:SI:"r,r,r,r", 1=s_register_operand:SI:"%0,r,0,r", s_register_operand:SI:"r,r,0,0");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT && !arm_arch6"
+  "mla%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#96
+:}
+concrete *mulsi3addsi_v6.insn instantiates set_plus_mult
+{
+	root(s_register_operand:SI:"=r", 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r", s_register_operand:SI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "mla%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#97
+:}
+abstract set_compare_plus_mult extends set_compare2_plus
+{
+	root.2.1:=plus;
+	root.2.1.1:=mult;
+}
+abstract set_compare_plus_mult_plus extends sequence
+{
+	root.1:=set_compare_plus_mult;
+	root.2:=set_plus_mult;
+}
+concrete *mulsi3addsi_compare0.insn instantiates set_compare_plus_mult_plus
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r,r,r,r", 1=s_register_operand:SI:"%0,r,0,r", 3=s_register_operand:SI:"r,r,0,0", const_int:0, 0=s_register_operand:SI:"=&r,&r,&r,&r", duplicate 2, duplicate 1, duplicate 3);
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.1.2.1.1.mode:=SI;
+	root.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+}
+{:
+  "TARGET_ARM && arm_arch6"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+:}
+
+{:
+//Pattern#98
+:}
+concrete *mulsi3addsi_compare0_v6.insn instantiates set_compare_plus_mult_plus
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r", 3=s_register_operand:SI:"r", const_int:0, 0=s_register_operand:SI:"=r", duplicate 2, duplicate 1, duplicate 3);
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.1.2.1.1.mode:=SI;
+	root.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+}
+{:
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+:}
+
+{:
+//Pattern#99
+:}
+abstract set_compare_plus_mult_clobber extends sequence
+{
+	root.1:=set_compare_plus_mult;
+	root.2:=clobber;
+}
+concrete *mulsi3addsi_compare0_scratch.insn instantiates  set_compare_plus_mult_clobber
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r,r,r,r", 1=s_register_operand:SI:"%0,r,0,r", 3=s_register_operand:SI:"?r,r,0,0", const_int:0, 0=SI:"=&r,&r,&r,&r");
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.1.2.1.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && !arm_arch6"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+:}
+
+{:
+//Pattern#100
+:}
+concrete *mulsi3addsi_compare0_scratch_v6.insn instantiates  set_compare_plus_mult_clobber
+{
+	root(reg(CC_NOOV:CC_REGNUM), 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r", 3=s_register_operand:SI:"r", const_int:0, 0=SI:"=r");
+	root.1.2.mode:=CC_NOOV;
+	root.1.2.1.mode:=SI;
+	root.1.2.1.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+:}
+
+{:
+//Pattern#101
+:}
+abstract set_minus_mult extends set_minus2 
+{
+	root.2.2:=mult;
+}
+concrete *mulsi3subsi.insn instantiates set_minus_mult
+{
+	root(s_register_operand:SI:"=r", 3=s_register_operand:SI:"r", 2=s_register_operand:SI:"r", 1=s_register_operand:SI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT && arm_arch_thumb2"
+  "mls%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#102
+:}
+abstract set_plus_mult_sign_ext extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=sign_extend;
+	root.2.1.2:=sign_extend;
+}
+concrete maddsidi4.exp instantiates set_plus_mult_sign_ext
+{
+	root (s_register_operand:DI:"", s_register_operand:SI:"", s_register_operand:SI:"", s_register_operand:DI:"");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#103
+:}
+concrete *mulsidi3adddi.insn instantiates set_plus_mult_sign_ext
+{
+	root (s_register_operand:DI:"=&r", 2=s_register_operand:DI:"%r", 3=s_register_operand:DI:"r", 1=s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.1.1.mode:=SI;
+	root.2.1.2.mode:=DI;
+	root.2.1.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "smlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "smlal")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#104
+:}
+concrete *mulsidi3adddi_v6.insn instantiates set_plus_mult_sign_ext
+{
+	root (s_register_operand:DI:"=r", 2=s_register_operand:DI:"r", 3=s_register_operand:DI:"r", 1=s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.1.1.mode:=SI;
+	root.2.1.2.mode:=DI;
+	root.2.1.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "smlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "smlal")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#105
+:}
+abstract set_mult_sign_ext extends set_mult2
+{
+	root.2.1:=sign_extend;
+	root.2.2:=sign_extend;
+}
+concrete mulsidi3.exp instantiates set_mult_sign_ext
+{
+	root (s_register_operand:DI:"", s_register_operand:SI:"", s_register_operand:SI:"");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#106
+:}
+concrete *mulsidi3_nov6.insn instantiates set_mult_sign_ext
+{
+	root (s_register_operand:DI:"=&r", s_register_operand:SI:"%r", s_register_operand:SI:"r");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "smull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#107
+:}
+concrete *mulsidi3_v6.insn instantiates set_mult_sign_ext
+{
+	root (s_register_operand:DI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "smull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#108
+:}
+abstract set_mult_zero_ext extends set_mult2
+{
+	root.2.1:=zero_extend;
+	root.2.2:=zero_extend;
+}
+concrete umulsidi3.exp instantiates set_mult_zero_ext
+{
+	root (s_register_operand:DI:"", s_register_operand:SI:"", s_register_operand:SI:"");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#109
+:}
+concrete *umulsidi3_nov6.insn instantiates set_mult_zero_ext
+{
+	root (s_register_operand:DI:"=&r", s_register_operand:SI:"%r", s_register_operand:SI:"r");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "umull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#110
+:}
+concrete *umulsidi3_v6.insn instantiates set_mult_zero_ext
+{
+	root (s_register_operand:DI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "umull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#111
 :}

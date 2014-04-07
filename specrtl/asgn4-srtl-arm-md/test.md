@@ -151,7 +151,7 @@
 
 
 //Pattern#25 
-(define_attr "arm_pool_range"
+(define_attr "type"
   ""
 	 (const_int 0) )
 
@@ -163,10 +163,6 @@
 
 
 //Pattern#27
-(define_attr "arm_pool_range"
-  ""
-	 (const_int 0) )
-
 (define_attr "wtype"
   "none,wor,wxor,wand,wandn,wmov,tmcrr,tmrrc,wldr,wstr,tmcr,tmrc,wadd,wsub,wmul,wmac,wavg2,tinsr,textrm,wshufh,wcmpeq,wcmpgt,wmax,wmin,wpack,wunpckih,wunpckil,wunpckeh,wunpckel,wror,wsra,wsrl,wsll,wmadd,tmia,tmiaph,tmiaxy,tbcst,tmovmsk,wacc,waligni,walignr,tandc,textrc,torc,torvsc,wsad,wabs,wabsdiff,waddsubhx,wsubaddhx,wavg4,wmulw,wqmulm,wqmulwm,waddbhus,wqmiaxy,wmiaxy,wmiawxy,wmerge"
 	 (const_string "none") )
@@ -270,159 +266,179 @@
 
 
 //Pattern#42
+(define_insn "*arm_adddi3"
+[ (set (match_operand:DI 0 "s_register_operand" "=&r,&r,&r,&r,&r") (plus (match_operand:DI 1 "s_register_operand" "%0, 0, r, 0, r") (match_operand:DI 2 "arm_adddi_operand" "r,  0, r, Dd, Dd") ) ) (clobber (reg:CC CC_REGNUM) ) ]
+  "TARGET_32BIT && !TARGET_NEON"
+  "#"
+  "TARGET_32BIT && reload_completed
+   && ! (TARGET_NEON && IS_VFP_REGNUM (REGNO (operands[0])))"
+)
+
+
+//Pattern#43
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#44
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#45
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#46
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#47
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#48
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#49
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#50
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#51
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#52
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#53
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#54
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#55
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#56
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#57
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#58
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#59
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#60
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#61
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#62
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#63
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#64
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#65
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#66
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
+//Pattern#67
 (define_attr "arm_pool_range"
   ""
 	 (const_int 0) )
 
 
-//Pattern#42
-(define_attr "arm_pool_range"
-  ""
-	 (const_int 0) )
+//Pattern#68
+(define_expand "subdi3"
+[(parallel [ (set (match_operand:DI 0 "s_register_operand" "") (minus:DI (match_operand:DI 1 "s_register_operand" "") (match_operand:DI 2 "s_register_operand" "") ) ) (clobber (reg:CC CC_REGNUM) ) ]) ]
+  "TARGET_EITHER"
+  "
+  if (TARGET_THUMB1)
+    {
+      if (!REG_P (operands[1]))
+        operands[1] = force_reg (DImode, operands[1]);
+      if (!REG_P (operands[2]))
+        operands[2] = force_reg (DImode, operands[2]);
+     }
+  "
+)
 
 
 //Pattern#69
@@ -588,7 +604,7 @@
 
 //Pattern#82
 (define_expand "decscc"
-[(set (match_operand:SI 0 "s_register_operand" "=r,r") (minus (match_operand:SI 1 "s_register_operand" "0,?r")  (arm_comparison_operator) (match_scratch: 0 "") (const_int 0) ]) ) ) ]
+[(set (match_operand:SI 0 "s_register_operand" "=r,r") (minus:SI (match_operand:SI 1 "s_register_operand" "0,?r") (match_operator:SI 2 "arm_comparison_operator" [ (match_operand 3 "cc_register" "") (const_int 0) ]) ) ) ]
   "TARGET_32BIT"
   ""
 )
@@ -596,7 +612,7 @@
 
 //Pattern#83
 (define_insn "*arm_decscc"
-[(set (match_operand:SI 0 "s_register_operand" "=r,r") (minus (match_operand:SI 1 "s_register_operand" "0,?r")  (arm_comparison_operator) (match_scratch: 0 "") (const_int 0) ]) ) ) ]
+[(set (match_operand:SI 0 "s_register_operand" "=r,r") (minus:SI (match_operand:SI 1 "s_register_operand" "0,?r") (match_operator:SI 2 "arm_comparison_operator" [ (match_operand 3 "cc_register" "") (const_int 0) ]) ) ) ]
   "TARGET_ARM"
   "@
    sub%d2\\t%0, %1, #1
@@ -608,3 +624,271 @@
 
 
 //Pattern#84
+(define_expand "subsf3"
+[(set (match_operand:SF 0 "s_register_operand" "") (minus:SF (match_operand:SF 1 "s_register_operand" "") (match_operand:SF 2 "s_register_operand" "") ) ) ]
+  "TARGET_32BIT && TARGET_HARD_FLOAT"
+  "
+"
+)
+
+
+//Pattern#85
+(define_expand "subdf3"
+[(set (match_operand:DF 0 "s_register_operand" "") (minus:DF (match_operand:DF 1 "s_register_operand" "") (match_operand:DF 2 "s_register_operand" "") ) ) ]
+  "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  "
+"
+)
+
+
+//Pattern#86
+(define_expand "mulsi3"
+[(set (match_operand:SI 0 "s_register_operand" "") (mult:SI (match_operand:SI 2 "s_register_operand" "") (match_operand:SI 1 "s_register_operand" "") ) ) ]
+  "TARGET_EITHER"
+  ""
+)
+
+
+//Pattern#87
+(define_insn "*arm_mulsi3"
+[(set (match_operand:SI 0 "s_register_operand" "=&r,&r") (mult:SI (match_operand:SI 2 "s_register_operand" "r,r") (match_operand:SI 1 "s_register_operand" "%0,r") ) ) ]
+  "TARGET_32BIT && !arm_arch6"
+  "mul%?\\t%0, %2, %1"
+  [(set_attr "insn" "mul")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#88
+(define_insn "*arm_mulsi3_v6"
+[(set (match_operand:SI 0 "s_register_operand" "=r") (mult:SI (match_operand:SI 1 "s_register_operand" "r") (match_operand:SI 2 "s_register_operand" "r") ) ) ]
+  "TARGET_32BIT && arm_arch6"
+  "mul%?\\t%0, %1, %2"
+  [(set_attr "insn" "mul")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#89
+(define_insn "*thumb_mulsi3"
+[(set (match_operand:SI 0 "register_operand" "=&l,&l,&l") (mult:SI (match_operand:SI 1 "register_operand" "%l,*h,0") (match_operand:SI 2 "register_operand" "l,l,l") ) ) ]
+  "TARGET_THUMB1 && !arm_arch6"
+  "*
+  if (which_alternative < 2)
+    return \"mov\\t%0, %1\;mul\\t%0, %2\";
+  else
+    return \"mul\\t%0, %2\";
+  "
+  [(set_attr "length" "4,4,2")
+   (set_attr "insn" "mul")]
+)
+
+
+//Pattern#90
+(define_insn "*thumb_mulsi3_v6"
+[(set (match_operand:SI 0 "register_operand" "=l,l,l") (mult:SI (match_operand:SI 1 "register_operand" "0,l,0") (match_operand:SI 2 "register_operand" "l,0,0") ) ) ]
+  "TARGET_THUMB1 && arm_arch6"
+  "@
+   mul\\t%0, %2
+   mul\\t%0, %1
+   mul\\t%0, %1"
+  [(set_attr "length" "2")
+   (set_attr "insn" "mul")]
+)
+
+
+//Pattern#91
+(define_insn "*mulsi3_compare0"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (mult:SI (match_operand:SI 2 "s_register_operand" "r,r") (match_operand:SI 1 "s_register_operand" "%0,r") ) (const_int 0) ) ) (set (match_operand:SI 0 "s_register_operand" "=&r,&r") (mult:SI (match_dup 2) (match_dup 1) ) ) ]
+  "TARGET_ARM && !arm_arch6"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+)
+
+
+//Pattern#92
+(define_insn "*mulsi3_compare0_v6"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) (const_int 0) ) ) (set (match_operand:SI 0 "s_register_operand" "=r") (mult:SI (match_dup 2) (match_dup 1) ) ) ]
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+)
+
+
+//Pattern#93
+(define_insn "*mulsi_compare0_scratch"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (mult:SI (match_operand:SI 2 "s_register_operand" "r,r") (match_operand:SI 1 "s_register_operand" "%0,r") ) (const_int 0) ) ) (clobber (match_scratch:SI 0 "=&r,&r") ) ]
+  "TARGET_ARM && !arm_arch6"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+)
+
+
+//Pattern#94
+(define_insn "*mulsi_compare0_scratch_v6"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) (const_int 0) ) ) (clobber (match_scratch:SI 0 "=r") ) ]
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mul%.\\t%0, %2, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "muls")]
+)
+
+
+//Pattern#95
+(define_insn "*mulsi3addsi"
+[(set (match_operand:SI 0 "s_register_operand" "=&r,&r,&r,&r") (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r,r,r,r") (match_operand:SI 1 "s_register_operand" "%0,r,0,r") ) (match_operand:SI 3 "s_register_operand" "r,r,0,0") ) ) ]
+  "TARGET_32BIT && !arm_arch6"
+  "mla%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#96
+(define_insn "*mulsi3addsi_v6"
+[(set (match_operand:SI 0 "s_register_operand" "=r") (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) (match_operand:SI 3 "s_register_operand" "r") ) ) ]
+  "TARGET_32BIT && arm_arch6"
+  "mla%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#97
+(define_insn "*mulsi3addsi_compare0"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r,r,r,r") (match_operand:SI 1 "s_register_operand" "%0,r,0,r") ) (match_operand:SI 3 "s_register_operand" "r,r,0,0") ) (const_int 0) ) ) (set (match_operand:SI 0 "s_register_operand" "=&r,&r,&r,&r") (plus:SI (mult:SI (match_dup 2) (match_dup 1) ) (match_dup 3) ) ) ]
+  "TARGET_ARM && arm_arch6"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+)
+
+
+//Pattern#98
+(define_insn "*mulsi3addsi_compare0_v6"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) (match_operand:SI 3 "s_register_operand" "r") ) (const_int 0) ) ) (set (match_operand:SI 0 "s_register_operand" "=r") (plus:SI (mult:SI (match_dup 2) (match_dup 1) ) (match_dup 3) ) ) ]
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+)
+
+
+//Pattern#99
+(define_insn "*mulsi3addsi_compare0_scratch"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r,r,r,r") (match_operand:SI 1 "s_register_operand" "%0,r,0,r") ) (match_operand:SI 3 "s_register_operand" "?r,r,0,0") ) (const_int 0) ) ) (clobber (match_scratch:SI 0 "=&r,&r,&r,&r") ) ]
+  "TARGET_ARM && !arm_arch6"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+)
+
+
+//Pattern#100
+(define_insn "*mulsi3addsi_compare0_scratch_v6"
+[ (set (reg:CC_NOOV CC_REGNUM) (compare:CC_NOOV (plus:SI (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) (match_operand:SI 3 "s_register_operand" "r") ) (const_int 0) ) ) (clobber (match_scratch:SI 0 "=r") ) ]
+  "TARGET_ARM && arm_arch6 && optimize_size"
+  "mla%.\\t%0, %2, %1, %3"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mlas")]
+)
+
+
+//Pattern#101
+(define_insn "*mulsi3subsi"
+[(set (match_operand:SI 0 "s_register_operand" "=r") (minus:SI (match_operand:SI 3 "s_register_operand" "r") (mult:SI (match_operand:SI 2 "s_register_operand" "r") (match_operand:SI 1 "s_register_operand" "r") ) ) ) ]
+  "TARGET_32BIT && arm_arch_thumb2"
+  "mls%?\\t%0, %2, %1, %3"
+  [(set_attr "insn" "mla")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#102
+(define_expand "maddsidi4"
+[(set (match_operand:DI 0 "s_register_operand" "") (plus:DI (mult:DI (sign_extend:DI (match_operand:SI 1 "s_register_operand" "") ) (sign_extend:DI (match_operand:SI 2 "s_register_operand" "") ) ) (match_operand:DI 3 "s_register_operand" "") ) ) ]
+  "TARGET_32BIT && arm_arch3m"
+  ""
+)
+
+
+//Pattern#103
+(define_insn "*mulsidi3adddi"
+[(set (match_operand:DI 0 "s_register_operand" "=&r") (plus:DI (mult:DI (sign_extend:DI (match_operand:SI 2 "s_register_operand" "%r") ) (sign_extend:DI (match_operand:SI 3 "s_register_operand" "r") ) ) (match_operand:DI 1 "s_register_operand" "0") ) ) ]
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "smlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "smlal")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#104
+(define_insn "*mulsidi3adddi_v6"
+[(set (match_operand:DI 0 "s_register_operand" "=r") (plus:DI (mult:DI (sign_extend:DI (match_operand:SI 2 "s_register_operand" "r") ) (sign_extend:DI (match_operand:SI 3 "s_register_operand" "r") ) ) (match_operand:DI 1 "s_register_operand" "0") ) ) ]
+  "TARGET_32BIT && arm_arch6"
+  "smlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "smlal")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#105
+(define_expand "mulsidi3"
+[(set (match_operand:DI 0 "s_register_operand" "") (mult:DI (sign_extend:DI (match_operand:SI 1 "s_register_operand" "") ) (sign_extend:DI (match_operand:SI 2 "s_register_operand" "") ) ) ) ]
+  "TARGET_32BIT && arm_arch3m"
+  ""
+)
+
+
+//Pattern#106
+(define_insn "*mulsidi3_nov6"
+[(set (match_operand:DI 0 "s_register_operand" "=&r") (mult:DI (sign_extend:DI (match_operand:SI 1 "s_register_operand" "%r") ) (sign_extend:DI (match_operand:SI 2 "s_register_operand" "r") ) ) ) ]
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "smull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#107
+(define_insn "*mulsidi3_v6"
+[(set (match_operand:DI 0 "s_register_operand" "=r") (mult:DI (sign_extend:DI (match_operand:SI 1 "s_register_operand" "r") ) (sign_extend:DI (match_operand:SI 2 "s_register_operand" "r") ) ) ) ]
+  "TARGET_32BIT && arm_arch6"
+  "smull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#108
+(define_expand "umulsidi3"
+[(set (match_operand:DI 0 "s_register_operand" "") (mult:DI (zero_extend:DI (match_operand:SI 1 "s_register_operand" "") ) (zero_extend:DI (match_operand:SI 2 "s_register_operand" "") ) ) ) ]
+  "TARGET_32BIT && arm_arch3m"
+  ""
+)
+
+
+//Pattern#109
+(define_insn "*umulsidi3_nov6"
+[(set (match_operand:DI 0 "s_register_operand" "=&r") (mult:DI (zero_extend:DI (match_operand:SI 1 "s_register_operand" "%r") ) (zero_extend:DI (match_operand:SI 2 "s_register_operand" "r") ) ) ) ]
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "umull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#110
+(define_insn "*umulsidi3_v6"
+[(set (match_operand:DI 0 "s_register_operand" "=r") (mult:DI (zero_extend:DI (match_operand:SI 1 "s_register_operand" "r") ) (zero_extend:DI (match_operand:SI 2 "s_register_operand" "r") ) ) ) ]
+  "TARGET_32BIT && arm_arch6"
+  "umull%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+)
+
+
+//Pattern#111

@@ -26,3 +26,5 @@
 *.tar.*
 
 *~
+test*.c
+test*.h
