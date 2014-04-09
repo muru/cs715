@@ -60,10 +60,6 @@
 (define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2"
   (const_string "any"))
 
-//Pattern#12
-(define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2"
-  (const_string "any"))
-
 //Pattern#13
 (define_attr "opt" "any,speed,size"
   (const_string "any"))
@@ -2121,3 +2117,6 @@
 	  (const_string "yes")
 	  (const_string "no"))))
 
+
+//Pattern#12
+(define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2"

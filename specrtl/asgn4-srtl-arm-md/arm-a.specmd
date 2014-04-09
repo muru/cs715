@@ -104,15 +104,14 @@ concrete arch.attr instantiates sequence
 	lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
 }
 
-//to do
-{:
-//Pattern#12 
-:}
-concrete arch.attr instantiates sequence
-{
-	root (const_string:"any");
-	lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
-}
+//{:
+////Pattern#12 
+//:}
+//concrete arch.attr instantiates sequence
+//{
+//	root (const_string:"any");
+//	lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
+//}
 
 {:
 //Pattern#13
