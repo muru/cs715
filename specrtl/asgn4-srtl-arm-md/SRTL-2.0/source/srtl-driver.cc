@@ -764,6 +764,7 @@ void srtl_driver::  initialize(){
     addToRtlOperandSymTabWithDot ("cond", 2);
     addToRtlOperandSymTabWithDot ("high", 1);
     addToRtlOperandSymTabWithDot ("unordered", 2);
+    addToRtlOperandSymTabWithDot ("LTUGEU", 2);
 
     /* Fill up the basis set */
     ModeStmt s;

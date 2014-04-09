@@ -108,10 +108,10 @@ concrete arch.attr instantiates sequence
 {:
 //Pattern#12 
 :}
-concrete arch_enabled.attr instantiates sequence
+concrete arch.attr instantiates sequence
 {
-	root (const_int:4);
-	lov:="";
+	root (const_string:"any");
+	lov:="any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2";
 }
 
 {:
@@ -123,14 +123,22 @@ concrete opt.attr instantiates sequence
 	lov:="any,speed,size";
 }
 
-//to do
 {:
 //Pattern#14
 :}
-concrete opt_enabled.attr instantiates sequence
+abstract cond_sequence extends cond
 {
-	root (const_string:"any");
-	lov:="any,speed,size";
+    root.1:=sequence;
+}
+abstract cond_and_and extends cond_sequence
+{
+	root.1.3:=and;
+	root.1.5:=and;
+}
+concrete opt_enabled.attr instantiates cond_and_and
+{
+	root ( (opt:"any",const_string:"yes", opt:"speed", match_test:"optimize_function_for_speed_p (cfun)", const_string:"yes", opt:"size", match_test:"optimize_function_for_size_p (cfun)", const_string:"yes"), const_string:"no");
+	lov:="no,yes";
 }
 
 {:
@@ -142,14 +150,13 @@ concrete insn_enabled.attr instantiates sequence
 	lov:="no,yes";
 }
 
-//to do
 {:
 //Pattern#16
 :}
-concrete enabled.attr instantiates sequence
+concrete enabled.attr instantiates cond_sequence
 {
-	root (const_string:"any");
-	lov:="any,speed,size";
+	root ( (insn_enabled:"no", const_string:"no", arch_enabled:"no", const_string:"no", opt_enabled:"no", const_string:"no"), const_string:"yes");
+	lov:="no,yes";
 }
 
 {:
@@ -188,35 +195,36 @@ concrete thumb2_neg_pool_range.attr instantiates sequence
 	lov:="";
 }
 
-//to do
 {:
 //Pattern#21 
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete pool_range.attr instantiates cond_sequence
 {
-	root (const_int:0);
-	lov:="";
+    root ((is_thumb:"yes",
+        attr:"thumb2_pool_range"),attr:"arm_pool_range");
+    lov:="";
 }
 
-//to do
 {:
 //Pattern#22
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete neg_pool_range.attr instantiates cond_sequence
 {
-	root (const_int:0);
-	lov:="";
+    root ((is_thumb:"yes",
+        attr:"thumb2_neg_pool_range"),attr:"arm_neg_pool_range");
+    lov:="";
 }
 
-//to do
+
 {:
 //Pattern#23 
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
-}
+{:
+(define_asm_attributes
+ [(set_attr "conds" "clob")
+  (set_attr "length" "4")
+  (set_attr "pool_range" "250")])
+:}
 
 //to do
 {:
@@ -232,21 +240,20 @@ concrete INSN.attr instantiates sequence
 {:
 //Pattern#25 
 :}
-concrete type.attr instantiates sequence
+concrete type.attr instantiates if_then_else
 {
-	root (const_int:0);
-	lov:="";
+	root ( INSN:"smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,\umull,umulls,umlal,umlals,smull,smulls,smlal,smlals", const_string:"mult", const_string:"alu_reg");
+	lov:="simple_alu_imm,\alu_reg,\simple_alu_shift,\alu_shift,\alu_shift_reg,\mult,\block,\float,\fdivd,\fdivs,\fmuls,\fmuld,\fmacs,\fmacd,\ffmas,\ffmad,\f_rints,\f_rintd,\f_minmaxs,\f_minmaxd,\f_flag,\f_loads,\f_loadd,\f_stores,\f_stored,\f_2_r,\r_2_f,\f_cvt,\branch,\call,\load_byte,\load1,\load2,\load3,\load4,\store1,\store2,\store3,\store4,\fconsts,\fconstd,\fadds,\faddd,\ffariths,\ffarithd,\fcmps,\fcmpd,\fcpys";
 }
 
 
-//to do
 {:
 //Pattern#26 
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete mul64.attr instantiates if_then_else
 {
-	root (const_int:0);
-	lov:="";
+	root ( INSN:"smlalxy,umull,umulls,umlal,umlals,smull,smulls,smlal,smlals", const_string:"yes", const_string:"no");
+	lov:="no,yes";
 }
 
 
@@ -271,20 +278,24 @@ concrete ldsched.attr instantiates const
 {:
 //Pattern#29
 :}
-concrete wtype.attr instantiates sequence
+concrete neon_type.attr instantiates sequence
 {
 	root (const_string:"none");
-	lov:="neon_int_1,neon_int_2,neon_int_3,neon_int_4,neon_int_5,neon_vqneg_vqabs,neon_vmov,neon_vaba,neon_vsma,neon_vaba_qqq,neon_mul_ddd_8_16_qdd_16_8_long_32_16_long,neon_mul_qqq_8_16_32_ddd_32,neon_mul_qdd_64_32_long_qqd_16_ddd_32_scalar_64_32_long_scalar,neon_mla_ddd_8_16_qdd_16_8_long_32_16_long,neon_mla_qqq_8_16,neon_mla_ddd_32_qqd_16_ddd_32_scalar_qdd_64_32_long_scalar_qdd_64_32_long,neon_mla_qqq_32_qqd_32_scalar,neon_mul_ddd_16_scalar_32_16_long_scalar,neon_mul_qqd_32_scalar,neon_mla_ddd_16_scalar_qdd_32_16_long_scalar,neon_shift_1,neon_shift_2,neon_shift_3,neon_vshl_ddd,neon_vqshl_vrshl_vqrshl_qqq,neon_vsra_vrsra,neon_fp_vadd_ddd_vabs_dd,neon_fp_vadd_qqq_vabs_qq,neon_fp_vsum,neon_fp_vmul_ddd,neon_fp_vmul_qqd,neon_fp_vmla_ddd,neon_fp_vmla_qqq,neon_fp_vmla_ddd_scalar,neon_fp_vmla_qqq_scalar,neon_fp_vrecps_vrsqrts_ddd,neon_fp_vrecps_vrsqrts_qqq,neon_bp_simple,neon_bp_2cycle,neon_bp_3cycle,neon_ldr,neon_str,neon_vld1_1_2_regs,neon_vld1_3_4_regs,neon_vld2_2_regs_vld1_vld2_all_lanes,neon_vld2_4_regs,neon_vld3_vld4,neon_vst1_1_2_regs_vst2_2_regs,neon_vst1_3_4_regs,neon_vst2_4_regs_vst3_vst4,neon_vst3_vst4,neon_vld1_vld2_lane,neon_vld3_vld4_lane,neon_vst1_vst2_lane,neon_vst3_vst4_lane,neon_vld3_vld4_all_lanes,neon_mcr,neon_mcr_2_mcrr,neon_mrc,neon_mrrc,neon_ldm_2,neon_stm_2,none";
+	lov:="neon_int_1,\neon_int_2,\neon_int_3,\neon_int_4,\neon_int_5,\neon_vqneg_vqabs,\neon_vmov,\neon_vaba,\neon_vsma,\neon_vaba_qqq,\neon_mul_ddd_8_16_qdd_16_8_long_32_16_long,\neon_mul_qqq_8_16_32_ddd_32,\neon_mul_qdd_64_32_long_qqd_16_ddd_32_scalar_64_32_long_scalar,\neon_mla_ddd_8_16_qdd_16_8_long_32_16_long,\neon_mla_qqq_8_16,\neon_mla_ddd_32_qqd_16_ddd_32_scalar_qdd_64_32_long_scalar_qdd_64_32_long,\neon_mla_qqq_32_qqd_32_scalar,\neon_mul_ddd_16_scalar_32_16_long_scalar,\neon_mul_qqd_32_scalar,\neon_mla_ddd_16_scalar_qdd_32_16_long_scalar,\neon_shift_1,\neon_shift_2,\neon_shift_3,\neon_vshl_ddd,\neon_vqshl_vrshl_vqrshl_qqq,\neon_vsra_vrsra,\neon_fp_vadd_ddd_vabs_dd,\neon_fp_vadd_qqq_vabs_qq,\neon_fp_vsum,\neon_fp_vmul_ddd,\neon_fp_vmul_qqd,\neon_fp_vmla_ddd,\neon_fp_vmla_qqq,\neon_fp_vmla_ddd_scalar,\neon_fp_vmla_qqq_scalar,\neon_fp_vrecps_vrsqrts_ddd,\neon_fp_vrecps_vrsqrts_qqq,\neon_bp_simple,\neon_bp_2cycle,\neon_bp_3cycle,\neon_ldr,\neon_str,\neon_vld1_1_2_regs,\neon_vld1_3_4_regs,\neon_vld2_2_regs_vld1_vld2_all_lanes,\neon_vld2_4_regs,\neon_vld3_vld4,\neon_vst1_1_2_regs_vst2_2_regs,\neon_vst1_3_4_regs,\neon_vst2_4_regs_vst3_vst4,\neon_vst3_vst4,\neon_vld1_vld2_lane,\neon_vld3_vld4_lane,\neon_vst1_vst2_lane,\neon_vst3_vst4_lane,\neon_vld3_vld4_all_lanes,\neon_mcr,\neon_mcr_2_mcrr,\neon_mrc,\neon_mrrc,\neon_ldm_2,\neon_stm_2,\none";
 }
 
-//to do
 {:
 //Pattern#30
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract ite_ite2 extends if_then_else
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=ior;
+	root.3:=if_then_else;
+}
+concrete conds.attr instantiates ite_ite2
+{
+	root (is_thumb1:"yes", type:"call", const_string:"clob", neon_type:"none", const_string:"nocond", const_string:"unconditional");
+	lov:="use,set,clob,unconditional,nocond";
 }
 
 
@@ -307,36 +318,31 @@ concrete model_wbuf.attr instantiates const
 	lov:="no,yes"; 
 }
 
-//to do
 {:
 //Pattern#33 
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete write_conflict.attr instantiates if_then_else
 {
-	root (const_int:0);
-	lov:="";
+	root (type:"block,call,load1", const_string:"yes", const_string:"no");
+	lov:="no,yes";
 }
 
-
-
-//to do
 {:
 //Pattern#34 
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete core_cycles.attr instantiates if_then_else
 {
-	root (const_int:0);
-	lov:="";
+	root (type:"simple_alu_imm,alu_reg,\simple_alu_shift,alu_shift,\float,fdivd,fdivs", const_string:"single", const_string:"multi");
+	lov:="single,multi";
 }
-
 
 {:
 //Pattern#35
 :}
 concrete far_jump.attr instantiates sequence 
 {
-	root (const_int:1);
-	lov:=""; 
+	root (const_string:"no");
+	lov:="yes,no"; 
 }
 
 {:
@@ -348,52 +354,87 @@ concrete ce_count.attr instantiates sequence
 	lov:=""; 
 }
 
-//to do
 {:
+(include "unspecs.md")
+(include "iterators.md")
+(include "predicates.md")
+(include "constraints.md")
 //Pattern#37 
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract const_ite extends const
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=if_then_else;
+}
+concrete tune_cortexr4.attr instantiates const_ite
+{
+	root (tune:"cortexr4,cortexr4f,cortexr5", const_string:"yes", const_string:"no");
+	lov:="yes,no";
 }
 
-
-//to do
 {:
 //Pattern#38 
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract const_ite_ior extends const_ite
 {
-	root (const_int:0);
-	lov:="";
+	root.1.1:=ior;
 }
+concrete generic_sched.attr instantiates const_ite_ior
+{
+	root (tune:"fa526,fa626,fa606te,fa626te,fmp626,fa726te,arm926ejs,arm1020e,arm1026ejs,arm1136js,arm1136jfs,cortexa5,cortexa7,cortexa8,cortexa9,cortexa15,cortexm4,marvell_pj4", tune_cortexr4:"yes", const_string:"no", const_string:"yes");
+	lov:="yes,no";
+}
+
+//
+//{:
+////Pattern#39 
+//:}
+//abstract const_ite_and extends const_ite
+//{
+//	root.1.1:=and;
+//}
+//concrete generic_vfp.attr instantiates sequence
+//{
+//	root (const_int:0);
+//	lov:="";
+//}
 
 
 //to do
 {:
-//Pattern#39 
-:}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
-}
-
-
-//to do
-{:
+(include "marvell-f-iwmmxt.md")
+(include "arm-generic.md")
+(include "arm926ejs.md")
+(include "arm1020e.md")
+(include "arm1026ejs.md")
+(include "arm1136jfs.md")
+(include "fa526.md")
+(include "fa606te.md")
+(include "fa626te.md")
+(include "fmp626.md")
+(include "fa726te.md")
+(include "cortex-a5.md")
+(include "cortex-a7.md")
+(include "cortex-a8.md")
+(include "cortex-a9.md")
+(include "cortex-a15.md")
+(include "cortex-r4.md")
+(include "cortex-r4f.md")
+(include "cortex-m4.md")
+(include "cortex-m4-fpu.md")
+(include "vfp11.md")
+(include "marvell-pj4.md")
 //Pattern#40 
 :}
 abstract parallel_set_plus2_clobber extends parallel {
 	root.1:=set_plus2; root.2:=clobber;
 }
-concrete adddi3.insn instantiates parallel_set_plus2_clobber {
-	root (s_register_operand:DI:"", s_register_operand:DI:"",
-		arm_adddi_operand:DI:"",reg(CC:CC_REGNUM));
+concrete adddi3.exp instantiates parallel_set_plus2_clobber {
+        root (s_register_operand:DI:"", s_register_operand:DI:"",
+                arm_adddi_operand:DI:"", reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
 }
 {:
-  "TARGET_EITHER"
+   "TARGET_EITHER"
   "
   if (TARGET_THUMB1)
     {
@@ -431,281 +472,764 @@ concrete *thumb1_adddi3.insn instantiates set_plus2_clobber
 {:
 //Pattern#42
 :}
-abstract set_compare_plus_plus extends sequence
-{
+abstract set_plus2_clobber extends sequence {
+	root.1:=set_plus2;root.2:=clobber;
+}
+abstract parallel_some extends parallel {
 	root.1:=set_compare2_plus;
+	//root.1.1.1:=plus;
+	//root.1.2:=set_plus2;
 	root.2:=set_plus2;
+	//root.2.1:=plus;
+	//root.2.2:=ltu;
 }
-abstract set_plus_plus_ltu extends set_plus2
-{
-	root.1.2.1:=plus;
-	root.1.2.2:=ltu;
+abstract some extends sequence {
+	root.1:=parallel_some;
+	root.2:=set_plus2;
+	root.2.2.1:=plus;
+	root.2.2.2:=ltu;
 }
-abstract parallel_compare_plus_plus extends parallel
-{
-	root.1:=set_compare_plus_plus;
-}
-abstract parallel_compare_plus2_set_plus2_ltu extends sequence
-{
-	root.1:=parallel_compare_plus_plus;
-	root.2:=set_plus_plus_ltu;
+abstract set_plus_plus_ltu extends set_plus2 {
+	root.1.1:=plus;
+	root.1.2:=ltu;
 }
 
-concrete *arm_adddi3.insn instantiates set_plus2_clobber
+concrete *arm_adddi3.insn_and_split instantiates.in set_plus2_clobber
 {
-	root (s_register_operand:DI:"=&r,&r,&r,&r,&r",s_register_operand:DI:"%0, 0, r, 0, r",arm_adddi_operand:DI:"r,  0, r, Dd, Dd", reg(CC:CC_REGNUM));
+	root (s_register_operand:DI:"=&r,&r,&r,&r,&r", s_register_operand:DI:"%0, 0, r, 0, r",arm_adddi_operand:DI:"r,  0, r, Dd, Dd",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
 }
-//cmd_spec.in
+cmd_spec.in
 {:
-  "TARGET_32BIT && !TARGET_NEON"
-  "#"
-  "TARGET_32BIT && reload_completed
-   && ! (TARGET_NEON && IS_VFP_REGNUM (REGNO (operands[0])))"
+	"TARGET_32BIT && !TARGET_NEON"
+		"#"
+		"TARGET_32BIT && reload_completed
+		&& ! (TARGET_NEON && IS_VFP_REGNUM (REGNO (operands[0])))"
 :}
-//instantiates.out parallel_compare_plus2_set_plus2_ltu
-//{
-//	root (reg(CC_C:CC_REGNUM), duplicate 1, duplicate 2, duplicate 1, duplicate 0, duplicate 1, duplicate 2, duplicate 3, duplicate 4, duplicate 5, reg(CC_C:CC_REGNUM), const_int:0);
-//}
-//cmd_spec.out
-//{:
-//  "
-//  {
-//    operands[3] = gen_highpart (SImode, operands[0]);
-//    operands[0] = gen_lowpart (SImode, operands[0]);
-//    operands[4] = gen_highpart (SImode, operands[1]);
-//    operands[1] = gen_lowpart (SImode, operands[1]);
-//    operands[5] = gen_highpart_mode (SImode, DImode, operands[2]);
-//    operands[2] = gen_lowpart (SImode, operands[2]);
-//  }"
-//  [(set_attr "conds" "clob")
-//   (set_attr "length" "8")]
-//:}
+instantiates.out some
+{
+	root((reg(CC_C:CC_REGNUM),duplicate 1,duplicate 2,duplicate 1,duplicate 0,duplicate 1,duplicate 2),duplicate 3,duplicate 4,duplicate 5,reg(CC_C:CC_REGNUM),const_int:0);
+	root.1.1.2.mode:=CC_C;
+	root.1.1.2.1.mode:=SI;
+	root.1.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+	root.2.2.2.mode:=SI;
+	root.2.2.mode:=SI;
+} 
+cmd_spec.out
+{:
+	"
+	{
+		operands[3] = gen_highpart (SImode, operands[0]);
+		operands[0] = gen_lowpart (SImode, operands[0]);
+		operands[4] = gen_highpart (SImode, operands[1]);
+		operands[1] = gen_lowpart (SImode, operands[1]);
+		operands[5] = gen_highpart_mode (SImode, DImode, operands[2]);
+		operands[2] = gen_lowpart (SImode, operands[2]);
+	}"
+	[(set_attr "conds" "clob")
+		(set_attr "length" "8")]
+:}
 
 
 {:
 //Pattern#43
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus2_sign extends set_plus2 {
+	root.2.1:=sign_extend;
+} 
+abstract set_plus2_sign_clobber extends sequence {
+	root.1:=set_plus2_sign;
+	root.2:=clobber;
 }
+abstract some1 extends sequence {
+	root.1:=parallel_some;
+	root.2:=set_plus2;
+	root.2.2.1:=plus;
+	root.2.2.1.1:=ashiftrt;
+	root.2.2.2:=ltu;
+}
+
+concrete *adddi_sesidi_di.insn_and_split instantiates.in set_plus2_sign_clobber {
+	root(0=s_register_operand:DI:"=&r,&r",2=s_register_operand:SI:"r,r",1=s_register_operand:DI:"0,r",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
+	root.1.2.1.mode:=DI;
+}
+cmd_spec.in
+{:
+	"TARGET_32BIT"
+		"#"
+		"TARGET_32BIT && reload_completed"
+:}
+instantiates.out some1
+{
+	root((reg(CC_C:CC_REGNUM),duplicate 1,duplicate 2,duplicate 1,duplicate 0,duplicate 1,duplicate 2),duplicate 3,duplicate 2,const_int:31,duplicate 4,reg(CC_C:CC_REGNUM),const_int:0);
+	root.1.1.2.mode:=CC_C;
+	root.1.1.2.1.mode:=SI;
+	root.1.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+	root.2.2.1.1.mode:=SI;
+	root.2.2.2.mode:=SI;
+	root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+	"
+	{
+		operands[3] = gen_highpart (SImode, operands[0]);
+		operands[0] = gen_lowpart (SImode, operands[0]);
+		operands[4] = gen_highpart (SImode, operands[1]);
+		operands[1] = gen_lowpart (SImode, operands[1]);
+		operands[2] = gen_lowpart (SImode, operands[2]);
+	}"
+	[(set_attr "conds" "clob")
+	(set_attr "length" "8")]
+:}
 
 {:
 //Pattern#44
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus2_zero extends set_plus2 {
+	root.2.1:=zero_extend;
 }
+abstract set_plus2_zero_clobber extends sequence {
+	root.1:=set_plus2_zero;
+	root.2:=clobber;
+}
+
+concrete *adddi_zesidi_di.insn_and_split instantiates.in set_plus2_zero_clobber
+{
+	root(0=s_register_operand:DI:"=&r,&r",2=s_register_operand:SI:"r,r",1=s_register_operand:DI:"0,r",reg(CC:CC_REGNUM));
+	root.1.2.mode:=DI;
+	root.1.2.1.mode:=DI;
+}
+cmd_spec.in
+{:
+	"TARGET_32BIT"
+		"#"
+		"TARGET_32BIT && reload_completed"
+:}
+		instantiates.out some
+{
+	root((reg(CC_C:CC_REGNUM),duplicate 1,duplicate 2,duplicate 1,duplicate 0,duplicate 1,duplicate 2),duplicate 3,duplicate 4,const_int:0,reg(CC_C:CC_REGNUM),const_int:0);
+	root.1.1.2.mode:=CC_C;
+	root.1.1.2.1.mode:=SI;
+	root.1.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+	//root.2.2.1.1.mode:=SI;
+	root.2.2.2.mode:=SI;
+	root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+	"
+	{
+		operands[3] = gen_highpart (SImode, operands[0]);
+		operands[0] = gen_lowpart (SImode, operands[0]);
+		operands[4] = gen_highpart (SImode, operands[1]);
+		operands[1] = gen_lowpart (SImode, operands[1]);
+		operands[2] = gen_lowpart (SImode, operands[2]);
+	}"
+	[(set_attr "conds" "clob")
+		(set_attr "length" "8")]
+:}
+
 
 {:
 //Pattern#45
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete addsi3.exp instantiates set_plus2
 {
-	root (const_int:0);
-	lov:="";
+        root (0=s_register_operand:SI:"",1=s_register_operand:SI:"",2=reg_or_int_operand:SI:"");
+        root.2.mode:=SI;
 }
+{:
+  "TARGET_EITHER"
+  "
+  if (TARGET_32BIT && CONST_INT_P (operands[2]))
+    {
+      arm_split_constant (PLUS, SImode, NULL_RTX,
+                          INTVAL (operands[2]), operands[0], operands[1],
+                          optimize && can_create_pseudo_p ());
+      DONE;
+    }
+  "
+:}
 
 {:
 //Pattern#46
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract seq_set_plus2 extends sequence {
+root.2:=set_plus2;
 }
+abstract set_set_plus2 extends sequence {
+root.1:=set;
+root.2:=set_plus2;
+}
+concrete .peep2 instantiates.in seq_set_plus2
+{
+        root (3=SI:"r",0=arm_general_register_operand:SI:"",1=arm_general_register_operand:SI:"",2=const_int_operand:SI:"");
+root.2.2.mode:=SI;
+}
+cmd_spec.in
+{:
+  "TARGET_32BIT &&
+   !(const_ok_for_arm (INTVAL (operands[2]))
+     || const_ok_for_arm (-INTVAL (operands[2])))
+    && const_ok_for_arm (~INTVAL (operands[2]))"
+:}
+instantiates.out set_set_plus2
+{
+root(duplicate 3,duplicate 2,duplicate 0,duplicate 1,duplicate 3);
+root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+""
+:}
+
 
 {:
 //Pattern#47
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *arm_addsi3.insn_and_split instantiates.in set_plus2
 {
-	root (const_int:0);
-	lov:="";
+  root(0=s_register_operand:SI:"=rk, r,k, r,r, k, r, k,k,r, k, r",1=s_register_operand:SI:"%0, rk,k, r,rk,k, rk,k,r,rk,k, rk",2=reg_or_int_operand:SI:"rk, rI,rI,k,Pj,Pj,L, L,L,PJ,PJ,?n");
+root.2.mode:=SI;
 }
+cmd_spec.in
+{:
+  "TARGET_32BIT"
+  "@
+   add%?\\t%0, %0, %2
+   add%?\\t%0, %1, %2
+   add%?\\t%0, %1, %2
+   add%?\\t%0, %2, %1
+   addw%?\\t%0, %1, %2
+   addw%?\\t%0, %1, %2
+   sub%?\\t%0, %1, #%n2
+   sub%?\\t%0, %1, #%n2
+   sub%?\\t%0, %1, #%n2
+   subw%?\\t%0, %1, #%n2
+   subw%?\\t%0, %1, #%n2
+   #"
+  "TARGET_32BIT
+   && CONST_INT_P (operands[2])
+   && !const_ok_for_op (INTVAL (operands[2]), PLUS)
+   && (reload_completed || !arm_eliminable_register (operands[1]))"
+:}
+instantiates.out clobber
+{
+  root(const_int:0);
+}
+cmd_spec.out
+{:
+    "
+  arm_split_constant (PLUS, SImode, curr_insn,
+	              INTVAL (operands[2]), operands[0],
+		      operands[1], 0);
+  DONE;
+  "
+  [(set_attr "length" "2,4,4,4,4,4,4,4,4,4,4,16")
+   (set_attr "predicable" "yes")
+   (set_attr "arch" "t2,*,*,*,t2,t2,*,*,a,t2,t2,*")
+   (set (attr "type") (if_then_else (match_operand 2 "const_int_operand" "")
+		      (const_string "simple_alu_imm")
+		      (const_string "alu_reg")))
+ ]
+:}
 
 {:
 //Pattern#48
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus2_x2 extends sequence {
+root.1:=set_plus2;
+root.2:=set_plus2;
 }
+concrete *thumb1_addsi3.insn_and_split instantiates.in set_plus2
+{
+  root(register_operand:SI:"=l,l,l,*rk,*hk,l,k,l,l,l",register_operand:SI:"%0,0,l,*0,*0,k,k,0,l,k",nonmemory_operand:SI:"I,J,lL,*hk,*rk,M,O,Pa,Pb,Pc");
+root.2.mode:=SI;
+}
+cmd_spec.in
+{:
+   "TARGET_THUMB1"
+  "*
+   static const char * const asms[] = 
+   {
+     \"add\\t%0, %0, %2\",
+     \"sub\\t%0, %0, #%n2\",
+     \"add\\t%0, %1, %2\",
+     \"add\\t%0, %0, %2\",
+     \"add\\t%0, %0, %2\",
+     \"add\\t%0, %1, %2\",
+     \"add\\t%0, %1, %2\",
+     \"#\",
+     \"#\",
+     \"#\"
+   };
+   if ((which_alternative == 2 || which_alternative == 6)
+       && CONST_INT_P (operands[2])
+       && INTVAL (operands[2]) < 0)
+     return \"sub\\t%0, %1, #%n2\";
+   return asms[which_alternative];
+  "
+  "&& reload_completed && CONST_INT_P (operands[2])
+   && ((operands[1] != stack_pointer_rtx
+        && (INTVAL (operands[2]) > 255 || INTVAL (operands[2]) < -255))
+       || (operands[1] == stack_pointer_rtx
+ 	   && INTVAL (operands[2]) > 1020))"
+:}
+instantiates.out set_plus2_x2
+{
+  root(duplicate 0,duplicate 1,duplicate 2,duplicate 0,duplicate 0,duplicate 3);
+root.1.2.mode:=SI;
+root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+    {
+    HOST_WIDE_INT offset = INTVAL (operands[2]);
+    if (operands[1] == stack_pointer_rtx)
+      offset -= 1020;
+    else
+      {
+        if (offset > 255)
+	  offset = 255;
+	else if (offset < -255)
+	  offset = -255;
+      }
+    operands[3] = GEN_INT (offset);
+    operands[2] = GEN_INT (INTVAL (operands[2]) - offset);
+  }
+  [(set_attr "length" "2,2,2,2,2,2,2,4,4,4")]
+:}
 
 {:
 //Pattern#49
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_set_plus2 extends sequence {
+root.1:=set;
+root.2:=set_plus2;
 }
+concrete .peep2 instantiates.in set_set_plus2
+{
+        root (0=arm_general_register_operand:SI:"",const_int_operand:SI:"",duplicate 0,duplicate 0,reg(SI:SP_REGNUM));
+root.2.2.mode:=SI;
+}
+cmd_spec.in
+{:
+   "TARGET_THUMB1
+   && (unsigned HOST_WIDE_INT) (INTVAL (operands[1])) < 1024
+   && (INTVAL (operands[1]) & 3) == 0"
+:}
+instantiates.out set_plus2
+{
+ root(duplicate 0,reg(SI: SP_REGNUM),duplicate 1);
+ root.2.mode:=SI;
+}
+cmd_spec.out
+{:
+""
+:}
 
 {:
 //Pattern#50
 :}
-concrete arm_pool_range.attr instantiates sequence
+
+abstract set_compare2_plus_set_plus2 extends sequence 
 {
-	root (const_int:0);
-	lov:="";
+ root.1:=set_compare2_plus;
+ root.2:=set_plus2;
 }
+concrete addsi3_compare0.insn instantiates set_compare2_plus_set_plus2
+{
+root(reg(CC_NOOV:CC_REGNUM),1=s_register_operand:SI:"r, r,r",2=arm_add_operand:SI:"I,L,r",const_int:0,0=s_register_operand:SI:"=r,r,r",duplicate 1,duplicate 2);
+root.1.2.mode:=CC_NOOV;
+root.1.2.1.mode:=SI;
+root.2.2.mode:=SI;
+}
+{:
+"TARGET_ARM"
+  "@
+   add%.\\t%0, %1, %2
+   sub%.\\t%0, %1, #%n2
+   add%.\\t%0, %1, %2"
+  [(set_attr "conds" "set")
+   (set_attr "type" "simple_alu_imm, simple_alu_imm, *")]
+:}
 
 {:
 //Pattern#51
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *addsi3_compare0_scratch.insn instantiates set_compare2_plus
 {
-	root (const_int:0);
-	lov:="";
+root(reg(CC_NOOV:CC_REGNUM),0=s_register_operand:SI:"r, r, r",1=arm_add_operand:SI:"I,L, r",const_int:0);
+root.2.mode:=CC_NOOV;
+root.2.1.mode:=SI;
 }
+{:
+  "TARGET_ARM"
+  "@
+   cmn%?\\t%0, %1
+   cmp%?\\t%0, #%n1
+   cmn%?\\t%0, %1"
+  [(set_attr "conds" "set")
+   (set_attr "predicable" "yes")
+   (set_attr "type" "simple_alu_imm, simple_alu_imm, *")
+   ]
+:}
 
 {:
 //Pattern#52
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *compare_negsi_si.insn instantiates set_compare2_neg1
 {
-	root (const_int:0);
-	lov:="";
+	root (reg(CC_Z:CC_REGNUM), s_register_operand:SI:"r", s_register_operand:SI:"r");
+	root.2.mode:=CC_Z;
+	root.2.1.mode:=SI;
 }
+{:
+  "TARGET_32BIT"
+  "cmn%?\\t%1, %0"
+  [(set_attr "conds" "set")
+   (set_attr "predicable" "yes")]
+:}
 
 {:
 //Pattern#53
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract scomp_splus extends sequence
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=set_compare2;
+	root.2:=set_plus2;
 }
+concrete *cmpsi2_addneg.insn instantiates scomp_splus
+{
+	root (reg(CC:CC_REGNUM), 1=s_register_operand:SI:"r,r", 2=arm_addimm_operand:SI:"L,I", 0=s_register_operand:SI:"=r,r", duplicate 1, arm_addimm_operand:SI:"I,L");
+	root.1.2.mode:=CC;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT && INTVAL (operands[2]) == -INTVAL (operands[3])"
+  "@
+   add%.\\t%0, %1, %3
+   sub%.\\t%0, %1, #%n3"
+  [(set_attr "conds" "set")]
+:}
 
 {:
 //Pattern#54
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract splus_scomp_site extends sequence
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=set_plus2;
+	root.2:=set_compare2;
+	root.3:=set_if_then_else2;
+	root.3.2.1:=match_operator;
 }
+abstract pll_scomp__splus__site extends sequence
+{
+	root.1:=parallel;
+	root.1.1:=set_compare2;
+	root.1.2:=set_plus2;
+	root.2:=set_if_then_else2;
+	root.2.2.1:=match_op_dup;
+}
+
+concrete .peep2 instantiates.in splus_scomp_site
+{
+	root ( arm_general_register_operand:SI:"", arm_general_register_operand:SI:"", const_int:-1, cc_register:NULL:"", duplicate 0, const_int:-1, pc, 3=equality_operator, (duplicate 2, const_int:0), 4=NULL:NULL:"",5=NULL:NULL:"");
+	root.1.2.mode:=SI;
+}
+cmd_spec.in
+{:
+	"TARGET_32BIT && peep2_reg_dead_p (3, operands[2])"
+:}
+instantiates.out pll_scomp__splus__site
+{
+	root ((duplicate 2, duplicate 1, const_int:1, duplicate 0, duplicate 1, const_int:-1), pc, 3, (duplicate 2, const_int:0), duplicate 4, duplicate 5);
+	root.1.1.2.mode:=CC;
+	root.1.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+  "operands[2] = gen_rtx_REG (CCmode, CC_REGNUM);
+   operands[3] = gen_rtx_fmt_ee ((GET_CODE (operands[3]) == NE
+				  ? GEU : LTU),
+				 VOIDmode, 
+				 operands[2], const0_rtx);"
+:}
 
 {:
 //Pattern#55
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract set_compare_plus_plus extends sequence
 {
-	root (const_int:0);
-	lov:="";
+	root.1:=set_compare2_plus;
+	root.2:=set_plus2;
 }
+concrete *addsi3_compare_op1.insn instantiates set_compare_plus_plus
+{
+	root (reg(CC_C:CC_REGNUM), 1=s_register_operand:SI:"r,r,r", 2=arm_add_operand:SI:"I,L,r", duplicate 1, 0=s_register_operand:SI:"=r,r,r", duplicate 1, duplicate 2);
+	root.1.2.mode:=CC_C;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  "@
+   add%.\\t%0, %1, %2
+   sub%.\\t%0, %1, #%n2
+   add%.\\t%0, %1, %2"
+  [(set_attr "conds" "set")
+   (set_attr "type"  "simple_alu_imm,simple_alu_imm,*")]
+:}
 
 {:
 //Pattern#56
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *addsi3_compare_op2.insn instantiates set_compare_plus_plus
 {
-	root (const_int:0);
-	lov:="";
+	root (reg(CC_C:CC_REGNUM), 1=s_register_operand:SI:"r,r,r", 2=arm_add_operand:SI:"I,L,r", duplicate 2, 0=s_register_operand:SI:"=r,r,r", duplicate 1, duplicate 2);
+	root.1.2.mode:=CC_C;
+	root.1.2.1.mode:=SI;
+	root.2.2.mode:=SI;
 }
+{:
+  "TARGET_32BIT"
+  "@
+   add%.\\t%0, %1, %2
+   add%.\\t%0, %1, %2
+   sub%.\\t%0, %1, #%n2"
+  [(set_attr "conds" "set")
+   (set_attr "type" "simple_alu_imm,simple_alu_imm,*")]
+:}
 
 {:
 //Pattern#57
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *compare_addsi2_op0.insn instantiates set_compare2_plus
 {
-	root (const_int:0);
-	lov:="";
+	root (reg(CC_C:CC_REGNUM), s_register_operand:SI:"r,r,r", arm_add_operand:SI:"I,L,r", duplicate 0);
+	root.2.mode:=CC_C;
+	root.2.1.mode:=SI;
 }
+{:
+  "TARGET_32BIT"
+  "@
+   cmn%?\\t%0, %1
+   cmp%?\\t%0, #%n1
+   cmn%?\\t%0, %1"
+  [(set_attr "conds" "set")
+   (set_attr "predicable" "yes")
+   (set_attr "type" "simple_alu_imm,simple_alu_imm,*")]
+:}
 
 {:
 //Pattern#58
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *compare_addsi2_op1.insn instantiates set_compare2_plus
 {
-	root (const_int:0);
-	lov:="";
+	root (reg(CC_C:CC_REGNUM), s_register_operand:SI:"r,r,r", arm_add_operand:SI:"I,L,r", duplicate 1);
+	root.2.mode:=CC_C;
+	root.2.1.mode:=SI;
 }
+{:
+  "TARGET_32BIT"
+  "@
+   cmn%?\\t%0, %1
+   cmp%?\\t%0, #%n1
+   cmn%?\\t%0, %1"
+  [(set_attr "conds" "set")
+   (set_attr "predicable" "yes")
+   (set_attr "type" "simple_alu_imm,simple_alu_imm,*")]
+:}
 
 {:
 //Pattern#59
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus_plus_LTUGEU extends set_plus2 {
+root.2.1:=plus;
+root.2.2:=LTUGEU;
 }
+concrete *addsi3_carryin_<optab>.insn instantiates set_plus_plus_LTUGEU {
+root(0=s_register_operand:SI: "=r,r",1=s_register_operand:SI:"%r,r",2=arm_not_operand:SI:"rI,K",reg(<cnb>:CC_REGNUM),const_int:0);
+root.2.mode:=SI;
+root.2.1.mode:=SI;
+root.2.2.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+  "@
+   adc%?\\t%0, %1, %2
+   sbc%?\\t%0, %1, #%B2"
+  [(set_attr "conds" "use")]
+:}
 
 {:
 //Pattern#60
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus_plus_LTUGEU1 extends set_plus2 {
+root.2.1:=plus;
+root.2.1.1:=LTUGEU;
 }
+concrete *addsi3_carryin_alt2_<optab>.insn instantiates set_plus_plus_LTUGEU1 {
+root(0=s_register_operand:SI: "=r,r",reg(<cnb>:CC_REGNUM),const_int:0,1=s_register_operand:SI:"%r,r",2=arm_rhs_operand:SI:"rI,K");
+root.2.mode:=SI;
+root.2.1.mode:=SI;
+root.2.1.1.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+  "@
+   adc%?\\t%0, %1, %2
+   sbc%?\\t%0, %1, #%B2"
+  [(set_attr "conds" "use")]
+:}
 
 {:
 //Pattern#61
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus_plus_match_operator_LTUGEU extends set_plus2 {
+root.2.1:=plus;
+root.2.1.1:=match_operator;
+root.2.2:=LTUGEU;
 }
+concrete *addsi3_carryin_shift_<optab>.insn instantiates set_plus_plus_match_operator_LTUGEU {
+root(0=s_register_operand:SI: "=r",(2=shift_operator,3=s_register_operand:SI:"r",4=reg_or_int_operand:SI:"rM"),1=s_register_operand:SI:"r",reg(<cnb>:CC_REGNUM),const_int:0);
+root.2.mode:=SI;
+root.2.1.mode:=SI;
+root.2.1.1.mode:=SI;
+root.2.2.mode:=SI;
+}
+{:
+"TARGET_32BIT"
+  "adc%?\\t%0, %1, %3%S2"
+  [(set_attr "conds" "use")
+   (set (attr "type") (if_then_else (match_operand 4 "const_int_operand" "")
+                      (const_string "alu_shift")
+                      (const_string "alu_shift_reg")))]
+:}
 
 {:
 //Pattern#62
 :}
-concrete arm_pool_range.attr instantiates sequence
-{
-	root (const_int:0);
-	lov:="";
+abstract set_plus_plus_LTUGEU_clobber extends sequence {
+root.1:=set_plus_plus_LTUGEU;
+root.2:=clobber;
 }
+concrete *addsi3_carryin_clobercc_<optab>.insn instantiates set_plus_plus_LTUGEU_clobber {
+root(0=s_register_operand:SI: "=r",1=s_register_operand:SI:"%r",2=arm_rhs_operand:SI:"rI",reg(<cnb>:CC_REGNUM),const_int:0,reg(CC:CC_REGNUM));
+root.1.2.mode:=SI;
+root.1.2.1.mode:=SI;
+root.1.2.2.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+   "adc%.\\t%0, %1, %2"
+   [(set_attr "conds" "set")]
+:}
 
 {:
 //Pattern#63
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract set_plus2_matchop extends set_plus2
 {
-	root (const_int:0);
-	lov:="";
+	root.2.1:=match_operator;
 }
+concrete incscc.exp instantiates set_plus2_matchop
+{
+	root (s_register_operand:SI:"=r,r", 2=arm_comparison_operator, (3=cc_register:CC:"", const_int:0), 1=s_register_operand:SI:"0,?r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+}
+{:
+  "TARGET_32BIT"
+  ""
+:}
 
 {:
 //Pattern#64
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete *arm_incscc.insn instantiates set_plus2_matchop
 {
-	root (const_int:0);
-	lov:="";
+	root (s_register_operand:SI:"=r,r", 2=arm_comparison_operator, (3=cc_register:CC:"", const_int:0), 1=s_register_operand:SI:"0,?r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
 }
+{:
+  "TARGET_ARM"
+  "@
+  add%d2\\t%0, %1, #1
+  mov%D2\\t%0, %1\;add%d2\\t%0, %1, #1"
+  [(set_attr "conds" "use")
+   (set_attr "length" "4,8")]  
+:}
 
 {:
 //Pattern#65
 :}
-concrete arm_pool_range.attr instantiates sequence
+abstract set_plus2_ashift_clobber extends set_plus2_clobber
 {
-	root (const_int:0);
-	lov:="";
+	root.1.2.1:=ashift;
 }
+abstract set_x2 extends sequence
+{
+	root.1:=set;
+	root.2:=set_not2;
+	root.2.2.1:=ashift;
+}
+concrete .split instantiates.in set_plus2_ashift_clobber
+{
+	root (s_register_operand:SI:"", const_int_operand:SI:"",s_register_operand:SI:"", const_int:-1, s_register_operand:SI:"");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=SI;
+}
+cmd_spec.in
+{:
+  "TARGET_32BIT"
+:}
+instantiates.out set_x2
+{
+	root (duplicate 3, duplicate 1, duplicate 0, duplicate 3, duplicate 2);
+	root.2.2.mode:=SI;
+	root.2.2.1.mode:=SI;
+}
+cmd_spec.out
+{:
+  "
+  operands[1] = GEN_INT (~(INTVAL (operands[1]) - 1));
+"
+:}
 
 {:
 //Pattern#66
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete addsf3.exp instantiates set_plus2
 {
-	root (const_int:0);
-	lov:="";
+root(0=s_register_operand:SF:"",1=s_register_operand:SF:"",2=s_register_operand:SF:"");
+root.2.mode:=SF;
 }
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT"
+  "
+"
+:}
 
 {:
 //Pattern#67
 :}
-concrete arm_pool_range.attr instantiates sequence
+concrete adddf3.exp instantiates set_plus2
 {
-	root (const_int:0);
-	lov:="";
+        root (0=s_register_operand:DF:"",1=s_register_operand:DF:"",2=s_register_operand:DF:"");
+        root.2.mode:=DF;
 }
+{:
+  
+  "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  ""
+:}
 
 {:
 //Pattern#68
@@ -1039,12 +1563,11 @@ concrete *subsi3_compare0.insn instantiates set_compare_minus_minus
 {:
 //Pattern#81
 :}
-abstract set_compare_minus_minus extends sequence
+abstract scomp_sminus extends scomp_splus
 {
-	root.1:=set_compare2;
 	root.2:=set_minus2;
 }
-concrete *subsi3_compare.insn instantiates set_compare_minus_minus	
+concrete *subsi3_compare.insn instantiates scomp_sminus	
 {
 	root(reg(CC:CC_REGNUM), 1=arm_rhs_operand:SI:"r,r,I", 2=arm_rhs_operand:SI:"I,r,r", 0=s_register_operand:SI:"=r,r,r",duplicate 1, duplicate 2);
 	root.1.2.mode:=CC;
@@ -1607,4 +2130,961 @@ concrete *umulsidi3_v6.insn instantiates set_mult_zero_ext
 
 {:
 //Pattern#111
+:}
+abstract set_plus_mult_zero_ext extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=zero_extend;
+	root.2.1.2:=zero_extend;
+}
+concrete umaddsidi4.exp instantiates set_plus_mult_zero_ext
+{
+	root (s_register_operand:DI:"", s_register_operand:SI:"", s_register_operand:SI:"", s_register_operand:DI:"");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#112
+:}
+concrete *umulsidi3adddi.insn instantiates set_plus_mult_zero_ext
+{
+	root (s_register_operand:DI:"=&r", 2=s_register_operand:SI:"%r", 3=s_register_operand:SI:"r", 1=s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "umlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "umlal")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#113
+:}
+concrete *umulsidi3adddi_v6.insn instantiates set_plus_mult_zero_ext
+{
+	root (s_register_operand:DI:"=r", 2=s_register_operand:SI:"r", 3=s_register_operand:SI:"r", 1=s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "umlal%?\\t%Q0, %R0, %3, %2"
+  [(set_attr "insn" "umlal")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#114
+:}
+abstract set_truncate2_lshiftrt_mult_sign_eztx2 extends set_truncate2
+{
+	root.2.1:=lshiftrt;
+	root.2.1.1:=mult;
+	root.2.1.1.1:=sign_extend;
+	root.2.1.1.2:=sign_extend;
+}
+abstract pll_set_truncate2_lshiftrt_mult_sign_eztx2_clobber extends parallel
+{
+	root.1:=set_truncate2_lshiftrt_mult_sign_eztx2;
+	root.2:=clobber;
+}
+concrete smulsi3_highpart.exp instantiates pll_set_truncate2_lshiftrt_mult_sign_eztx2_clobber
+{
+	root (s_register_operand:SI:"", s_register_operand:SI:"", s_register_operand:SI:"", const_int:32, 3=SI:"");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#115
+:}
+abstract set_truncate2_lshiftrt_mult_sign_eztx2_clobber extends sequence
+{
+	root.1:=set_truncate2_lshiftrt_mult_sign_eztx2;
+	root.2:=clobber;
+}
+concrete *smulsi3_highpart_nov6.insn instantiates set_truncate2_lshiftrt_mult_sign_eztx2_clobber
+{
+	root (s_register_operand:SI:"=&r,&r", s_register_operand:SI:"%0,r", s_register_operand:SI:"r,r", const_int:32, 3=SI:"=&r,&r");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "smull%?\\t%3, %0, %2, %1"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#116
+:}
+concrete *smulsi3_highpart_v6.insn instantiates set_truncate2_lshiftrt_mult_sign_eztx2_clobber
+{
+	root (s_register_operand:SI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r", const_int:32, 3=SI:"=r");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "smull%?\\t%3, %0, %2, %1"
+  [(set_attr "insn" "smull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#117
+:}
+abstract set_truncate2_lshiftrt_mult_zero_eztx2 extends set_truncate2
+{
+	root.2.1:=lshiftrt;
+	root.2.1.1:=mult;
+	root.2.1.1.1:=zero_extend;
+	root.2.1.1.2:=zero_extend;
+}
+abstract pll_set_truncate2_lshiftrt_mult_zero_eztx2_clobber extends parallel
+{
+	root.1:=set_truncate2_lshiftrt_mult_zero_eztx2;
+	root.2:=clobber;
+}
+concrete umulsi3_highpart.exp instantiates pll_set_truncate2_lshiftrt_mult_zero_eztx2_clobber
+{
+	root (s_register_operand:SI:"", s_register_operand:SI:"", s_register_operand:SI:"", const_int:32, 3=SI:"");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m"
+  ""
+:}
+
+{:
+//Pattern#118
+:}
+abstract set_truncate2_lshiftrt_mult_zero_eztx2_clobber extends sequence
+{
+	root.1:=set_truncate2_lshiftrt_mult_zero_eztx2;
+	root.2:=clobber;
+}
+concrete *umulsi3_highpart_nov6.insn instantiates set_truncate2_lshiftrt_mult_zero_eztx2_clobber
+{
+	root (s_register_operand:SI:"=&r,&r", s_register_operand:SI:"%0,r", s_register_operand:SI:"r,r", const_int:32, 3=SI:"=&r,&r");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch3m && !arm_arch6"
+  "umull%?\\t%3, %0, %2, %1"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#119
+:}
+concrete *umulsi3_highpart_v6.insn instantiates set_truncate2_lshiftrt_mult_zero_eztx2_clobber
+{
+	root (s_register_operand:SI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r", const_int:32, 3=SI:"=r");
+	root.1.2.mode:=SI;
+	root.1.2.1.mode:=DI;
+	root.1.2.1.1.mode:=DI;
+	root.1.2.1.1.1.mode:=DI;
+	root.1.2.1.1.2.mode:=DI;
+}
+{:
+  "TARGET_32BIT && arm_arch6"
+  "umull%?\\t%3, %0, %2, %1"
+  [(set_attr "insn" "umull")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#120
+:}
+concrete mulhisi3.insn instantiates set_mult_sign_ext
+{
+	root (s_register_operand:SI:"=r", s_register_operand:HI:"%r", s_register_operand:HI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smulbb%?\\t%0, %1, %2"
+  [(set_attr "insn" "smulxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#121
+:}
+abstract set_mult2_ashiftrt_sign_ext2 extends set_mult2
+{
+	root.2.1:=ashiftrt;
+	root.2.2:=sign_extend;
+}
+concrete *mulhisi3tb.insn instantiates set_mult2_ashiftrt_sign_ext2
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:HI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smultb%?\\t%0, %1, %2"
+  [(set_attr "insn" "smulxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#122
+:}
+abstract set_mult2_sign_ext_ashiftrt2 extends set_mult2
+{
+	root.2.1:=sign_extend;
+	root.2.2:=ashiftrt;
+}
+concrete *mulhisi3bt.insn instantiates set_mult2_sign_ext_ashiftrt2
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:HI:"r", s_register_operand:SI:"r", const_int:16);
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smulbt%?\\t%0, %1, %2"
+  [(set_attr "insn" "smulxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#123
+:}
+abstract set_mult2_ashiftrtx2 extends set_mult2
+{
+	root.2.1:=ashiftrt;
+	root.2.2:=ashiftrt;
+}
+concrete *mulhisi3tt.insn instantiates set_mult2_ashiftrtx2
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:SI:"r", const_int:16);
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smultt%?\\t%0, %1, %2"
+  [(set_attr "insn" "smulxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#124
+:}
+concrete maddhisi4.insn instantiates set_plus_mult_sign_ext
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:HI:"r", s_register_operand:HI:"r", s_register_operand:SI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.1.1.mode:=SI;
+	root.2.1.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlabb%?\\t%0, %1, %2, %3"
+  [(set_attr "insn" "smlaxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#125
+:}
+abstract set_plus_mult_ashiftrt_sign_ext2 extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=ashiftrt;
+	root.2.1.2:=sign_extend;
+}
+concrete *maddhisi4tb.insn instantiates set_plus_mult_ashiftrt_sign_ext2
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:HI:"r",s_register_operand:SI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.1.1.mode:=SI;
+	root.2.1.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlatb%?\\t%0, %1, %2, %3"
+  [(set_attr "insn" "smlaxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#126
+:}
+abstract set_plus_mult_ashiftrtx2 extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=ashiftrt;
+	root.2.1.2:=ashiftrt;
+}
+concrete *maddhisi4tt.insn instantiates set_plus_mult_ashiftrtx2
+{
+	root ( s_register_operand:SI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:SI:"r", const_int:16, s_register_operand:SI:"r");
+	root.2.mode:=SI;
+	root.2.1.mode:=SI;
+	root.2.1.1.mode:=SI;
+	root.2.1.2.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlatt%?\\t%0, %1, %2, %3"
+  [(set_attr "insn" "smlaxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#127
+:}
+concrete maddhidi4.insn instantiates set_plus_mult_sign_ext
+{
+	root ( s_register_operand:DI:"=r", s_register_operand:HI:"r", s_register_operand:HI:"r", s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlalbb%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smlalxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#128
+:}
+abstract set_plus_mult_sext_ashift_sext extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=sign_extend;
+	root.2.1.1.1:=ashiftrt;
+	root.2.1.2:=sign_extend;
+}
+concrete *maddhidi4tb.insn instantiates set_plus_mult_sext_ashift_sext
+{
+	root ( s_register_operand:DI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:HI:"r", s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.1.1.mode:=SI;
+	root.2.1.2.mode:=DI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlaltb%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smlalxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#129
+:}
+abstract set_plus_mult_sext_ashift_sext_ashift extends set_plus2
+{
+	root.2.1:=mult;
+	root.2.1.1:=sign_extend;
+	root.2.1.1.1:=ashiftrt;
+	root.2.1.2:=sign_extend;
+	root.2.1.2.1:=ashiftrt;
+}
+concrete *maddhidi4tt.insn instantiates set_plus_mult_sext_ashift_sext_ashift
+{
+	root ( s_register_operand:DI:"=r", s_register_operand:SI:"r", const_int:16, s_register_operand:SI:"r", const_int:16, s_register_operand:DI:"0");
+	root.2.mode:=DI;
+	root.2.1.mode:=DI;
+	root.2.1.1.mode:=DI;
+	root.2.1.1.1.mode:=SI;
+	root.2.1.2.mode:=DI;
+	root.2.1.2.1.mode:=SI;
+}
+{:
+  "TARGET_DSP_MULTIPLY"
+  "smlaltt%?\\t%Q0, %R0, %1, %2"
+  [(set_attr "insn" "smlalxy")
+   (set_attr "predicable" "yes")]
+:}
+
+{:
+//Pattern#130
+:}
+concrete mulsf3.exp instantiates set_mult2
+{
+	root (s_register_operand:SF:"", s_register_operand:SF:"", s_register_operand:SF:""); 
+	root.2.mode:=SF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT"
+  ""
+:}
+
+{:
+//Pattern#131
+:}
+concrete muldf3.exp instantiates set_mult2
+{
+	root (s_register_operand:DF:"", s_register_operand:DF:"", s_register_operand:DF:""); 
+	root.2.mode:=DF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  ""
+:}
+
+{:
+//Pattern#132
+:}
+concrete divsf3.exp instantiates set_div2
+{
+	root (s_register_operand:SF:"", s_register_operand:SF:"", s_register_operand:SF:""); 
+	root.2.mode:=SF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP"
+  ""
+:}
+
+{:
+//Pattern#133
+:}
+concrete divdf3.exp instantiates set_div2
+{
+	root (s_register_operand:DF:"", s_register_operand:DF:"", s_register_operand:DF:""); 
+	root.2.mode:=DF;
+}
+{:
+  "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP_DOUBLE"
+  ""
+:}
+
+{:
+//Pattern#243
+:}
+concrete divsi3.insn instantiates set_div2
+{
+	root (s_register_operand:SI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r"); 
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_IDIV"
+  "sdiv%?\t%0, %1, %2"
+  [(set_attr "predicable" "yes")
+   (set_attr "insn" "sdiv")]
+:}
+
+{:
+//Pattern#244
+:}
+concrete udivsi3.insn instantiates set_udiv2
+{
+	root (s_register_operand:SI:"=r", s_register_operand:SI:"r", s_register_operand:SI:"r"); 
+	root.2.mode:=SI;
+}
+{:
+  "TARGET_IDIV"
+  "udiv%?\t%0, %1, %2"
+  [(set_attr "predicable" "yes")
+   (set_attr "insn" "udiv")]
+:}
+
+{:
+//Pattern#245
+:}
+abstract set_neg2_clobber extends parallel
+{
+root.1:=set_neg2;
+root.2:=clobber;
+}
+concrete negdi2.exp instantiates set_neg2_clobber
+{
+root(0=s_register_operand:DI:"",1=s_register_operand:DI:"",reg(CC:CC_REGNUM));
+root.1.2.mode:=DI;
+}
+{:
+ "TARGET_EITHER"
+  {
+    if (TARGET_NEON)
+      {
+        emit_insn (gen_negdi2_neon (operands[0], operands[1]));
+        DONE;
+      }
+  }
+:}
+{:
+//Pattern#246
+:}
+abstract set_neg2_clobber1 extends sequence
+{
+root.1:=set_neg2;
+root.2:=clobber;
+}
+concrete *arm_negdi2.insn instantiates set_neg2_clobber1
+{
+root(0=s_register_operand:DI:"=r,&r",1=s_register_operand:DI:"0,r",reg(CC:CC_REGNUM));
+root.1.2.mode:=DI;
+}
+{:
+ "TARGET_ARM"
+  "rsbs\\t%Q0, %Q1, #0\;rsc\\t%R0, %R1, #0"
+  [(set_attr "conds" "clob")
+   (set_attr "length" "8")]
+:}
+{:
+//Pattern#247
+:}
+concrete *thumb1_negdi2.insn instantiates set_neg2_clobber1
+{
+root(0=register_operand:DI:"=&l",1=register_operand:DI:"l",reg(CC:CC_REGNUM));
+root.1.2.mode:=DI;
+}
+{:
+ "TARGET_THUMB1"
+  "mov\\t%R0, #0\;neg\\t%Q0, %Q1\;sbc\\t%R0, %R1"
+  [(set_attr "length" "6")]
+:}
+{:
+//Pattern#248
+:}
+concrete negsi2.exp instantiates set_neg2
+{
+root(0=s_register_operand:SI:"",1=s_register_operand:SI:"");
+root.2.mode:=SI;
+}
+{:
+ "TARGET_EITHER"
+  ""
+:}
+{:
+//Pattern#249
+:}
+concrete *arm_negsi2.insn instantiates set_neg2
+{
+root(0=s_register_operand:SI:"=r",1=s_register_operand:SI:"r");
+root.2.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+  "rsb%?\\t%0, %1, #0"
+  [(set_attr "predicable" "yes")]
+:}
+{:
+//Pattern#250
+:}
+concrete *thumb1_negsi2.insn instantiates set_neg2
+{
+root(0=register_operand:SI:"=l",1=register_operand:SI:"l");
+root.2.mode:=SI;
+}
+{:
+ "TARGET_THUMB1"
+  "neg\\t%0, %1"
+  [(set_attr "length" "2")]
+:}
+{:
+//Pattern#251
+:}
+concrete negsf2.exp instantiates set_neg2 {
+root(0=s_register_operand:SF:"",1=s_register_operand:SF:"");
+root.2.mode:=SF;
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP"
+  ""
+:}
+{:
+//Pattern#252
+:}
+concrete negdf2.exp instantiates set_neg2 {
+root(0=s_register_operand:DF:"",1=s_register_operand:DF:"");
+root.2.mode:=DF;
+}
+{:
+"TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP_DOUBLE"
+  ""
+:}
+{:
+//Pattern#253
+:}
+abstract set_abs2_clobber extends parallel {
+root.1:=set_abs2;
+root.2:=clobber;
+}
+concrete abssi2.exp instantiates set_abs2_clobber
+{
+root(0=s_register_operand:SI:"",1=s_register_operand:SI:"",duplicate 2);
+root.1.2.mode:=SI;
+} 
+{:
+ "TARGET_EITHER"
+  "
+  if (TARGET_THUMB1)
+    operands[2] = gen_rtx_SCRATCH (SImode);
+  else
+    operands[2] = gen_rtx_REG (CCmode, CC_REGNUM);
+"
+:}
+{:
+//Pattern#254
+:}
+abstract set_abs2_clobber1 extends sequence {
+root.1:=set_abs2;
+root.2:=clobber;
+}
+concrete *arm_abssi2.insn instantiates set_abs2_clobber1 {
+root(0=s_register_operand:SI:"=r,&r",1=s_register_operand:SI:"0,r",reg(CC :CC_REGNUM));
+root.1.2.mode:=SI;
+}
+{:
+ "TARGET_ARM"
+  "@
+   cmp\\t%0, #0\;rsblt\\t%0, %0, #0
+   eor%?\\t%0, %1, %1, asr #31\;sub%?\\t%0, %0, %1, asr #31"
+  [(set_attr "conds" "clob,*")
+   (set_attr "shift" "1")
+   (set_attr "predicable" "no, yes")
+   (set_attr "length" "8")]
+:}
+{:
+//Pattern#255
+:}
+abstract some5 extends sequence {
+root.1:=set_ashiftrt2;
+root.2:=set_plus2;
+root.3:=set_xor2;
+}
+concrete *thumb1_abssi2.insn_and_split instantiates.in set_abs2_clobber1 {
+root(0=s_register_operand:SI:"=l",1=s_register_operand:SI:"l",2=SI:"=&l");
+root.1.2.mode:=SI;
+}
+cmd_spec.in
+{:
+"TARGET_THUMB1"
+  "#"
+  "TARGET_THUMB1 && reload_completed"
+:}
+instantiates.out some5
+{
+root(duplicate 2,duplicate 1,const_int:31,duplicate 0,duplicate 1,duplicate 2,duplicate 0,duplicate 0,duplicate 2);
+root.1.2.mode:=SI;
+root.2.2.mode:=SI;
+root.3.2.mode:=SI;
+}
+cmd_spec.out
+{:
+""
+  [(set_attr "length" "6")]
+:}
+{:
+//Pattern#256
+:}
+abstract set_neg2_abs extends set_neg2 {
+root.1:=set_neg2;
+root.2:=abs;
+}
+abstract set_neg2_abs_clobber extends sequence
+{
+root.1:=set_neg2;
+root.1.2.1:=abs;
+root.2:=clobber;
+}
+concrete *arm_neg_abssi2.insn instantiates set_neg2_abs_clobber
+{
+root(0=s_register_operand:SI:"=r,&r",1=s_register_operand:SI:"0,r",reg(CC: CC_REGNUM));
+root.1.2.mode:=SI;
+root.1.2.1.mode:=SI;
+}
+{:
+ "TARGET_ARM"
+  "@
+   cmp\\t%0, #0\;rsbgt\\t%0, %0, #0
+   eor%?\\t%0, %1, %1, asr #31\;rsb%?\\t%0, %0, %1, asr #31"
+  [(set_attr "conds" "clob,*")
+   (set_attr "shift" "1")
+   (set_attr "predicable" "no, yes")
+   (set_attr "length" "8")]
+:}
+{:
+//Pattern#257
+:}
+abstract set_ashiftrt2_set_minus2_set_xor2 extends sequence {
+root.1:=set_ashiftrt2;
+root.2:=set_minus2;
+root.3:=set_xor2;
+}
+concrete *thumb1_neg_abssi2.insn_and_split instantiates.in set_neg2_abs_clobber{
+root(0=s_register_operand:SI:"=l",1=s_register_operand:SI:"l",2=SI:"=&l");
+root.1.2.mode:=SI;
+root.1.2.1.mode:=SI;
+}
+cmd_spec.in
+{:
+"TARGET_THUMB1"
+  "#"
+  "TARGET_THUMB1 && reload_completed"
+:}
+instantiates.out set_ashiftrt2_set_minus2_set_xor2
+{
+root(duplicate 2,duplicate 1,const_int:31,duplicate 0,duplicate 2,duplicate 1,duplicate 0,duplicate 0,duplicate 2);
+root.1.2.mode:=SI;
+root.2.2.mode:=SI;
+root.3.2.mode:=SI;
+}
+cmd_spec.out
+{:
+ ""
+  [(set_attr "length" "6")]
+:}
+{:
+//Pattern#258
+:}
+concrete abssf2.exp instantiates set_abs2
+{
+root(0=s_register_operand:SF:"",1=s_register_operand:SF:"");
+root.2.mode:=SF;
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT"
+  ""
+:}
+{:
+//Pattern#259
+:}
+concrete absdf2.exp instantiates set_abs2
+{
+root(0=s_register_operand:DF:"",1=s_register_operand:DF:"");
+root.2.mode:=DF;
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  ""
+:}
+{:
+//Pattern#260
+:}
+concrete sqrtsf2.exp instantiates set_sqrt2
+{
+root(0=s_register_operand:SF:"",1=s_register_operand:SF:"");
+root.2.mode:=SF;
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP"
+  ""
+:}
+{:
+//Pattern#261
+:}
+concrete sqrtdf2.exp instantiates set_sqrt2
+{
+root(0=s_register_operand:DF:"",1=s_register_operand:DF:"");
+root.2.mode:=DF;
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT && TARGET_VFP_DOUBLE"
+  ""
+:}
+{:
+//Pattern#262
+:}
+abstract set_not_set_not extends sequence {
+root.1:=set_not2;
+root.2:=set_not2;
+}
+concrete one_cmpldi2.insn_and_split instantiates.in set_not2
+{
+root(0=s_register_operand:DI:"=w,&r,&r,?w",1=s_register_operand:DI:" w, 0, r, w");
+root.2.mode:=DI;
+}
+cmd_spec.in
+{:
+ "TARGET_32BIT"
+  "@
+   vmvn\t%P0, %P1
+   #
+   #
+   vmvn\t%P0, %P1"
+  "TARGET_32BIT && reload_completed
+   && arm_general_register_operand (operands[0], DImode)"
+:}
+instantiates.out set_not_set_not
+{
+root(duplicate 0,duplicate 1,duplicate 2,duplicate 3);
+root.1.2.mode:=SI;
+root.2.2.mode:=SI;
+}
+cmd_spec.out
+{:
+ "
+  {
+    operands[2] = gen_highpart (SImode, operands[0]);
+    operands[0] = gen_lowpart (SImode, operands[0]);
+    operands[3] = gen_highpart (SImode, operands[1]);
+    operands[1] = gen_lowpart (SImode, operands[1]);
+  }"
+  [(set_attr "length" "*,8,8,*")
+   (set_attr "predicable" "no,yes,yes,no")
+   (set_attr "neon_type" "neon_int_1,*,*,neon_int_1")
+   (set_attr "arch" "neon_nota8,*,*,neon_onlya8")]
+:}
+{:
+//Pattern#263
+:}
+concrete one_cmplsi2.exp instantiates set_not2
+{
+root(0=s_register_operand:SI:"",1=s_register_operand:SI:"");
+root.2.mode:=SI;
+}
+{:
+ "TARGET_EITHER"
+  ""
+:}
+{:
+//Pattern#264
+:}
+concrete *arm_one_cmplsi2.insn instantiates set_not2
+{
+root(0=s_register_operand:SI:"=r",1=s_register_operand:SI:"r");
+root.2.mode:=SI;
+}
+{:
+"TARGET_32BIT"
+  "mvn%?\\t%0, %1"
+  [(set_attr "predicable" "yes")
+   (set_attr "insn" "mvn")]
+:}
+{:
+//Pattern#265
+:}
+concrete *thumb1_one_cmplsi2.insn instantiates set_not2
+{
+root(0=register_operand:SI:"=l",1=register_operand:SI:"l");
+root.2.mode:=SI;
+}
+{:
+ "TARGET_THUMB1"
+  "mvn\\t%0, %1"
+  [(set_attr "length" "2")
+   (set_attr "insn" "mvn")]
+:}
+{:
+//Pattern#266
+:}
+abstract set_compare2_not_set_not2 extends sequence {
+root.1:=set_compare2;
+root.1.2.1:=not;
+root.2:=set_not2;
+}
+concrete *notsi_compare0.insn instantiates set_compare2_not_set_not2 {
+root(reg(CC_NOOV:CC_REGNUM),1=s_register_operand:SI:"r",const_int:0,0=s_register_operand:SI:"=r",duplicate 1);
+root.1.2.mode:=CC_NOOV;
+root.1.2.1.mode:=SI;
+root.2.2.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+  "mvn%.\\t%0, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mvn")]
+:}
+{:
+//Pattern#267
+:}
+abstract set_compare2_not_clobber extends sequence {
+root.1:=set_compare2;
+root.1.2.1:=not;
+root.2:=clobber;
+}
+concrete *notsi_compare0_scratch.insn instantiates set_compare2_not_clobber {
+root(reg(CC_NOOV:CC_REGNUM),1=s_register_operand:SI:"r",const_int:0,0=SI:"=r");
+root.1.2.mode:=CC_NOOV;
+root.1.2.1.mode:=SI;
+}
+{:
+ "TARGET_32BIT"
+  "mvn%.\\t%0, %1"
+  [(set_attr "conds" "set")
+   (set_attr "insn" "mvn")]
+:}
+
+{:
+//Pattern#276
+:}
+concrete truncdfsf2.exp instantiates set_float_truncate2
+{
+  root(s_register_operand:SF:"",s_register_operand:DF:"");
+  root.2.mode:=SF;
+
+}
+{:
+ "TARGET_32BIT && TARGET_HARD_FLOAT && !TARGET_VFP_SINGLE"
+  ""
+:}
+
+{:
+//Pattern#277
+:}
+concrete truncdfhf2.exp instantiates set_float_truncate2
+{
+  root(general_operand:HF:"",general_operand:DF:"");
+  root.2.mode:=HF;
+}
+{:
+   "TARGET_EITHER"
+  "
+  {
+    rtx op1;
+    op1 = convert_to_mode (SFmode, operands[1], 0);
+    op1 = convert_to_mode (HFmode, op1, 0);
+    emit_move_insn (operands[0], op1);
+    DONE;
+  }"
+:}
+
+{:
+//Pattern#39
 :}

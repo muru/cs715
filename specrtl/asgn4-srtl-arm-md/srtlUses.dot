@@ -206,6 +206,8 @@ digraph srtlUses {
 "root" -> "high" [color=blue];
 "unordered" [shape=box,style=filled,color=".3 .7 1.0"];
 "root" -> "unordered" [color=blue];
+"LTUGEU" [shape=box,style=filled,color=".3 .7 1.0"];
+"root" -> "LTUGEU" [color=blue];
 "set" [shape=box,style=filled,color=".3 .7 1.0"];
 "root" -> "set" [color=blue];
 "set_const" [shape=box,style=filled,color=".3 .7 1.0"];

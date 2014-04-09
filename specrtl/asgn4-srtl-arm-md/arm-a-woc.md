@@ -61,61 +61,8 @@
   (const_string "any"))
 
 //Pattern#12
-(define_attr "arch_enabled" "no,yes"
-  (cond [(eq_attr "arch" "any")
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "a")
-	      (match_test "TARGET_ARM"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "t")
-	      (match_test "TARGET_THUMB"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "t1")
-	      (match_test "TARGET_THUMB1"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "t2")
-	      (match_test "TARGET_THUMB2"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "32")
-	      (match_test "TARGET_32BIT"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "v6")
-	      (match_test "TARGET_32BIT && arm_arch6"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "nov6")
-	      (match_test "TARGET_32BIT && !arm_arch6"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "onlya8")
-	      (eq_attr "tune" "cortexa8"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "neon_onlya8")
-	      (eq_attr "tune" "cortexa8")
-	      (match_test "TARGET_NEON"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "nota8")
-	      (not (eq_attr "tune" "cortexa8")))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "neon_nota8")
-	      (not (eq_attr "tune" "cortexa8"))
-	      (match_test "TARGET_NEON"))
-	 (const_string "yes")
-
-	 (and (eq_attr "arch" "iwmmxt2")
-	      (match_test "TARGET_REALLY_IWMMXT2"))
-	 (const_string "yes")]
-
-	(const_string "no")))
+(define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,onlya8,neon_onlya8,nota8,neon_nota8,iwmmxt,iwmmxt2"
+  (const_string "any"))
 
 //Pattern#13
 (define_attr "opt" "any,speed,size"
@@ -177,7 +124,7 @@
 
 
 //Pattern#24
-(define_attr "insn"
+(define_attr "INSN"
         "mov,mvn,smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,umull,umulls,umlal,umlals,smull,smulls,smlal,smlals,smlawy,smuad,smuadx,smlad,smladx,smusd,smusdx,smlsd,smlsdx,smmul,smmulr,smmla,umaal,smlald,smlsld,clz,mrs,msr,xtab,sdiv,udiv,sat,other"
         (const_string "other"))
 
@@ -234,7 +181,7 @@
   fcmpd,\
   fcpys"
  (if_then_else 
-    (eq_attr "insn" "smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,\
+    (eq_attr "INSN" "smulxy,smlaxy,smlalxy,smulwy,smlawx,mul,muls,mla,mlas,\
 	     	     umull,umulls,umlal,umlals,smull,smulls,smlal,smlals")
     (const_string "mult")
     (const_string "alu_reg")))
@@ -242,7 +189,7 @@
 //Pattern#26
 (define_attr "mul64" "no,yes"
   (if_then_else
-    (eq_attr "insn"
+    (eq_attr "INSN"
      "smlalxy,umull,umulls,umlal,umlals,smull,smulls,smlal,smlals")
     (const_string "yes")
     (const_string "no")))
@@ -387,15 +334,6 @@
 	       (eq_attr "tune_cortexr4" "yes"))
           (const_string "no")
           (const_string "yes"))))
-
-//Pattern#39
-(define_attr "generic_vfp" "yes,no"
-  (const (if_then_else
-	  (and (eq_attr "fpu" "vfp")
-	       (eq_attr "tune" "!arm1020e,arm1022e,cortexa5,cortexa7,cortexa8,cortexa9,cortexm4,marvell_pj4")
-	       (eq_attr "tune_cortexr4" "no"))
-	  (const_string "yes")
-	  (const_string "no"))))
 
 (include "marvell-f-iwmmxt.md")
 (include "arm-generic.md")
@@ -864,6 +802,7 @@
   [(set_attr "conds" "use")]
 )
 
+
 //Pattern#61
 (define_insn "*addsi3_carryin_shift_<optab>"
   [(set (match_operand:SI 0 "s_register_operand" "=r")
@@ -892,6 +831,7 @@
    "adc%.\\t%0, %1, %2"
    [(set_attr "conds" "set")]
 )
+
 
 //Pattern#63
 (define_expand "incscc"
@@ -2147,7 +2087,6 @@
 )
 
 
-//Pattern#268
 //Pattern#276
 (define_expand "truncdfsf2"
   [(set (match_operand:SF  0 "s_register_operand" "")
@@ -2157,7 +2096,6 @@
   ""
 )
 
-/* DFmode -> HFmode conversions have to go through SFmode.  */
 //Pattern#277
 (define_expand "truncdfhf2"
   [(set (match_operand:HF  0 "general_operand" "")
@@ -2174,4 +2112,12 @@
   }"
 )
 
+//Pattern#39
+(define_attr "generic_vfp" "yes,no"
+  (const (if_then_else
+	  (and (eq_attr "fpu" "vfp")
+	       (eq_attr "tune" "!arm1020e,arm1022e,cortexa5,cortexa7,cortexa8,cortexa9,cortexm4,marvell_pj4")
+	       (eq_attr "tune_cortexr4" "no"))
+	  (const_string "yes")
+	  (const_string "no"))))
 
