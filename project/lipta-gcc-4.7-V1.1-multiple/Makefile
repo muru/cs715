@@ -16,7 +16,7 @@ NEW_PATH = $(GCC_DIR)/gcc-4.7.2/gcc
 
 #----- MAKE CHANGES TO OBJS : Add the name of your test file with extension .o (say test as test.o) --------#
 #------------------------------- Multiple dependent files maybe also be added ------------------------------#
-OBJS = $(addprefix $(OBJ_DIR)/, test1.o test2.o)
+OBJS = $(addprefix $(OBJ_DIR)/, flow_sensitive_2.o)
 OUT = $(OUT_DIR)/result
 LIB = $(LIB_DIR)/lfcpa.so
 
@@ -34,7 +34,7 @@ $(LIB): $(OBJ_DIR)/pointsto-callstrings.o
 	$(CXX) $(INCLUDE) $(FLAGS) -shared $^ -o $@
 
 test:  $(OBJS) $(LIB)
-	$(CXX) -o $(OUT) -flto -flto-partition=none -fplugin=$(LIB) $(OBJS) -O3 -fdump-ipa-all 
+	$(CXX) -o $(OUT) -flto -flto-partition=none -fplugin=$(LIB) $(OBJS) -O2 -fdump-ipa-all 
 #test:   plugin.so
 #	$(CXX) -c -flto -flto-partition=none -fplugin=./plugin.so function-pointer.c -O0 -fdump-ipa-all 
 

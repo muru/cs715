@@ -19,10 +19,12 @@ static void process_function (void);
 
 static unsigned int print_liveness(void) 
 {
+    struct function *old_cfun = cfun;
+    tree old_cfundecl = current_function_decl;
 	struct cgraph_node *node;
 	for (node = cgraph_nodes; node; node = node->next)
 	{
-		if (gimple_has_body_p(node->decl))
+		if (gimple_has_body_p(node->decl) || node->clone_of)
 		{
 			push_cfun (DECL_STRUCT_FUNCTION (node->decl));
 			process_function ();
@@ -31,6 +33,8 @@ static unsigned int print_liveness(void)
 	}
 
 	dump_pta_stats (dump_file);
+    current_function_decl = old_cfundecl;
+    set_cfun (old_cfun);
 
 	return 0;
 }
@@ -108,7 +112,7 @@ static void process_function (void)
 	}
 
 	fprintf (dump_file, "-----------------------------------------------------\n\n");
-
+#if 0
 	basic_block bb;
 	gimple_stmt_iterator si;
 	FOR_EACH_BB (bb)
@@ -139,6 +143,7 @@ static void process_function (void)
 			}
 		}
 	}
+#endif
 	return;
 }
 
@@ -6799,6 +6804,7 @@ struct cgraph_node *node;
 static unsigned int
 execute_ipacs (void)
 {
+	print_liveness();	
    /* Preserve the context before function execution. */
    struct function *old_cfun = cfun;
    tree old_cfundecl = current_function_decl;
@@ -6824,7 +6830,7 @@ execute_ipacs (void)
    current_function_decl = old_cfundecl;
    set_cfun (old_cfun);
 	//printf("end\n");
-	//print_liveness();	
+	print_liveness();	
    return 0;
 }
 
