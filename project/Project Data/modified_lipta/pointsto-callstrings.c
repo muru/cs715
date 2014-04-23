@@ -26,6 +26,7 @@ static bool set_bitmap_for_var_ref (tree var, pointsto_val pval, bitmap vars, bo
 
 static unsigned int print_liveness(void)
 {
+	fprintf(dump_file,"\n*********\n");
 	struct cgraph_node *node;
 	for (node = cgraph_nodes; node; node = node->next)
 	{
@@ -37,44 +38,39 @@ static unsigned int print_liveness(void)
 		}
 	}
 
-	fprintf(dump_file,"*********");
+	fprintf(dump_file,"*********\n\n");
 	//dump_pta_stats (dump_file);
 
 	return 0;
 }
 
-
-
-
 static void process_function (struct cgraph_node *node)
 {
 	fprintf(dump_file,"num_ssa_name=%d\n",num_ssa_names);
 
-	fprintf (dump_file, "\n\npoints-to information for vars of function %s =  \n\n",cgraph_node_name(node));
+	fprintf (dump_file, "\npoints-to information for vars of function %s =  \n",cgraph_node_name(node));
 	int i;
-	for (i = 1; i < num_ssa_names; i++)
+	for (i = 0; i < num_ssa_names; i++)
 	{
 		tree ptr = ssa_name (i);
-		struct ptr_info_def *pi;
-		//fprintf(dump_file,"num_ssa_name=%d\n",num_ssa_name);
 		if (ptr == NULL_TREE
 				|| SSA_NAME_IN_FREE_LIST (ptr))
 			continue;
-		pi = SSA_NAME_PTR_INFO (ptr);
+		struct ptr_info_def *pi = SSA_NAME_PTR_INFO (ptr);
 		if (pi)
 			dump_points_to_info_for (dump_file, ptr);
 	}
 
-// fprintf (dump_file, "-----------------------------------------------------\n\n");
-
 	return;
 }
 
-
+/* Mark all SSA_NAMEs as yet-to-be-visited,
+ * set the points-to bitmap to an empty one.
+ */
 static void reset_ssa_names (void)
 {
+	//fprintf(dump_file,"In reset fun\n");
 
-	fprintf(stderr,"In reset fun\n");
 	int i;
 	struct cgraph_node *node;
 	for (node = cgraph_nodes; node; node = node->next)
@@ -82,27 +78,31 @@ static void reset_ssa_names (void)
 		if (gimple_has_body_p(node->decl))
 		{
 			push_cfun (DECL_STRUCT_FUNCTION (node->decl));
-			for (i = 1; i < num_ssa_names; i++)
+			for (i = 0; i < num_ssa_names; i++)
 			{
 				tree ptr = ssa_name (i);
-				struct ptr_info_def *pi;
-				//fprintf(dump_file,"num_ssa_name=%d\n",num_ssa_name);
 				if (ptr == NULL_TREE
 						|| SSA_NAME_IN_FREE_LIST (ptr))
 					continue;
-				pi = SSA_NAME_PTR_INFO (ptr);
+				struct ptr_info_def *pi = SSA_NAME_PTR_INFO (ptr);
+				/* A valid SSA_NAME of interest will have non-NULL
+				 * ptr_info_def. If it is NULL, we can mark it visited
+				 * to save time later.
+				 */
 				if (pi)
 				{
 					TREE_VISITED (ptr) = 0;
-					//bitmap vars = BITMAP_GGC_ALLOC ();
+					bitmap vars = BITMAP_GGC_ALLOC ();
+					(&pi->pt)->vars = vars;
 					//bitmap_copy ((&pi->pt)->vars, vars);
-					pt_solution_reset (&pi->pt);
+					//pt_solution_reset (&pi->pt);
 				}
+				else
+					TREE_VISITED (ptr) = 1;
 			}
 			pop_cfun ();
 		}
 	}
-// fprintf (dump_file, "-----------------------------------------------------\n\n");
 
 	return;
 }
@@ -111,125 +111,100 @@ static void reset_ssa_names (void)
 static void insert_lipta_on_use (void)
 {
 
-	fprintf(stderr,"In insert use fun\n");
+	//fprintf(dump_file,"In insert use fun\n");
 	int i;
 	struct cgraph_node *node;
 
-	csdfa_info in_csdfa, out_csdfa;
-	pointsto_val in_pval, out_pval, pval;
+	csdfa_info out_csdfa;
+	pointsto_val out_pval;
 	for (node = cgraph_nodes; node; node = node->next)
 	{
-		if (gimple_has_body_p(node->decl))
+		if (gimple_has_body_p (node->decl))
 		{
 			push_cfun (DECL_STRUCT_FUNCTION (node->decl));
 			basic_block bb;
 			FOR_EACH_BB (bb)
 			{
-
-				in_csdfa = out_csdfa = NULL;
-				in_pval = out_pval = NULL;
-
+				out_csdfa = NULL;
+				out_pval = NULL;
+				/* The Out Points-to information. */
 				if (bb->aux != NULL)
 				{
-					in_csdfa = in_of_bb(bb);
-					if (in_csdfa != NULL && (in_csdfa->pinfo) >= 0 )
-					{
-						in_pval = VEC_index (pointsto_val, mayinfo, in_csdfa->pinfo);
-					}
 					out_csdfa = out_of_bb(bb);
 					if (out_csdfa != NULL && (out_csdfa->pinfo) >= 0 )
 					{
 						out_pval = VEC_index (pointsto_val, mayinfo, out_csdfa->pinfo);
 					}
 				}
+				else
+					continue; /* No LFCPA information, skip this block. */
 
-				for (gimple_stmt_iterator gsi = gsi_start_bb (bb); !gsi_end_p (gsi); gsi_next (&gsi))
+				for (gimple_stmt_iterator gsi = gsi_start_bb (bb); 
+						!gsi_end_p (gsi); 
+						gsi_next (&gsi))
 				{
 					gimple stmt = gsi_stmt (gsi);
-					if (is_gimple_assign (stmt))
-						fprintf (stderr, "%s\n", tree_code_name [TREE_CODE (gimple_assign_lhs (stmt))]);
-#if 0
-					if (is_relevant_stmt (stmt))
+					print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);
+					/*if (is_gimple_assign (stmt))
+						fprintf (dump_file, "LHS code: %s\n", 
+									tree_code_name [TREE_CODE (gimple_assign_lhs (stmt))]);*/
+
+					
+					fprintf (dump_file, "-----------------------------------------------------\n");
+					for (struct use_optype_d * uses = gimple_use_ops (stmt); 
+							uses; 
+							uses = uses->next)
 					{
-						/*dump_stmt_info (stmt);
+						/* Tree for the variable being used. Can be an SSA_NAME. */
+						tree use = *(uses->use_ptr.use);
 
-						fprintf(stderr, "\n*****PTA*****\n");
-						dump_ssa_name_ptr_info_for_stmt (stmt);
+						/* We're only interested in valid SSA_NAMEs. Even with this check, 
+						 * some useless SSA_NAME variables pass through, but these are 
+						 * ignored by LFCPA (and by the visited flag).
+						 */
+						if (TREE_CODE (use) != SSA_NAME || SSA_NAME_IN_FREE_LIST (use))
+							continue;
 
-						//print flow-sensitive information (info in LFCPA data structures)
-						fprintf(stderr, "\n*****LFCPA*****");
-						dump_lipta_info_for_stmt (stmt, in_pval, out_pval);*/
+						print_generic_expr (dump_file, use, 0);
+						//fprintf (dump_file, " %s\n", tree_code_name [TREE_CODE (use)]);
 
-
-						fprintf(stderr, "\n-------------------------------------------------------------------------------------\n");
-					}
-					else
-					{
-						//print statement
-						fprintf(stderr, "\nNon-relevant statement: ");
-						print_gimple_stmt (stderr, gsi_stmt(gsi), 0, 0);
-					}
-#endif
-					struct use_optype_d * uses = gimple_use_ops (stmt);
-					for (; uses; uses = uses->next)
-					{
-						if (uses->use_ptr.prev)
+						/* We only need to visit each SSA_NAME once. */
+						if (TREE_VISITED (use))
+							fprintf (dump_file, ": visited\n");
+						else 
 						{
-							fprintf (stderr, "-----------------------------------------------------\n");
-							gimple st = uses->use_ptr.loc.stmt;
-							tree use = *(uses->use_ptr.use);
-							print_gimple_stmt (stderr, st, 0, TDF_SLIM);
-							print_generic_expr (stderr, use, 0);
-
-							if (TREE_CODE (use) != SSA_NAME || SSA_NAME_IN_FREE_LIST (use))
-								continue;
-							fprintf (stderr, " %s\n", tree_code_name [TREE_CODE (use)]);
-							pval	 = out_pval;
-							//fprintf (stderr, " %d\n", DECL_UID (use));
-							if (TREE_VISITED (use))
-								fprintf (stderr, " visited\n");
-							else while (pval)
+							bitmap vars    = BITMAP_GGC_ALLOC ();
+							bool ptoglobal = false, ptoundef = false, ptonull = false;
+							/* If LFCPA info can be found, inject into pt_solution
+							 * of use and mark it as visited. 
+							 * set_bitmap_for_var searches through pval for a declaration
+							 * matching use and sets vars and the boolean variables
+							 * accordingly. Note that LFCPA uses the symbol behind SSA_NAME
+							 * for identification, so we pass this symbol instead of use.
+							 */
+							if (set_bitmap_for_var (SSA_NAME_VAR (use), out_pval, vars, &ptoglobal, &ptonull, &ptoundef))
 							{
-								if (SSA_NAME_VAR (use) == (VEC_index (csvarinfo_t, csvarmap, pval->lhs))->decl)
-								{
-									bitmap_iterator bir;
-									unsigned int rhsbit;
-									pt_solution * pt = & (SSA_NAME_PTR_INFO (use)->pt);
-									int cnt = bitmap_count_bits (pval->rhs), i = 1;
-									bool ptoundef = false, ptoglobal = false, ptonull = false;
-									bitmap vars = BITMAP_GGC_ALLOC ();
+								pt_solution * pt = & (SSA_NAME_PTR_INFO (use)->pt);
+								pt_solution_set (pt, vars, ptoglobal);
+								pt->null = ptonull;
+								pt->anything = ptoundef;
+								TREE_VISITED (use) = 1;	
 
-									EXECUTE_IF_SET_IN_BITMAP (pval->rhs, 0, rhsbit, bir)
-									{
-
-										set_bitmap_for_var (SSA_NAME_VAR ((cs_get_varinfo (rhsbit))->decl), pval, vars, &ptoundef, &ptoglobal, &ptonull);
-									}
-									pt_solution_set (pt, vars, ptoglobal);
-									pt->null = ptonull ? 1 : 0;
-									pt->anything = ptoundef ? 1 : 0;
-									fprintf (stderr, "muhahahaha\n");
-									TREE_VISITED (use) = 1;	
-									break;
-								}
-								pval = pval->next;
+								fprintf (dump_file, " injected LFCPA data:\n");
+								dump_points_to_info_for (dump_file, use);
 							}
+							else 
+								fprintf (dump_file, ": couldn't find data.\n");
 
-							fprintf (stderr, "-----------------------------------------------------\n\n");
-						}
-						else
-						{
-							tree ssa_var = uses->use_ptr.loc.ssa_name;
-							print_generic_expr (stderr, ssa_var, 0);
 						}
 					}
+					fprintf (dump_file, "-----------------------------------------------------\n\n");
 				}
-
-
 			}
 			pop_cfun ();
 		}
 	}
-// fprintf (dump_file, "-----------------------------------------------------\n\n");
+	//fprintf (dump_file, "end insert use\n\n");
 
 	return;
 }
@@ -8173,13 +8148,13 @@ static unsigned int
 execute_ipacs (void)
 {
 	/* Preserve the context before function execution. */
+	print_liveness();
 	struct function *old_cfun = cfun;
 	tree old_cfundecl = current_function_decl;
 
 	//printf("start\n");
 	//if (ipacs_time)
 	// gettimeofday (&tstart, NULL);
-	print_liveness();
 	init_info ();
 	preprocess_cfg ();
 	init_ipacs ();
@@ -8198,15 +8173,16 @@ execute_ipacs (void)
 	}
 	/* Restore the context after function finishes. */
 	//printf("end\n");
+
 	reset_ssa_names ();
 	print_liveness();
 	insert_lipta_on_use ();
+	print_liveness();
 
 	restore_cfg ();
 	delete_ipacs_info ();
 	current_function_decl = old_cfundecl;
 	set_cfun (old_cfun);
-	print_liveness();
 	return 0;
 }
 

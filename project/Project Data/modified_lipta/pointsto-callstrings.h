@@ -541,18 +541,18 @@ var_can_have_subvars (const_tree v)
 bool
 type_must_have_pointers (tree type)
 {
-    fprintf(stderr,"\nin field must have pointers 1type\n");
+    //fprintf(stderr,"\nin field must have pointers 1type\n");
 
     if (POINTER_TYPE_P (type))
     {
-        fprintf(stderr,"\nin field must have pointers 1\n");
+      //  fprintf(stderr,"\nin field must have pointers 1\n");
 
         return true;
     }
 
     if (TREE_CODE (type) == ARRAY_TYPE)
     {
-        fprintf(stderr,"\nin field must have pointers 2\n");
+        //fprintf(stderr,"\nin field must have pointers 2\n");
 
         return type_must_have_pointers (TREE_TYPE (type));
     }
@@ -562,7 +562,7 @@ type_must_have_pointers (tree type)
     if (TREE_CODE (type) == FUNCTION_TYPE
             || TREE_CODE (type) == METHOD_TYPE)
     {
-        fprintf(stderr,"\nin field must have pointers 3\n");
+       // fprintf(stderr,"\nin field must have pointers 3\n");
 
         return true;
     }
@@ -573,9 +573,8 @@ type_must_have_pointers (tree type)
 bool
 field_must_have_pointers (tree t)
 {
-    fprintf(stderr,"\nin field must have pointers\n");
     tree tmp = TREE_TYPE(t);
-    fprintf(stderr,"\nafter \n");
+ //   fprintf(stderr,"\nafter \n");
     return type_must_have_pointers (tmp);
 }
 
