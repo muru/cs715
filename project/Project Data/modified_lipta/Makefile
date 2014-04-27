@@ -15,14 +15,14 @@ INCLUDE= -I$(GCCPLUGINS_DIR)/include
 FLAGS= -fPIC -O0 -flto -flto-partition=none
 
 .PHONY: clean test install 
-%.o : %.c
+%.o : %.cpp
 	$(CC) $(FLAGS) $(INCLUDE) -c $< 
 
 $(LIB): pointsto-callstrings.o 
 	$(CC) $(FLAGS) $(INCLUDE) -shared $^ -o $@
 
 test:  $(LIB)
-	$(CC) -flto -flto-partition=none -fplugin=./$(LIB) flow_sensitive_1.c -fdump-ipa-all -O2 -fipa-pta
+	$(CC) -flto -flto-partition=none -fplugin=./$(LIB) flow_sensitive_3.c -fdump-ipa-all -O2 -fipa-pta
 #~/gcc_build/install/bin/gcc -flto -flto-partition=none -fplugin=./$(LIB) test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
 
 clean:
