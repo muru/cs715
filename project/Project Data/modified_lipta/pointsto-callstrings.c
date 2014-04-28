@@ -11,7 +11,7 @@
 int plugin_is_GPL_compatible;
 static unsigned int print_liveness(void);
 static void process_function (struct cgraph_node *node);
-static void insert_lipta_info_into_gcc_forphi(gimple stmt,pointsto_val out_pval);
+static void insert_lipta_info_into_gcc_forphi (gimple stmt,pointsto_val out_pval);
 
 static bool is_relevant_stmt (gimple stmt);
 
@@ -38,7 +38,7 @@ static unsigned int print_liveness(void)
 		}
 	}
 
-	fprintf(dump_file,"*********\n\n");
+	fprintf(dump_file,"\n*********\n\n");
 	//dump_pta_stats (dump_file);
 
 	return 0;
@@ -46,9 +46,9 @@ static unsigned int print_liveness(void)
 
 static void process_function (struct cgraph_node *node)
 {
-	fprintf(dump_file,"num_ssa_name=%d\n",num_ssa_names);
-
 	fprintf (dump_file, "\npoints-to information for vars of function %s =  \n",cgraph_node_name(node));
+	fprintf (dump_file,"num_ssa_name=%d\n",num_ssa_names);
+
 	int i;
 	for (i = 0; i < num_ssa_names; i++)
 	{
@@ -56,6 +56,7 @@ static void process_function (struct cgraph_node *node)
 		if (ptr == NULL_TREE
 				|| SSA_NAME_IN_FREE_LIST (ptr))
 			continue;
+
 		struct ptr_info_def *pi = SSA_NAME_PTR_INFO (ptr);
 		if (pi)
 			dump_points_to_info_for (dump_file, ptr);
@@ -106,7 +107,6 @@ static void reset_ssa_names (void)
 
 	return;
 }
-
 
 static void insert_lipta_on_use (void)
 {
@@ -8148,7 +8148,6 @@ static unsigned int
 execute_ipacs (void)
 {
 	/* Preserve the context before function execution. */
-	print_liveness();
 	struct function *old_cfun = cfun;
 	tree old_cfundecl = current_function_decl;
 
@@ -8174,6 +8173,7 @@ execute_ipacs (void)
 	/* Restore the context after function finishes. */
 	//printf("end\n");
 
+	print_liveness();
 	reset_ssa_names ();
 	print_liveness();
 	insert_lipta_on_use ();

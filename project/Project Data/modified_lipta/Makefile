@@ -22,7 +22,7 @@ $(LIB): pointsto-callstrings.o
 	$(CC) $(FLAGS) $(INCLUDE) -shared $^ -o $@
 
 test:  $(LIB)
-	$(CC) -flto -flto-partition=none -fplugin=./$(LIB) flow_sensitive_3.c -fdump-ipa-all -O2 -fipa-pta
+	$(CC) -flto -flto-partition=none -fplugin=./$(LIB) diff-values-in-diff-contexts.c -fdump-ipa-all -O2 -fipa-pta
 #~/gcc_build/install/bin/gcc -flto -flto-partition=none -fplugin=./$(LIB) test.c -fdump-ipa-all -O2 -fdump-ipa-pta -fipa-pta
 
 clean:

@@ -199,66 +199,74 @@ static void insert_lipta_on_use (void)
 				else
 					continue; /* No LFCPA information, skip this block. */
 
-				for (gimple_stmt_iterator gsi = gsi_start_bb (bb); 
-						!gsi_end_p (gsi); 
-						gsi_next (&gsi))
+				while (out_csdfa)
 				{
-					gimple stmt = gsi_stmt (gsi);
-					print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);
-					/*if (is_gimple_assign (stmt))
-						fprintf (dump_file, "LHS code: %s\n", 
-									tree_code_name [TREE_CODE (gimple_assign_lhs (stmt))]);*/
-
-					
-					fprintf (dump_file, "-----------------------------------------------------\n");
-					for (struct use_optype_d * uses = gimple_use_ops (stmt); 
-							uses; 
-							uses = uses->next)
+					fprintf (stderr, "%s\n", IDENTIFIER_POINTER (DECL_NAME (node->decl)));
+					for (gimple_stmt_iterator gsi = gsi_start_bb (bb); 
+							!gsi_end_p (gsi); 
+							gsi_next (&gsi))
 					{
-						/* Tree for the variable being used. Can be an SSA_NAME. */
-						tree use = *(uses->use_ptr.use);
+						gimple stmt = gsi_stmt (gsi);
+						print_gimple_stmt (dump_file, stmt, 0, TDF_SLIM);
+						/*if (is_gimple_assign (stmt))
+						  fprintf (dump_file, "LHS code: %s\n", 
+						  tree_code_name [TREE_CODE (gimple_assign_lhs (stmt))]);*/
 
-						/* We're only interested in valid SSA_NAMEs. Even with this check, 
-						 * some useless SSA_NAME variables pass through, but these are 
-						 * ignored by LFCPA (and by the visited flag).
-						 */
-						if (TREE_CODE (use) != SSA_NAME || SSA_NAME_IN_FREE_LIST (use))
-							continue;
 
-						print_generic_expr (dump_file, use, 0);
-						//fprintf (dump_file, " %s\n", tree_code_name [TREE_CODE (use)]);
-
-						/* We only need to visit each SSA_NAME once. */
-						if (TREE_VISITED (use))
-							fprintf (dump_file, ": visited\n");
-						else 
+						fprintf (dump_file, "-----------------------------------------------------\n");
+						for (struct use_optype_d * uses = gimple_use_ops (stmt); 
+								uses; 
+								uses = uses->next)
 						{
-							bitmap vars    = BITMAP_GGC_ALLOC ();
-							bool ptoglobal = false, ptoundef = false, ptonull = false;
-							/* If LFCPA info can be found, inject into pt_solution
-							 * of use and mark it as visited. 
-							 * set_bitmap_for_var searches through pval for a declaration
-							 * matching use and sets vars and the boolean variables
-							 * accordingly. Note that LFCPA uses the symbol behind SSA_NAME
-							 * for identification, so we pass this symbol instead of use.
+							/* Tree for the variable being used. Can be an SSA_NAME. */
+							tree use = *(uses->use_ptr.use);
+
+							/* We're only interested in valid SSA_NAMEs. Even with this check, 
+							 * some useless SSA_NAME variables pass through, but these are 
+							 * ignored by LFCPA (and by the visited flag).
 							 */
-							if (set_bitmap_for_var (SSA_NAME_VAR (use), out_pval, vars, &ptoglobal, &ptonull, &ptoundef))
+							if (TREE_CODE (use) != SSA_NAME || SSA_NAME_IN_FREE_LIST (use))
+								continue;
+
+							print_generic_expr (dump_file, use, 0);
+							//fprintf (dump_file, " %s\n", tree_code_name [TREE_CODE (use)]);
+
+							/* We only need to visit each SSA_NAME once. */
+							if (TREE_VISITED (use))
+								fprintf (dump_file, ": visited\n");
+							else 
 							{
 								pt_solution * pt = & (SSA_NAME_PTR_INFO (use)->pt);
-								pt_solution_set (pt, vars, ptoglobal);
-								pt->null = ptonull;
-								pt->anything = ptoundef;
-								TREE_VISITED (use) = 1;	
+								bitmap vars    = pt->vars; //BITMAP_GGC_ALLOC ();
+								bool ptoglobal = false, ptoundef = false, ptonull = false;
+								/* If LFCPA info can be found, inject into pt_solution
+								 * of use and mark it as visited. 
+								 * set_bitmap_for_var searches through pval for a declaration
+								 * matching use and sets vars and the boolean variables
+								 * accordingly. Note that LFCPA uses the symbol behind SSA_NAME
+								 * for identification, so we pass this symbol instead of use.
+								 */
+								if (set_bitmap_for_var (SSA_NAME_VAR (use), out_pval, vars, &ptoglobal, &ptonull, &ptoundef))
+								{
+									pt->null |= ptonull;
+									pt->anything |= ptoundef;
+									if (pt->null || pt->anything)
+										vars = BITMAP_GGC_ALLOC ();
+									pt_solution_set (pt, vars, pt->vars_contains_global || ptoglobal);
+									if (!out_csdfa->next)
+										TREE_VISITED (use) = 1;	
 
-								fprintf (dump_file, " injected LFCPA data:\n");
-								dump_points_to_info_for (dump_file, use);
+									fprintf (dump_file, " injected LFCPA data:\n");
+									dump_points_to_info_for (dump_file, use);
+								}
+								else 
+									fprintf (dump_file, ": couldn't find data.\n");
+
 							}
-							else 
-								fprintf (dump_file, ": couldn't find data.\n");
-
 						}
+						fprintf (dump_file, "-----------------------------------------------------\n\n");
 					}
-					fprintf (dump_file, "-----------------------------------------------------\n\n");
+					out_csdfa = out_csdfa->next;
 				}
 			}
 			pop_cfun ();
@@ -7830,11 +7838,8 @@ set_bitmap_for_var (tree var, pointsto_val pval, bitmap vars, bool *pointsto_glo
 
 				/*if (!(uid_to_tree[uid] = cs_get_varinfo (rhsbit)->decl))
 					fprintf (stderr, "Error!\n");
-				else
-				fprintf (stderr, "%d %s\n", uid, cs_get_varinfo (rhsbit)-> name);*/
-
-				gcc_assert (DECL_P ( (cs_get_varinfo (rhsbit))->decl ) );
-//					 			&& (!optimize
+				else */
+					fprintf (stderr, "%d %s\n", uid, cs_get_varinfo (rhsbit)-> name);/**/
 
 				gcc_assert (DECL_P ( (cs_get_varinfo (rhsbit))->decl ) );
 //					 			&& (!optimize
@@ -8244,11 +8249,11 @@ execute_ipacs (void)
 	/* Restore the context after function finishes. */
 	//printf("end\n");
 
-	print_liveness();
+	print_liveness ();
 	reset_ssa_names ();
-	print_liveness();
+	print_liveness ();
 	insert_lipta_on_use ();
-	print_liveness();
+	print_liveness ();
 
 	restore_cfg ();
 	delete_ipacs_info ();
