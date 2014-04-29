@@ -191,17 +191,16 @@ static void insert_lipta_on_use (void)
 				if (bb->aux != NULL)
 				{
 					out_csdfa = out_of_bb(bb);
-					if (out_csdfa != NULL && (out_csdfa->pinfo) >= 0 )
-					{
-						out_pval = VEC_index (pointsto_val, mayinfo, out_csdfa->pinfo);
-					}
 				}
 				else
 					continue; /* No LFCPA information, skip this block. */
 
 				while (out_csdfa)
 				{
-					fprintf (stderr, "%s\n", IDENTIFIER_POINTER (DECL_NAME (node->decl)));
+					if ((out_csdfa->pinfo) >= 0 )
+						out_pval = VEC_index (pointsto_val, mayinfo, out_csdfa->pinfo);
+
+					//fprintf (stderr, "%s\n", IDENTIFIER_POINTER (DECL_NAME (node->decl)));
 					for (gimple_stmt_iterator gsi = gsi_start_bb (bb); 
 							!gsi_end_p (gsi); 
 							gsi_next (&gsi))
@@ -7838,8 +7837,8 @@ set_bitmap_for_var (tree var, pointsto_val pval, bitmap vars, bool *pointsto_glo
 
 				/*if (!(uid_to_tree[uid] = cs_get_varinfo (rhsbit)->decl))
 					fprintf (stderr, "Error!\n");
-				else */
-					fprintf (stderr, "%d %s\n", uid, cs_get_varinfo (rhsbit)-> name);/**/
+				else 
+					fprintf (stderr, "%d %s\n", uid, cs_get_varinfo (rhsbit)-> name);*/
 
 				gcc_assert (DECL_P ( (cs_get_varinfo (rhsbit))->decl ) );
 //					 			&& (!optimize
