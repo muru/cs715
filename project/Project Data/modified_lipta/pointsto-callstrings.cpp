@@ -247,9 +247,9 @@ static void insert_lipta_on_use (void)
 								 */
 								if (set_bitmap_for_var (SSA_NAME_VAR (use), out_pval, vars, &ptoglobal, &ptonull, &ptoundef))
 								{
-									pt->null |= ptonull;
+									pt->null &= ptonull;
 									pt->anything |= ptoundef;
-									if (pt->null || pt->anything)
+									if (pt->anything)
 										vars = BITMAP_GGC_ALLOC ();
 									pt_solution_set (pt, vars, pt->vars_contains_global || ptoglobal);
 									if (!out_csdfa->next)
